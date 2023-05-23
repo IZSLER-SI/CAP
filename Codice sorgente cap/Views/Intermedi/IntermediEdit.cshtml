@@ -1,0 +1,458 @@
+﻿@model IZSLER_CAP.Models.IntermediModel
+@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+    Layout = "~/Views/Shared/_LayoutOpen.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string SetImporto(decimal val)
+    {
+        decimal? v = val;
+        return SetImporto(v);
+    }
+    public string SetImporto3(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.000}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.000}", 0).Replace(".", ",");
+    }  
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.00}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.00}", 0).Replace(".", ",");
+    }  
+   
+   
+    public string denominazione(string nome, string cognome)
+    {
+        return nome + " " + cognome;
+    }
+    public string calcoloCodiceAnalisi(string Analisi_VN, string Analisi_MP_Rev)
+    {
+        return Analisi_VN + "-" + Analisi_MP_Rev;
+    }
+    public string setPonderazione(bool ponderazione)
+    {
+        if (ponderazione) return "checked";
+        return "";
+    }
+    public string setPonderazioneDrop(bool ponderazione)
+    {
+        if (ponderazione) return "open";
+        return "";
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    public bool IsEditable()
+    {
+        
+        if (!Model.Analisi.Analisi_flgBloccato)
+        {
+            
+            if (Html.IsEditableStato(Model.Analisi))
+            return true;
+        }
+        return false;
+        
+    }
+   
+    public string IsEditableString()
+    {
+        if (IsEditable()) return "";
+        return "disabled";
+    }
+    public bool IsGruppo()
+    {
+        if (Model.Analisi.Analisi_Gruppo_id == null)
+            return false;
+        return true;  
+    }
+}
+<script type="text/javascript">
+    $(document).ready
+    (
+        function () {   /*cambia la ponderazione*/
+            $('#switchPonderazioni').bind('change', function () {
+                //e.stopPropagation();   
+                var info = $('#switchPonderazioni').is(':checked');
+                var analisi_id = $('#analisi_id').val();
+
+                var emp =
+                    { Analisi_id: analisi_id,
+                        Analisi_flgPonderazione: info
+                    };
+                    var urlSave = '/Intermedi/SaveValAnalisi';
+
+
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(emp),
+                    datatype: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                    }
+                });
+                calcolaTotaleCorrente();
+                // alert("pos:" + pos + "<br>Descrizione:" + newVal);
+            }
+            );
+            $('#analisi_Peso_Positivo').bind('change', function () {
+                calcolaTotaleCorrente();
+             });
+        }
+    )
+    function roundNumber(num, dec) {
+        var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+        return result;
+    }
+
+    function calcolaTotaleCorrente() 
+    {
+        var posPR = new Array();
+        var posSEC = new Array();
+ 
+
+
+        $('input[id^="AnalisiPos_Quantita_"]').each(function () {
+            var pos = $(this)[0].id.replace("AnalisiPos_Quantita_", "");
+            var val_CU = $("#Costo_Unitario_" + pos).val();
+            var val_QTA = $(this).val();
+            val_CU = parseFloat(val_CU.replace(',', '.'));
+            val_QTA = parseFloat(val_QTA.replace(',', '.'));
+
+            var UdMCoeff = '#UdMCoeff_' + pos;
+            var UdMCoeffVal = $(UdMCoeff).val();
+            if (UdMCoeffVal == "") {
+                UdMCoeffVal = "0"
+            }
+            UdMCoeffVal = parseFloat(UdMCoeffVal.replace(',', '.'));
+
+
+            var val_Tot = 0;
+            val_Tot = roundNumber(val_CU, 2) * roundNumber(val_QTA, 2) * UdMCoeffVal;
+            val_Tot = roundNumber(val_Tot, 2);
+            posPR.push(val_Tot);
+        });
+
+        var isOpen = $('#switchPonderazioni').is(':checked');
+        if (isOpen) {
+            $('input[id^="SAnalisiPos_Quantita_"]').each(function () {
+                var posS = $(this)[0].id.replace("SAnalisiPos_Quantita_", "");
+                var val_CUS = $("#SCosto_Unitario_" + posS).val();
+                var val_QTAS = $(this).val();
+                val_CUS = parseFloat(val_CUS.replace(',', '.'));
+                val_QTAS = parseFloat(val_QTAS.replace(',', '.'));
+
+                var UdMCoeffS = '#SUdMCoeff_' + posS;
+                var UdMCoeffValS = $(UdMCoeffS).val();
+                if (UdMCoeffValS == "") {
+                    UdMCoeffValS = "0"
+                }
+                UdMCoeffValS = parseFloat(UdMCoeffValS.replace(',', '.'));
+
+
+                var val_TotS = 0;
+                val_TotS = roundNumber(val_CUS, 2) * roundNumber(val_QTAS, 2) * UdMCoeffValS;
+                val_TotS = roundNumber(val_TotS, 2);
+                posSEC.push(val_TotS);
+            });
+        }
+        var valTot_posP = 0;
+        for (i = 0; i < posPR.length; i++) {
+            valTot_posP = roundNumber(valTot_posP, 2) + roundNumber(posPR[i], 2);
+        }
+        var valTot_posSec = 0;
+        for (k= 0; k < posSEC.length; k++) {
+            valTot_posSec = roundNumber(valTot_posSec, 2) + roundNumber(posSEC[k], 2);
+        }
+
+        var pesoPos = parseFloat("0");
+        var pesoNeg = parseFloat("0");
+        // N.B.
+        // la vecchia formula  =>(SumPrimaria*(pesoPositivo)% + SumSecondaria*(100-pesoPositivo)%)
+        // la formula attuale  =>(SumPrimaria*(100)% + SumSecondaria*(pesoPositivo)%) --> se non c'e' ponderazione => SumPrimaria*(100)%
+
+
+        if (isOpen) // ci sono anche i secondari
+        {
+
+            var pPos = $('#analisi_Peso_Positivo').val();
+            if (pPos == "") pPos = "0";
+            var pPosF = parseFloat(pPos);
+            pesoPos = pPosF / 100;
+            //pesoNeg = 1-pesoPos;
+            pesoNeg = pesoPos;
+        }
+        else 
+        {
+            pesoPos = 1;
+            pesoNeg = 0; // nuovo
+        }
+        
+        
+        var valTot_Fine = 0;
+        //valTot_Fine = (roundNumber(valTot_posP, 2) * pesoPos) + (roundNumber(valTot_posSec, 2) * pesoNeg);
+        valTot_Fine = roundNumber(valTot_posP, 3) + (roundNumber(valTot_posSec, 3) * pesoNeg);
+
+        valTot_Fine = roundNumber(valTot_Fine, 3);
+        var strTot = "";
+        strTot = valTot_Fine.toFixed(3).toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",000";
+        //alert(strTot);
+        $('#Analisi_CostoTotaleCalc').text(strTot);
+
+        calcolaCostoIndiretto(valTot_Fine);
+        calcolaTariffa(valTot_Fine);
+    }
+    function getCostoIndiretto(costoDiretto)
+    {
+        var costCD = $('#CoeffCostoIndiretto').val();
+        if (costCD != null && costCD != "") 
+        {
+            var t = parseFloat(costCD) * costoDiretto;
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+    function calcolaCostoIndiretto(costoDiretto) 
+    {
+        var ci = getCostoIndiretto(costoDiretto);
+        var strTot = "";
+        strTot = ci.toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Analisi_CostoIndirettoCalc').text(strTot);
+    }
+    function getTariffa() 
+    {
+        var tariffa = $('#CoeffTariffa').val();
+        if (tariffa != null && tariffa != "") {
+            var t = parseFloat(tariffa) ;
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+    function calcolaTariffa(costoDiretto) {
+        var ci = getCostoIndiretto(costoDiretto);
+        var tariffa = getTariffa();
+        var tot = costoDiretto + (tariffa * ci);
+        tot = roundNumber(tot, 2);
+        var strTot = "";
+        strTot = tot.toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Analisi_CostoTariffaCalc').text(strTot);
+    }
+</script>
+
+   
+    <hgroup id="main-title" class="thin">
+    <h1>@ViewBag.Message</h1>
+    <h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+    </hgroup>
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dati dell'intermedio</h3>
+               <p class="button-height">
+                    @if (@Html.IsVisible(CAIntermedi.BT_INTE_SALVA) && !@Model.Analisi.Analisi_flgBloccato)
+                    {<a href="javascript:saveIntermedio();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+               
+                    @if (@Html.IsVisible(CAIntermedi.BT_INTE_SALVA) && !@Model.Analisi.Analisi_flgBloccato)
+                    {<a href="javascript:CheckPosizioniIntermedi();" class="button blue-gradient glossy">Verifica valorizzazione</a>@Html.Raw("&nbsp;")}
+                                                                                                                                                       
+                    @if (@Html.IsVisible(CAIntermedi.BT_INTE_SALVA) && !@Model.Analisi.Analisi_flgBloccato)
+                    {<a href="javascript:AttualizzaPosizioni();" class="button blue-gradient glossy">Aggiorna Posizioni</a>@Html.Raw("&nbsp;")}
+                                                                                                                                          
+                    @if (@Html.IsVisible(CAIntermedi.BT_INTE_SBLOCCA) && @Model.Analisi.Analisi_flgBloccato)
+                    {<a href="javascript:SbloccaIntermedio();" class="button green-gradient glossy">Sblocca</a>@Html.Raw("&nbsp;")}
+                                                                                                                                  
+                    @if (@Html.IsVisible(CAIntermedi.BT_INTE_BLOCCA)&& !@Model.Analisi.Analisi_flgBloccato
+                        )
+                    {<a href="javascript:BloccaIntermedio();" class="button red-gradient glossy">Blocca</a>@Html.Raw("&nbsp;")}
+
+                    
+                    @if (@Html.IsVisible(CAIntermedi.BT_INTE_WORKFLOW))
+                    {<a href="javascript:openIntermediWorkFlow('/Intermedi/IntermediWorkflow/@Model.Analisi.Analisi_id.ToString()','@Model.Analisi.Analisi_CodiceGenerico');" class="button orange-gradient glossy">Visualizza workflow</a>@Html.Raw("&nbsp;")}
+                    
+                    @Html.ActionLink("Stampa", "Report", "Intermedi", new { info = Html.GetReportPath() + "/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaIntermedio&rs:Command=Render&rs:Format=pdf&VALORI_ID=" + @Model.Analisi.Analisi_id }, new { target = "_blank", Class = "button anthracite-gradient glossy" })@Html.Raw("&nbsp;")                                                                                                                                                                                                                                           
+                    @*<a href="/ReportServer_SQLSERVER/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaIntermedio&rs:Command=Render&VALORI_ID=@Model.Analisi.Analisi_id" target="_blank" class="button anthracite-gradient glossy">Stampa</a>@Html.Raw("&nbsp;")*@
+                    @*<a href="http://b16-q001/ReportServer_SQL2008R2/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaIntermedio&rs:Command=Render&rs:Format=pdf&VALORI_ID=@Model.Analisi.Analisi_id" target="_blank" class="button anthracite-gradient glossy">Stampa Collaudo</a>@Html.Raw("&nbsp;")*@
+                    <a href="/Content/Help/Manuale utente CAP.htm#Inserimento e modifica intermedio" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                    @Html.ActionLink("Stampa Intermedi", "PopUpIntermediEsplosi", new { id = @Model.Analisi.Analisi_id.ToString()},new { target = "_blank", Class = "button anthracite-gradient glossy" } )@Html.Raw("&nbsp;")
+               </p>
+               <details class="details margin-bottom" open>
+               <summary>Intestazione</summary>
+                    
+                    <input style ="visibility:hidden" id="analisi_id" value="@Html.DisplayFor(modelItem => Model.Analisi.Analisi_id)" />
+                    
+                    	<div class="with-padding">
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="2">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice</label>
+							        <input type="text" name="input-1" id="Analisi_CodiceIntermedio" class="input" disabled value="@Model.Analisi.Analisi_CodiceGenerico" @IsEditableString()/>
+                                </p>
+                                </td>
+                            </tr> 
+                       
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan="2">
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Descrizione</label>
+                                 <input type="text" name="input-4" id="Analisi_Descrizione" maxlength="100" class="input" style="width:300px" value="@Model.Analisi.Analisi_Descrizione" @IsEditableString()/>
+						        </p>
+                                </td>
+                            </tr>
+                        
+                            <tr style="height:40px;">
+                            <td colspan="2">
+                            @if (@IsGruppo())
+                            {
+                                <p class="button-height inline-label"><label for="input-1" class="label">Gruppo</label><input type="text" name="input-4" id="Text6" class="input" value="@Model.Analisi.Analisi_Gruppo_desc" style="width:300px" disabled/></p>
+                            }
+                            else
+                            {
+                                <p class="button-height inline-label"><label for="input-1" class="label">Gruppo prodotto</label><input type="text" name="input-4" id="Text6" class="input" value="@Model.Analisi.Analisi_Reparto_desc"  style="width:300px" disabled/></p>
+                            }
+                            </td>
+                            </tr> 
+                            <tr style="height:40px;">
+                            <td> <p class="button-height inline-label">
+                                <label for="input-2" class="label">Stato</label>
+                                 <label ><small class="@SetColorBloccato(@Model.Analisi.Analisi_flgBloccato)">
+                                     @Html.Label(@SetLabelBloccato(@Model.Analisi.Analisi_flgBloccato))</small></label>
+                                </p></td> 
+                            <td> <p class="button-height inline-label">
+                                @if (@Html.IsVisible(CAIntermedi.BT_INTE_SALVA) && !@Model.Analisi.Analisi_flgBloccato)
+                                {<a href="javascript:saveIntermedio();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+                                </p></td> 
+                            </tr>
+                        </table>
+                        
+                       </div>
+		                
+                </details>
+               <a name="pos"></a>
+               <dl class="accordion same-height" open>
+	            <dt>Posizioni</dt>
+	                <dd>
+                        <div class="with-padding" id="myGridPosAnalisi" >@Html.Partial("_PosizioniIntermedi")</div>  
+                    </dd>
+               </dl>
+                @if (@IsGruppo())
+                {
+				<details class="details margin-bottom" @setPonderazioneDrop(@Model.Analisi.Analisi_flgPonderazione)>
+				    <summary>Ponderazione</summary>
+						<div class="with-padding "><a name="posS"></a>
+                        <table>
+                            <tr>
+                            <td>
+                            <p class="button-height inline-label">
+                            <label for="special-input-2" class="label">Abilita</label>
+                                <span class="number margin-right">
+                                <input type="checkbox" name="switchPonderazioni" id="switchPonderazioni" class="switch mid-margin-right" 
+                                   @IsEditableString() @setPonderazione(@Model.Analisi.Analisi_flgPonderazione) onchange="togglePosSecondarie();"  /></span> 
+                                    &nbsp;&nbsp;
+                             </p>
+
+                        
+                            </td>
+                            <td>
+                               <p class="button-height inline-label">
+                                <label for="lbl-input-2" class="label">Peso Positivo (%)</label>
+						        <span class="number input margin-right">
+							        @*<button type="button" id="btnDown" @IsEditableString() class="button number-down" >-</button>*@
+							        <input type="text" name="analisi_Peso_Positivo" 
+                                        id="analisi_Peso_Positivo" 
+                                        value="@Model.Analisi.Analisi_Peso_Positivo" 
+                                        class="input-unstyled" 
+                                        data-number-options='{"min":0,"max":100,"increment":1}' @IsEditableString() />
+							        @*<button type="button" id="btnUp" @IsEditableString() class="button number-up" >+</button>*@
+						        </span>
+					        </p>
+                            </td>
+                            </tr>
+                            
+                        </table>
+						</div>
+				</details>	
+                }   
+               <dl class="accordion same-height" id="posizioniSecondarie">
+                    <dt>Posizioni aggiuntive per caso positivo</dt>
+                        <div class="with-padding">
+                           @Html.Partial("_PosizioniIntermediSec")
+                        </div> 
+                    </dt>
+                </dl>
+            </div> 
+              
+        </form> 
+          <div class="dashboard">
+            <div class="columns">
+				<div class="nine-columns twelve-columns-mobile" id="demo-chart">
+					<!-- This div will hold the chart generated in the footer -->
+				</div>
+				<div class="three-columns twelve-columns-mobile new-row-mobile">
+					<ul class="stats split-on-mobile">
+				@*		<li><a href="#">
+							<strong>21</strong> Analisi<br>con la stessa tecnica
+						</a></li>
+						<li><a href="#">
+							<strong>+15%</strong> questa analisi <br>rispetto alla media (12,03)
+						</a></li>
+						<li>
+							<strong>+50%</strong> lo scostamento<br>della fase di verifica del campione
+						</li>*@
+                        <li>
+							<strong><label id="Analisi_CostoTotaleCalc">@SetImporto3(@Model.Analisi.Analisi_CostoTot)</label></strong><br/>Costo primo
+						</li>
+						<li>
+							<strong><label id="Analisi_CostoTotale">@SetImporto(@Model.Analisi.Analisi_CostoTotDelib)</label></strong><br/>Costo primo validato
+						</li>
+					</ul>
+				</div>
+            </div> 
+          </div>    
+       </div>
+   
+   @*<script  type ="text/javascript">       loadScriptRef("startPopUpRichiediSbloccoAnalisi.js");</script> 
+   <script  type ="text/javascript">        loadScriptRef("startPopUpRespingiAnalisi.js");</script>*@
+
+   <script  type ="text/javascript">       loadScriptRef("startPopUpAnalisiDettRO.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPPIntermAnalisi.js");</script>
+   @*<script  type ="text/javascript">       loadScriptRef("startPopUpProdottiDettRO.js");</script>*@
+   <script  type ="text/javascript"> loadScriptRef("startPPProdotti.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPPMacchinari.js");</script>
+   <script  type ="text/javascript">loadScriptRef("startPopupIntermediWF.js");</script>
+   <script  type ="text/javascript">           loadScriptRef("startIntermediEdit.js");</script>
+     
+

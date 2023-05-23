@@ -1,0 +1,581 @@
+﻿@model IZSLER_CAP.Models.ListaAnalisiModel
+@{
+    ViewBag.Title = "Analisi";
+}
+@using IZSLER_CAP.Helpers
+
+ @functions{
+ 
+     public string GetAnchor(string fileName, string documento)
+     {
+         string ret = "";
+         //string href = GetAttach(fileName);
+         string href = GetAttachDocumento(documento);
+         if(href.Length >0 && !string.IsNullOrEmpty(documento))
+         {
+             ret = "<a target=\"_blank\" href=" + href + "><img src=\"../Content/img/fineFiles/16/pdf.png\"/>&nbsp;" + fileName + "</a>";
+         } 
+         else
+         {
+             ret = fileName;
+         }
+         return ret;
+
+     }
+     
+     public string GetAttachDocumento(string documento)
+     {
+         string ret = "";
+         ret = this.Request.Url.AbsoluteUri.Replace(this.Request.Url.AbsolutePath, "") + "/";
+         ret += Model.PathAttach + "/" + Server.UrlEncode(documento);
+         return ret;
+     }
+     
+     public string GetAttach(string fileName)
+     {
+         string ret = "";
+         try
+         {
+            //
+             System.Text.RegularExpressions.Match matchIniz = 
+                 System.Text.RegularExpressions.Regex.Match(fileName.Trim(), "(\\w{2}\\s\\d{2}/\\d{3})", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+             if (matchIniz.Success)
+             {
+                 string strIniz = matchIniz.Groups[0].Value;
+                 System.Text.RegularExpressions.Match matchFine =
+                 System.Text.RegularExpressions.Regex.Match(fileName.Trim(), "(-\\s{1,3}\\d{1,3})", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+                 if(matchFine.Success )
+                 {
+                     string strFine = matchFine.Groups[0].Value;
+
+                     strIniz = strIniz.Replace(" ", "").Replace("/", "");
+                     strFine = strFine.Replace("- ", "");
+                     strFine = strFine.PadLeft(3, '0');
+                     ret = this.Request.Url.AbsoluteUri.Replace(this.Request.Url.AbsolutePath , "") +"/";
+                     ret += Model.PathAttach + "/" + Server.UrlEncode(strIniz+"."+strFine) + ".pdf";
+                 }
+             }
+             //ret += Model.PathAttach + "/" + Server.UrlEncode(fileName.Trim()) +".pdf";
+         }
+         catch
+         {
+         }
+         return ret;
+
+     }
+     public string CheckedObsoletaDisplay(bool flagObsoleta)
+     {
+         if (flagObsoleta)
+             return "checked";
+         return "";
+     }
+     public string CheckedObsoleta(int val)
+     {
+         if (val == @Model.FiltroStatoObsoleta)
+             return "checked";
+         return "";
+     }
+     public string Checked(int val)
+     {
+         if (val == @Model.FiltroStato)
+             return "checked";
+         return "";
+     }
+     public string SetColorBloccato(bool flgBloccato)
+     {
+         if (flgBloccato)
+             return "tag red-bg";
+         return "tag green-bg";
+     }
+     public string SetLabelBloccato(bool flgBloccato)
+     {
+         if (flgBloccato)
+             return "Bloccato";
+         return "Attivo";
+     }
+     public string SetLabelCosto(decimal? costo)
+     {
+         if (costo != null)
+             return string.Format("{0:f2}", costo) + " €";
+         return "";
+     }
+
+     public List<MyAnalisi> GetElencoAnalisi()
+     {
+         int profilo_id = @Html.GetUserProfileID();
+         int utente_id = @Html.GetUserID();
+         List<MyAnalisi> lst = Model.GetElencoAnalisi(utente_id, profilo_id).ToList<MyAnalisi>();
+
+
+         return lst;
+     }
+
+     public int GetResultNumbers()
+     {
+         return Model.Data.Count();
+     }
+     public string GetStringResultNumbers()
+     {
+         int i = GetResultNumbers();
+         if (i == 0)
+             return "Nessun elemento presente";
+         else
+         {
+             if (i == 1)
+                 return i.ToString() + " elemento presente";
+             return i.ToString() + " elementi presenti";
+         }
+     }
+     public int InitPage(int passo)
+     {
+         int currPage = 1;
+         int NumberOfPages = 1;
+         try
+         {
+             currPage = @Model.CurrentPage;
+         }
+         catch { currPage = 1; }
+         try
+         {
+             NumberOfPages = @Model.NumberOfPages;
+         }
+         catch { NumberOfPages = 1; }
+         if (NumberOfPages < passo)
+         {//return currPage;
+             int height = currPage / passo;
+             if ((currPage % passo) == 0)
+             {
+                 height = height - 1;
+             }
+             return (height * passo) + 1;
+         }
+         if (NumberOfPages >= passo)
+         {
+             int height = currPage / passo;
+             if ((currPage % passo) == 0)
+             {
+                 height = height - 1;
+             }
+             return (height * passo) + 1;
+
+         }
+         return 1;
+     }
+     public int EndPage(int passo)
+     {
+         int currPage = 1;
+         int NumberOfPages = 1;
+         try
+         {
+             currPage = @Model.CurrentPage;
+         }
+         catch { currPage = 1; }
+         try
+         {
+             NumberOfPages = @Model.NumberOfPages;
+         }
+         catch { NumberOfPages = 1; }
+         if (currPage > NumberOfPages)
+         { @Model.CurrentPage = NumberOfPages; }
+
+         if (NumberOfPages < passo)
+         {
+             return NumberOfPages + 1;
+
+         }
+         else
+         {
+             return InitPage(passo) + passo;
+         }
+     }
+     
+}
+<script type="text/javascript">
+
+    var urlDestination = '/Analisi/Index';
+ 
+    $(document).ready
+        (
+             function () {
+
+                 $('input[name="button-radio"]').change(function (e) {
+                     // e.stopImmediatePropagation();
+                     //e.stopPropagation();
+                     if ($(this).is(':checked')) {
+                         e.stopImmediatePropagation();
+                         e.stopPropagation();
+                         $('input[name="button-radio"]').unbind('change');
+                         var filtroStato_ID = $(this).val();
+
+                         var pageNum = $('#NumOfPages_id').val();
+                         var NumEntities = $('#NumEntities').val();
+                         var table_search = $('#table_search').val();
+                         var ValPos_id = $('#ValPos_id').val();
+                         var Sec_id = $('#Sec_id').val();
+                         var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                         var emp = { NumEntities: NumEntities,
+                             SearchDescription: table_search,
+                             CurrentPage: pageNum,
+                             valpos_id: ValPos_id,
+                             sec: Sec_id,
+                             FiltroStato: filtroStato_ID,
+                             FiltroStatoObsoleta: filtroStato_OBS_ID
+                         };
+                         callAjax(urlDestination, emp);
+                         return;
+                     }
+                 });
+                  $('input[name="button-radio-OBS"]').change(function (e) {
+                     // e.stopImmediatePropagation();
+                     //e.stopPropagation();
+                     if ($(this).is(':checked')) {
+                         e.stopImmediatePropagation();
+                         e.stopPropagation();
+                         $('input[name="button-radio-OBS"]').unbind('change');
+                         var filtroStato_OBS_ID = $(this).val();
+
+                         var pageNum = $('#NumOfPages_id').val();
+                         var NumEntities = $('#NumEntities').val();
+                         var table_search = $('#table_search').val();
+                         var ValPos_id = $('#ValPos_id').val();
+                         var Sec_id = $('#Sec_id').val();
+                         var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                         var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                         var emp = { NumEntities: NumEntities,
+                             SearchDescription: table_search,
+                             CurrentPage: pageNum,
+                             valpos_id: ValPos_id,
+                             sec: Sec_id,
+                             FiltroStato: filtroStato_ID,
+                             FiltroStatoObsoleta:filtroStato_OBS_ID
+                         };
+                         callAjax(urlDestination, emp);
+                         return;
+                     }
+                 });
+
+                 $('#sorting-Analisi_last').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_last').unbind('click');
+                     var pageNum = $('#NumOfPages_id').val();
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var ValPos_id = $('#ValPos_id').val();
+                     var Sec_id = $('#Sec_id').val();
+                     var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                     var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         valpos_id: ValPos_id,
+                         sec: Sec_id,
+                         FiltroStato: filtroStato_ID,
+                         FiltroStatoObsoleta: filtroStato_OBS_ID
+                     };
+                     callAjax(urlDestination, emp);
+                 });
+
+
+                 $('#sorting-Analisi_first').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_first').unbind('click');
+                     var pageNum = 1
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var ValPos_id = $('#ValPos_id').val();
+                     var Sec_id = $('#Sec_id').val();
+                     var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                     var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         valpos_id: ValPos_id,
+                         sec: Sec_id,
+                         FiltroStato: filtroStato_ID,
+                         FiltroStatoObsoleta: filtroStato_OBS_ID
+                     };
+                     callAjax(urlDestination, emp);
+                 });
+
+                 $('#sorting-Analisi_previous').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_previous').unbind('click');
+                     var pageNum = parseInt($(".paginate_active").html());
+                     if (pageNum >= 2)
+                     { pageNum = pageNum - 1; }
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var ValPos_id = $('#ValPos_id').val();
+                     var Sec_id = $('#Sec_id').val();
+                     var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                     var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         valpos_id: ValPos_id,
+                         sec: Sec_id,
+                         FiltroStato: filtroStato_ID,
+                         FiltroStatoObsoleta: filtroStato_OBS_ID
+                     };
+                     callAjax(urlDestination, emp);
+                 });
+
+                 $('#sorting-Analisi_next').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_next').unbind('click');
+                     var pageNum = parseInt($(".paginate_active").html());
+                     pageNum = pageNum + 1;
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var ValPos_id = $('#ValPos_id').val();
+                     var Sec_id = $('#Sec_id').val();
+                     var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                     var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         valpos_id: ValPos_id,
+                         sec: Sec_id,
+                         FiltroStato: filtroStato_ID,
+                         FiltroStatoObsoleta: filtroStato_OBS_ID
+                     };
+                     callAjax(urlDestination, emp);
+                 });
+
+                 $('.page-number').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('.page-number').unbind('click');
+                     var pageNum = parseInt($(this).html());
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var ValPos_id = $('#ValPos_id').val();
+                     var Sec_id = $('#Sec_id').val();
+                     var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                     var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         valpos_id: ValPos_id,
+                         sec: Sec_id,
+                         FiltroStato: filtroStato_ID,
+                         FiltroStatoObsoleta: filtroStato_OBS_ID
+                     };
+                     callAjax(urlDestination, emp);
+                 });
+
+
+                 $('select[id^="NumEntities"]').change
+                (
+                  function () {
+                      // alert('change NumEntities');
+                      var idSelVal = $(this).val();
+                      var table_search = $('#table_search').val();
+                      var ValPos_id = $('#ValPos_id').val();
+                      var Sec_id = $('#Sec_id').val();
+                      var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                      var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                      var emp = { NumEntities: idSelVal,
+                          SearchDescription: table_search,
+                          valpos_id: ValPos_id,
+                          sec: Sec_id,
+                          FiltroStato: filtroStato_ID,
+                          FiltroStatoObsoleta: filtroStato_OBS_ID
+                      };
+                      callAjax(urlDestination, emp);
+                  }
+                )
+
+                 $('input[id^="table_search"]').change
+                (function () {
+                    //alert('change table_search');
+                    var idSelVal = $(this).val();
+                    var NumEntities = $('#NumEntities').val();
+                    var ValPos_id = $('#ValPos_id').val();
+                    var Sec_id = $('#Sec_id').val();
+                    var filtroStato_ID = $('input[name="button-radio"]:checked').val();
+                    var filtroStato_OBS_ID = $('input[name="button-radio-OBS"]:checked').val();
+
+                    var emp = { NumEntities: NumEntities,
+                        SearchDescription: idSelVal,
+                        valpos_id: ValPos_id,
+                        sec: Sec_id,
+                        FiltroStato: filtroStato_ID,
+                        FiltroStatoObsoleta: filtroStato_OBS_ID
+                    };
+                    callAjax(urlDestination, emp);
+                })
+
+
+             }
+        );
+     
+</script>
+
+
+ <div id="myGrid" style="width:100%">
+         <div class="table-header blue-gradient button-height">
+         <div class ="clear-both">
+            <div  class="float-left">
+                <span class="button-group">
+                <label for="button-radio-ALL"  class="button">
+			            <input type="radio" name="button-radio"  id="button-radio-ALL"  value="0" @Checked(0)/>Tutto
+                </label>
+                <label for="button-radio-VALOR"  class="button green-active">
+			            <input type="radio" name="button-radio"  id="button-radio-VALOR"  value="2" @Checked(2)/>Valorizzare
+                </label>
+                <label for="button-radio-VALID"  class="button orange-active">
+			            <input type="radio" name="button-radio"  id="button-radio-VALID"  value="3" @Checked(3)/>Validare
+                </label>
+                <label for="button-radio-INDEL"  class="button orange-active">
+			            <input type="radio" name="button-radio"  id="button-radio-INDEL"  value="5" @Checked(5)/>In Delibera
+                </label>
+                <label for="button-radio-DELIB"  class="button red-active">
+			            <input type="radio" name="button-radio"  id="button-radio-DELIB"  value="6" @Checked(6)/>Deliberata
+                </label>
+                </span>
+            </div>
+            
+            <div  class="float-right">
+                <span class="button-group">
+                    <label for="button-radio-OBS-ALL"  class="button">
+			            <input type="radio" name="button-radio-OBS"  id="button-radio-OBS-ALL"  value="0" @CheckedObsoleta(0)/>Tutto
+                    </label>
+                     <label for="button-radio-OBS-NO"  class="button green-active">
+			            <input type="radio" name="button-radio-OBS"  id="button-radio-OBS-NO"   value="1" @CheckedObsoleta(1)/>Attuali
+                    </label>
+                    <label for="button-radio-OBS-YES"  class="button orange-active">
+			            <input type="radio" name="button-radio-OBS"  id="button-radio-OBS-YES"  value="2" @CheckedObsoleta(2)/>Obsolete
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class ="clear-both">
+	        <div class="float-right">
+		        Ricerca &nbsp;<input type="text" name="table_search" id="table_search" value="@Model.SearchDescription" class="input mid-margin-left"/>
+	        </div>Mostra&nbsp;
+            @Html.DropDownListFor(x => x.NumEntities, Model.EntitiesN, null, new { Class = "select blue-gradient glossy replacement" })&nbsp;
+            &nbsp;[@GetStringResultNumbers()]
+            
+            <input type="hidden" value="@Model.NumberOfPages" id = "NumOfPages_id" />
+                    
+         </div>
+        </div> 
+              <table class="table responsive-table" width="100%">
+                    <thead>
+                    <tr>
+                       <th scope="col" width="10%" class="align-center ">Descrizione VN</th>
+		            <th scope="col" width="5%" class="align-center ">Codice VN</th>
+                    <th scope="col" width="10%" class="align-center ">MP+rev.</th>
+                    <th scope="col" width="3%" class="align-center with-tooltip" title="Obsoleta">Obs.</th>
+                    <th scope="col" width="9%" class="align-center hide-on-mobile">Tecnica</th>
+                    <th scope="col" width="13%" class="align-center hide-on-mobile">Gruppo</th>
+                    <th scope="col" width="13%" class="align-center ">Utente</th>
+                    <th scope="col" width="9%" class="align-center ">Stato</th>
+                    <th scope="col" width="9%" class="align-center ">Costo unitario</th>
+                    <th scope="col" width="4%" class="align-center ">&nbsp;</th>
+		            <th scope="col" width="80" class="align-center">Azioni</th>
+        
+                    </tr>
+                </thead>
+                <tfoot class="dataTables_footer">
+		            <tr>
+                    <td colspan="11" class = "button-height align-right" style ="background:transparent;border:0px;color:#FFFFFF;">
+                     @if (Model.Data.Count() > 0)
+                     {              
+                        <div class="dataTables_paginate paging_full_numbers" id="sorting-Analisi_paginate" style="padding:0px">
+                        <a tabindex="0" class="first paginate_button" id="sorting-Analisi_first">Inizio</a>
+                        <a tabindex="0" class="previous paginate_button" id="sorting-Analisi_previous">Precedente</a>
+                        <span>
+                        @{
+                         int passo = 5;
+                         int start = @InitPage(passo);
+                         int end = @EndPage(passo);
+
+                         for (int i = start; i < end; i++)
+                         {
+                             if (i == Model.CurrentPage)
+                             {
+                                           <a class="paginate_active" style ="">@i</a>
+                             }
+                             else
+                             {
+                                            <a class="page-number paginate_button" href="#" style ="">@i</a>
+                             }
+                         }
+                        }
+                        </span>
+                        <a tabindex="0" class="next paginate_button paginate_button" id="sorting-Analisi_next">Successivo</a>
+                        <a tabindex="0" class="last paginate_button paginate_button" id="sorting-Analisi_last">Fine</a>
+                        </div>
+                     }
+                     else
+                     { <span>&nbsp;</span>}
+                    </td>
+                   </tr>
+	            </tfoot>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                        <td class="align-center">
+                            @Html.DisplayFor(modelItem => item.Analisi_Codice_Descrizione)
+                        </td>
+                        <td class="align-center">
+                            @Html.DisplayFor(modelItem => item.Analisi_VN)
+                        </td>
+                        <td class="align-center">
+                           @* <a href="@GetAttach(@item.Analisi_MP_Rev)"><img src="../Content/img/fineFiles/16/pdf.png"/>&nbsp;@item.Analisi_MP_Rev</a>*@
+                           @Html.Raw(@GetAnchor(@item.Analisi_MP_Rev,@item.Analisi_Documento))
+                            
+                          @*  @Html.DisplayFor(modelItem => item.Analisi_MP_Rev)*@
+                        </td>
+                         <td class="align-center">
+                         <input type="checkbox"  class="checkbox disabled" @CheckedObsoletaDisplay(item.Analisi_flgObsoleta) />
+                        </td>
+                        <td class="align-center">
+                            @Html.DisplayFor(modelItem => item.Analisi_Tecnica)
+                        </td>
+                        <td class="align-center">
+                            @Html.DisplayFor(modelItem => item.Analisi_Gruppo_desc)
+                        </td>
+                        <td class="align-center">
+                            @Html.DisplayFor(modelItem => item.Analisi_utente_des_cognome) @Html.DisplayFor(modelItem => item.Analisi_utente_des_nome)  
+                        </td>
+                        <td class="align-center">
+                            @Html.DisplayFor(modelItem => item.Analisi_T_Staval_desc)
+                        </td>
+           
+                        <td class="align-center">
+                            @Html.Label(@SetLabelCosto(item.Analisi_CostoTot))
+                        </td>
+                        <td  class="low-padding align-center">   
+                        <a class="button compact icon-arrow" href="#" 
+                        onclick="apriPopUp('/Report/Show/@item.Analisi_id.ToString()?T=A','Report',
+                        'scrollbars=yes,resizable=yes, width=950,height=850,status=no,location=no,toolbar=no');"></a>
+                        </td>
+                        <td  class="low-padding align-center">
+                         
+                            @Html.ActionLink("Modifica", "AnalisiEdit", new { id = item.Analisi_id }, new { Class = "button compact icon-gear" }) 
+                        </td>            
+                        
+                        </tr> 
+                    }
+                </tbody> 
+          </table>
+     
+ </div>
+  <script type="text/javascript">      $("#table_search").focus(); 	</script>

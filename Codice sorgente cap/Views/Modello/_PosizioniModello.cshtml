@@ -1,0 +1,1096 @@
+﻿@model IZSLER_CAP.Models.ModelloModel
+@*@{Layout = "~/Views/Shared/_LayoutClear.cshtml";}*@
+@using IZSLER_CAP.Helpers
+@functions 
+{
+    //sim04
+
+    protected LoadEntities m_le = new LoadEntities();
+    List<MyUdM> ListaUdm = new List<MyUdM>();
+    List<MyFase> ListaFasi = new List<MyFase>();
+
+    //sim04
+    public string PopolaUdm()
+    {
+
+        ListaUdm = m_le.GetElencoUDMVisible();
+        return "";
+    }
+    //sim04
+    public IEnumerable<SelectListItem> ListaUdMSL(int? UdM_id)
+    {
+        return m_le.ListMyUdMToSLI(ListaUdm, UdM_id, true);
+    }
+    //sim04
+    public string PopolaFasi()
+    {
+        ListaFasi = m_le.GetFasiDelAnalisi(Model.Analisi.Analisi_id);
+        return "";
+    }
+    //sim04
+    public IEnumerable<SelectListItem> ListaFasiSL(int? Fase_id)
+    {
+        return m_le.ListMyFaseToSLI(ListaFasi, Fase_id, true);
+    }    
+
+    private int counterPos = 0;
+    public string CounterValue()
+    {
+        counterPos++;
+        return counterPos.ToString();
+    }
+    public string getIntValue(int? val)
+    {
+        if (val.HasValue)
+            return val.Value.ToString();
+        return "0";
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        { return val.Value.ToString().Replace(".", ","); }
+        return "0,00";
+    }
+    public string IsEditableString()
+    {
+        if (IsEditable()) return "";
+        return "disabled";
+    }
+    public bool IsNotAccettazione(int? Fase_ID)
+    {
+        bool lret = true;
+        if (Fase_ID.HasValue && Fase_ID.Value == 1) lret = false;
+        return lret;
+    }
+    public bool IsEditable()
+    {
+        if (!Model.Analisi.Analisi_flgBloccato) 
+        {
+            if (Html.IsEditableStato(Model.Analisi))
+                return true;
+            //if(Model.Analisi.Analisi_T_Staval_id==2 ||Model.Analisi.Analisi_T_Staval_id==7)
+            //return true;
+            
+        }
+        return false;
+    }
+    public string GetConversione(double? val) 
+    {
+        if (val.HasValue)
+        { return val.Value.ToString(); }
+        return "";
+    }
+}
+
+
+<script type="text/javascript">
+    $(document).ready
+    (
+        function () {
+            $('img[id^="imgUdM_"]').each(function () {
+
+                var pos = $(this)[0].id.replace("imgUdM_", "");
+                checkUDM(pos);
+            });
+            //    $('#Fase_1').change(function () { alert(1); });
+            /*cambia la Fase*/
+            $('select[id^="Fase_"]').change
+            (
+                function () {
+                    var pos = $(this)[0].id.replace("Fase_", "");
+                    var idDept = $(this).val();
+                    var analisi_idVal = $('#analisi_id').val();
+                    var AnalisiPos_Analisi_desc = '#AnalisiPos_Analisi_desc_' + pos;
+                    var val_AnalisiPos_Analisi_desc = $(AnalisiPos_Analisi_desc).text();
+                    var AnalisiPos_Prodotto_Desc = "#AnalisiPos_Prodotto_Desc_" + pos;
+                    var val_AnalisiPos_Prodotto_Desc = $(AnalisiPos_Prodotto_Desc).text();
+
+                    var AnalisiPos_Macchinario_Desc = '#AnalisiPos_Macchinario_Desc_' + pos;
+                    var val_AnalisiPos_Macchinario_Desc = $(AnalisiPos_Macchinario_Desc).text();
+
+
+
+                    // manca prodotto
+                    var flgPulisciCosto = true;
+                    if ((val_AnalisiPos_Analisi_desc != null && val_AnalisiPos_Analisi_desc != "")
+                        || (val_AnalisiPos_Prodotto_Desc != null && val_AnalisiPos_Prodotto_Desc != "")
+                        || (val_AnalisiPos_Macchinario_Desc != null && val_AnalisiPos_Macchinario_Desc != "")
+                        ) {
+                        flgPulisciCosto = false;
+                    }
+
+                    var imgAnalisi = $("#AnalisiPos_Analisi_img_" + pos);
+                    var imgProdotto = $("#AnalisiPos_Prodotto_img_" + pos);
+                    var imgMacchinario = $("#AnalisiPos_Macchinario_img_" + pos);
+
+
+                    var Fase_Val = '#Fase_' + pos;
+                    var textSelVal = $(Fase_Val + ' :selected').text();
+                    //if (idDept == 1)  // Fase == "Accettazione"
+                    if (textSelVal == "Accettazione")
+                    {
+                        //                        alert('Accettazione');
+                        imgAnalisi.hide();
+                        imgProdotto.hide();
+                        imgMacchinario.hide();
+                        $(AnalisiPos_Analisi_desc).text("");
+                        $(AnalisiPos_Prodotto_Desc).text("");
+                        $(AnalisiPos_Macchinario_Desc).text("");
+                        $.getJSON
+                       (
+                             "/Modello/GetImportoFaseAccettazione",
+                            { analisi_id: analisi_idVal, Attivi_id: idDept, valpos_id: pos },
+                            function (myData) {
+                                var select = $('#FigProf_' + pos);
+                                $('#FigProf_' + pos).find('option').remove().end();
+                                select.empty();
+                                $.each(myData,
+                                           function (index, itemData) {
+                                               //alert(itemData.Text);
+                                               var Costo_Unitario = "#Costo_Unitario_" + pos;
+                                               $(Costo_Unitario).val(itemData.Text);
+                                               updateCostoTotale(pos);
+                                               var emp =
+                                                {
+                                                    TipoSalvataggio: "FaseAccettazione",
+                                                    AnalisiPos_id: pos,
+                                                    AnalisiPos_Fase_id: idDept,
+                                                    AnalisiPos_QuantitaCosto: itemData.Text
+                                                };
+                                               var urlSave = '/Modello/SaveValPos';
+                                               $.ajax({
+                                                   type: "POST",
+                                                   url: urlSave,
+                                                   data: JSON.stringify(emp),
+                                                   datatype: "JSON",
+                                                   contentType: "application/json; charset=utf-8",
+                                                   success: function (retdata) {
+                                                       if (!retdata.ok) {
+                                                           showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                                                       }
+
+                                                   }
+                                               });
+                                               var lUDM = "#UdM_" + pos;
+                                               $(lUDM).val('25'); // imposto udm a "Numero"
+                                               //$(lUDM).val('13'); // imposto udm a minuti
+                                               $('#UdMOLD_' + pos).val($('#UdM_' + pos).val()); // imposta il nuovo valore del UDM dll nella var UDM_OLD
+                                           }
+                                       );
+                            }
+                         );
+                    }
+                    else { // Fase diversa da != "Accettazione"
+
+                        imgAnalisi.show();
+                        imgProdotto.show();
+                        imgMacchinario.show();
+
+                        $.getJSON
+                    (
+                        "/Modello/GetElencoFigProfessionali",
+                        { analisi_id: analisi_idVal, Attivi_id: idDept, valpos_id: pos },
+                        function (myData) {
+                            var select = $('#FigProf_' + pos);
+                            $('#FigProf_' + pos).find('option').remove().end();
+                            select.empty();
+                            $.each(myData,
+                                        function (index, itemData) {
+                                            select.append($('<option/>',
+                                            { value: itemData.Value, text: itemData.Text }));
+                                        }
+                                    );
+                            }
+                         );
+                    }
+                    var idUDM_ID = 0;
+                    if (
+                        (val_AnalisiPos_Analisi_desc == null || val_AnalisiPos_Analisi_desc == "")
+                        && (val_AnalisiPos_Prodotto_Desc == null || val_AnalisiPos_Prodotto_Desc == "")
+                        && (val_AnalisiPos_Macchinario_Desc == null || val_AnalisiPos_Macchinario_Desc != "")
+                       ) {
+                        var lUDM = "#UdM_" + pos;
+                        idUDM_ID = 25;
+                        //idUDM_ID = 13;
+                        $(lUDM).val('25'); // imposto udm a "Numero"
+                        //$(lUDM).val('13'); // imposto udm a minuti
+                        $('#UdMOLD_' + pos).val($('#UdM_' + pos).val()); // imposta il nuovo valore del UDM dll nella var UDM_OLD
+                    }
+                    var emp =
+                    {
+                        TipoSalvataggio: "Fase",
+                        AnalisiPos_id: pos,
+                        AnalisiPos_Fase_id: idDept,
+                        AnalisiPos_UdM_id: idUDM_ID
+                    };
+                    var urlSave = '/Modello/SaveValPos';
+                    $.ajax({
+                        type: "POST",
+                        url: urlSave,
+                        data: JSON.stringify(emp),
+                        datatype: "JSON",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (retdata) {
+                            if (!retdata.ok) {
+                                showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                            }
+
+                        }
+                    });
+
+
+
+                    if (flgPulisciCosto) {
+                        var Costo_Unitario = "#Costo_Unitario_" + pos;
+                        //$(Costo_Unitario).text("0,00");
+                        $(Costo_Unitario).val("0,00");
+                        updateCostoTotale(pos); // $(Costo_Unitario).change();
+                        var empClearCosto =
+                        { TipoSalvataggio: "PulisciCosto",
+                            AnalisiPos_id: pos,
+                            AnalisiPos_QuantitaCosto: 0
+                        }
+                        var urlSave = '/Modello/SaveValPos';
+                        $.ajax({
+                            type: "POST",
+                            url: urlSave,
+                            data: JSON.stringify(empClearCosto),
+                            datatype: "JSON",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (retdata) {
+                                if (!retdata.ok) {
+                                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                                }
+
+                            }
+                        });
+                    }
+                }
+           );
+            /*cambia il livello*/
+            $('select[id^="FigProf_"]').change
+            (
+                function () {
+                    var pos = $(this)[0].id.replace("FigProf_", "");
+                    var tmp_NewVal = $(this).val();
+                    var n = tmp_NewVal.split('|');
+                    var newVal = n[0];
+                    var costo = "0,00";
+                    if (n.length == 2)
+                        costo = n[1];
+                    var analisi_idVal = $('#analisi_id').val();
+
+                    var AnalisiPos_Analisi_desc = '#AnalisiPos_Analisi_desc_' + pos;
+                    var AnalisiPos_Prodotto_Desc = '#AnalisiPos_Prodotto_Desc_' + pos;
+                    var AnalisiPos_Prodotto_id = '#AnalisiPos_Prodotto_id_' + pos;
+                    var AnalisiPos_Prodotto_UDM_ID = '#AnalisiPos_Prodotto_UDM_ID_' + pos;
+
+                    var AnalisiPos_Macchinario_Desc = '#AnalisiPos_Macchinario_Desc_' + pos;
+
+                    var Costo_Unitario = "#Costo_Unitario_" + pos;
+                    //$(Costo_Unitario).text(costo);
+                    $(Costo_Unitario).val(costo);
+
+                    $(AnalisiPos_Analisi_desc).text("");
+                    $(AnalisiPos_Prodotto_Desc).text("");
+                    $(AnalisiPos_Prodotto_id).val("");
+                    $(AnalisiPos_Prodotto_UDM_ID).val("");
+                    $(AnalisiPos_Macchinario_Desc).text("");
+
+                    var UdMCoeff = '#UdMCoeff_' + pos;
+                    var udmRatio = "1";
+                    $(UdMCoeff).val(udmRatio)
+
+
+                    var idUDM_ID = 0;
+                    var lUDM = "#UdM_" + pos;
+                    //idUDM_ID = 25;
+                    idUDM_ID = 13;
+                    //$(lUDM).val('25'); // imposto udm a "Numero"
+                    $(lUDM).val('13'); // imposto udm a minuti
+
+                    updateCostoTotale(pos); // $(Costo_Unitario).change();
+
+                    var emp =
+                    {
+                        TipoSalvataggio: "Livello",
+                        AnalisiPos_id: pos,
+                        AnalisiPos_FigProf_id: newVal,
+                        AnalisiPos_QuantitaCosto: costo,
+                        AnalisiPos_UdM_id: idUDM_ID
+                    };
+                    var urlSave = '/Modello/SaveValPos';
+                    $.ajax({
+                        type: "POST",
+                        url: urlSave,
+                        data: JSON.stringify(emp),
+                        datatype: "JSON",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (retdata) {
+                            if (!retdata.ok) {
+                                showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                            }
+                        }
+                    });
+                }
+            );
+
+            /*cambia la udm*/
+            $('select[id^="UdM_"]').change
+            (
+                function () {
+                    var pos = $(this)[0].id.replace("UdM_", "");
+                    var newVal = $(this).val();
+                    var UdMCoeff = '#UdMCoeff_' + pos;
+                    var ProdUDM = '#AnalisiPos_Prodotto_UDM_ID_' + pos;
+                    var valProdUDM = $(ProdUDM).val();
+
+                    var analisi_idVal = $('#analisi_id').val();
+                    var emp =
+                    {
+                        TipoSalvataggio: "UdM",
+                        AnalisiPos_id: pos,
+                        AnalisiPos_UdM_id: newVal
+                    };
+
+                    if (valProdUDM != "") {
+                        if (valProdUDM == newVal)  // se il prodotto ha udm come quella selezionata
+                        {
+                            $(UdMCoeff).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                        }
+                        else {
+                            $(UdMCoeff).val("");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "clear"
+                            };
+                        }
+                    }
+
+
+                    var AnalisiPos_Analisi_desc = '#AnalisiPos_Analisi_desc_' + pos;
+
+                    var val_AnalisiPos_Analisi_desc = $(AnalisiPos_Analisi_desc).text();
+                    var AnalisiPos_Prodotto_Desc = "#AnalisiPos_Prodotto_Desc_" + pos;
+                    var val_AnalisiPos_Prodotto_Desc = $(AnalisiPos_Prodotto_Desc).text();
+
+                    var AnalisiPos_Macchinario_Desc = '#AnalisiPos_Macchinario_Desc_' + pos;
+                    var val_AnalisiPos_Macchinario_Desc = $(AnalisiPos_Macchinario_Desc).text();
+
+                    val_AnalisiPos_Analisi_desc = $.trim(val_AnalisiPos_Analisi_desc);
+                    val_AnalisiPos_Prodotto_Desc = $.trim(val_AnalisiPos_Prodotto_Desc);
+                    val_AnalisiPos_Macchinario_Desc = $.trim(val_AnalisiPos_Macchinario_Desc);
+                    var idUDM_ID = 0;
+                    /*recupero variabili*/
+                    var Fase_Val = '#Fase_' + pos;
+                    var Fase_Val_desc = $(Fase_Val).val();
+                    var FigProf_Val = '#FigProf_' + pos;
+                    var FigProf_Val_desc = $(FigProf_Val).val();
+                    var textSelVal = $(Fase_Val + ' :selected').text();
+                    /*Controllo Accettazione*/
+                    if ((textSelVal == "Accettazione") && (newVal == 25)) {
+                        $('#UdMCoeff_' + pos).val("1");
+                        emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                    }
+                    if ((textSelVal == "Accettazione") && (newVal != 25)) {
+                        showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                        $('#UdM_' + pos).val($('#UdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                        return;
+                    }
+                    /* FINE Controllo Accettazione*/
+
+                    if ((textSelVal != "Accettazione")) {
+                        /* Intermedi Analisi */
+                        if ((val_AnalisiPos_Analisi_desc != null && val_AnalisiPos_Analisi_desc != "") && (newVal != 25)) {
+                            showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                            $('#UdM_' + pos).val($('#UdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                            return;
+                        }
+                        if ((val_AnalisiPos_Analisi_desc != null && val_AnalisiPos_Analisi_desc != "") && (newVal == 25)) {
+                            $('#UdMCoeff_' + pos).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                        }
+                        /* Intermedi Analisi  FINE */
+
+                        /* Macchinari */
+
+                        if ((val_AnalisiPos_Macchinario_Desc != null && val_AnalisiPos_Macchinario_Desc != "") && (newVal != 13)) 
+                        {
+                            showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                            $('#UdM_' + pos).val($('#UdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                            return;
+                        }
+                        if ((val_AnalisiPos_Macchinario_Desc != null && val_AnalisiPos_Macchinario_Desc != "") && (newVal == 13)) 
+                        {
+                            $('#UdMCoeff_' + pos).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                        }
+                        
+                        /* Macchinari FINE */
+                        /*FigProf*/
+                        if ((FigProf_Val_desc != "0") && (newVal != 13)) {
+                            showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                            $('#UdM_' + pos).val($('#UdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                            return;
+                        }
+                        if ((FigProf_Val_desc != "0") && (newVal == 13)) {
+                            $('#UdMCoeff_' + pos).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                        }
+                        /*FigProf FINE */
+                    }
+                    /* Gestione Solo FASE */
+                    /* Rimossa
+                    if (
+                        (val_AnalisiPos_Analisi_desc == null || val_AnalisiPos_Analisi_desc == "")
+                        && (val_AnalisiPos_Prodotto_Desc == null || val_AnalisiPos_Prodotto_Desc == "")
+                        && (val_AnalisiPos_Macchinario_Desc == null || val_AnalisiPos_Macchinario_Desc == "")
+                       ) {
+                        var Fase_Val = '#Fase_' + pos;
+                        var Fase_Val_desc = $(Fase_Val).val();
+                        var FigProf_Val = '#FigProf_' + pos;
+                        var FigProf_Val_desc = $(FigProf_Val).val();
+
+                        var textSelVal =	$(Fase_Val +' :selected').text();
+						
+                        if ((textSelVal  == "Accettazione" || FigProf_Val_desc != "0") && (newVal == 25 )) {
+                         var lUDM = "#UdM_" + pos;
+                            var lAnalisiPos_CoeffConversioneString = "1"
+                            if (newVal == 14) // ore
+                            { lAnalisiPos_CoeffConversioneString = "60" } // 1h = 60 min
+                            if (newVal == 12) // Sec
+                            { lAnalisiPos_CoeffConversioneString = "0,01666" } // 1min = 60 sec ==> 1 sec = 0,01666 min
+                            $('#UdMCoeff_' + pos).val(lAnalisiPos_CoeffConversioneString);
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: lAnalisiPos_CoeffConversioneString
+                            };
+                        }
+                        else {
+                            showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                            $('#UdM_' + pos).val($('#UdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                            return;
+                        }
+                    }*/
+
+
+                    var urlSave = '/Modello/SaveValPos';
+                    $.ajax({
+                        type: "POST",
+                        url: urlSave,
+                        data: JSON.stringify(emp),
+                        datatype: "JSON",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (retdata) {
+                            if (!retdata.ok) {
+                                showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                            }
+                        }
+                    });
+                    //checkUDM(pos);
+                    updateCostoTotale(pos);
+                }
+            );
+            /*cambia la descrizione*/
+            $('input[id^="AnalisiPos_Desc_"]').bind('blur', function () {
+                var pos = $(this)[0].id.replace("AnalisiPos_Desc_", "");
+
+                var newVal = $(this).val();
+
+                var emp =
+                {
+                    TipoSalvataggio: "Descrizione",
+                    AnalisiPos_id: pos,
+                    AnalisiPos_desc: newVal
+                };
+
+                var urlSave = '/Modello/SaveValPos';
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(emp),
+                    datatype: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                    }
+                });
+
+                // alert("pos:" + pos + "<br>Descrizione:" + newVal);
+            }
+            );
+            /*cambia la costoQuantita*/
+            $('input[id^="Costo_Unitario_"]').bind('change', function () {
+                var pos = $(this)[0].id.replace("Costo_Unitario_", "");
+
+                var newVal = $(this).val();
+                var Costo_Totale = "#Costo_Totale_" + pos;
+                $(Costo_Totale).val(newVal);
+
+
+            }
+           );
+            /*cambia la Quantita*/
+            $('input[id^="AnalisiPos_Quantita_"]').bind('blur', function () {
+                var pos = $(this)[0].id.replace("AnalisiPos_Quantita_", "");
+
+                var newVal = $(this).val();
+                newVal = newVal.replace(".", ",");
+                var emp =
+                {
+                    TipoSalvataggio: "Quantita",
+                    AnalisiPos_id: pos,
+                    AnalisiPos_Quantita: newVal
+                };
+                var Costo_Unitario = "#Costo_Unitario_" + pos;
+                updateCostoTotale(pos); // $(Costo_Unitario).change();
+                var urlSave = '/Modello/SaveValPos';
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(emp),
+                    datatype: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                    }
+                });
+                // alert("pos:" + pos + "<br>Quantita:" + newVal);
+            }
+           );
+
+            var anchorsAnalisi = $('a[id^="AnalisiPos_Analisi_img_"]');
+
+            $.each(anchorsAnalisi,
+                        function (index, anchor) {
+                            var value = anchor.id;
+                            var pos = value.replace("AnalisiPos_Analisi_img_", "");
+                            var valFase = $('#Fase_' + pos).val();
+                            if (valFase == "1") {
+                                anchor.outerHTML = '<a id="AnalisiPos_Analisi_img_' + pos + '" href="javascript:openRicercaPPIntermAnalisi(\'/Analisi/PPIntermAnalisi/' + pos + '?sec=0\',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px;display:none;"></a>';
+                            }
+
+                        }
+                        );
+
+            var anchorsProdotti = $('a[id^="AnalisiPos_Prodotto_img_"]');
+
+            $.each(anchorsProdotti,
+                        function (index, anchor) {
+                            var value = anchor.id;
+                            var pos = value.replace("AnalisiPos_Prodotto_img_", "");
+                            var valFase = $('#Fase_' + pos).val();
+                            if (valFase == "1") {
+                                anchor.outerHTML = '<a id="AnalisiPos_Prodotto_img_' + pos + '" href="javascript:openRicercaPPProdotti(\'/Analisi/PPProdotti/' + pos + '?sec=0\',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px;display:none;"></a>';
+                            }
+
+                        }
+           );
+
+            var anchorsMacchinari = $('a[id^="AnalisiPos_Macchinario_img_"]');
+
+            $.each(anchorsMacchinari,
+                        function (index, anchor) {
+                            var value = anchor.id;
+                            var pos = value.replace("AnalisiPos_Macchinario_img_", "");
+                            var valFase = $('#Fase_' + pos).val();
+                            if (valFase == "1") {
+                                anchor.outerHTML = '<a id="AnalisiPos_Macchinario_img_' + pos + '" name="mac_' + pos + '" href="javascript:openRicercaPPMacchinario(\'/Analisi/PPMacchinari/' + pos + '?sec=0\',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px;display:none;"></a>';
+                            }
+
+                        }
+           );
+        }
+
+    );
+
+    function udmCoeffValOut(s) {
+        $(s).removeTooltip();
+    }
+
+    //Vecchia Funzione
+    function udmCoeffValInOld(s, pos_id) {
+        var text = "";
+        var textVal = $('#UdMCoeff_' + pos_id).val();
+        text = "Coeff. di Conversione:" + textVal;
+        if (textVal == "")
+            text = "Coeff. di Conversione da impostare";
+        //alert(text);
+        $(s).tooltip(text);
+    }
+
+    //La nuova funzione non deve mostrare la frazione ma la scritta 1 ml = 600 cmq
+    function udmCoeffValIn(s, pos_id, desc) {
+
+        var visualizza = false;
+        if ($('#AnalisiPos_Prodotto_id_' + pos_id).val() > 0)
+            visualizza = true;
+
+        if (!visualizza)
+            return;
+
+
+        var text = "";
+
+        var textVal = $('#UdMCoeff_' + pos_id).val();
+        var descUdm = $('#UdM_' + pos_id + ' option:selected').text();
+        var descProdotto = $('#UdMProdotDesc_' + pos_id).val();
+
+        var coeffDB = parseFloat(textVal.replace(",", "."));
+
+        var valoreProdotto = "";
+        var valoreUdmPosizione = "";
+
+        if (coeffDB > 1) //Il valore della udm del prodotto è maggiore rispetto a quella della UDM della posizione
+        {
+            valoreProdotto = coeffDB;
+            valoreUdmPosizione = 1;
+        }
+        else {
+            valoreProdotto = 1;
+            valoreUdmPosizione = 1 / coeffDB;
+        }
+
+        text = valoreProdotto + " " + descProdotto + " = " + valoreUdmPosizione + " " + descUdm;
+
+        if (textVal == "")
+            text = "Coeff. di Conversione da impostare";
+        //alert(text);
+        $(s).tooltip(text);
+
+        //alert($('#UdMProdotDesc_' + pos_id).val());
+    }
+
+    function posDescOut(s) {
+        $(s).removeTooltip();
+    }
+
+    function posDescIn(s, pos_id) {
+        var text = "";
+        var textVal = $('#AnalisiPos_Desc_' + pos_id).val();
+        text = textVal;
+        $(s).tooltip(text);
+
+    }
+    function checkUDM(posid) {
+        /*cambia il prodotto_UDM*/
+
+        var ProdUDM = '#AnalisiPos_Prodotto_UDM_ID_' + posid;
+        var UdMCoeff = '#UdMCoeff_' + posid;
+        var img = '#imgUdM_' + posid;
+        var aUdM = '#aUdM_' + posid;
+        var UdM = '#UdM_' + posid;
+        var valProdUDM = $(ProdUDM).val();
+        var valUdM = $(UdM).val();
+        var valUdMCoeff = $(UdMCoeff).val();
+        // se il coeff di conversione e' settatoa sono ok
+        if (valUdMCoeff != "") 
+        {
+            $(img).hide();
+            $(aUdM).hide();
+            return; 
+        }
+
+
+
+        if (valProdUDM == "" || valProdUDM == valUdM)
+        { $(img).hide(); $(aUdM).hide(); return; }
+
+        if (valProdUDM != valUdM)
+        { $(img).show(); ; $(aUdM).show(); }
+    }
+
+
+    function updateCostoTotale(posid) {
+        checkUDM(posid);
+        /*
+        var Costo_Unitario = "#Costo_Unitario_" + posid;
+        var Costo_Totale = "#Costo_Totale_" + posid;
+        var AnalisiPos_Quantita = "#AnalisiPos_Quantita_" + posid;
+        var val_CU = $(Costo_Unitario).val();
+        var val_QTA = $(AnalisiPos_Quantita).val();
+        val_CU = parseFloat(val_CU.replace(',', '.'));
+        val_QTA = parseFloat(val_QTA.replace(',', '.'));
+
+        $('#UdMOLD_' + posid).val($('#UdM_' + posid).val()); // imposta il nuovo valore del UDM dll nella var UDM_OLD
+
+        var UdMCoeff = '#UdMCoeff_' + posid;
+        var UdMCoeffVal = $(UdMCoeff).val();
+        if (UdMCoeffVal == "") 
+        {
+            UdMCoeffVal = "0"
+        }
+        UdMCoeffVal = parseFloat(UdMCoeffVal.replace(',', '.'));
+        
+
+        var val_Tot = 0;
+        val_Tot = roundNumber(val_CU, 2) * roundNumber(val_QTA, 2) * UdMCoeffVal;
+        val_Tot = roundNumber(val_Tot, 2);
+
+
+        var strTot = "";
+        strTot = val_Tot.toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $(Costo_Totale).val(strTot);
+
+        calcolaTotaleCorrente();
+        */
+    }
+    function roundNumber(num, dec) {
+        var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+        return result;
+    }
+    /*Nuova posizione*/
+    function NuovaPosizione(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var emp =
+        { AnalisiPos_MasterAnalisi_id: an_id };
+
+        var urlSave = '/Modello/AddNewValPos';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify(emp),
+            datatype: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (retdata) {
+                if (!retdata.ok) {
+                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                }
+                else {
+
+                    //location.href = "/Modello/ModelloEdit/" + an_id;
+                    window.location.hash = 'pos';
+                    location.reload(true);
+                }
+            }
+        });
+    }
+    /*Cancella tutte le posizioni*/
+    function SvuotaPosizioni(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var emp =
+        { AnalisiPos_MasterAnalisi_id: an_id };
+        var urlSave = '/Modello/DeleteAllPos';
+         var conf = $.modal.confirm;
+         conf('Eliminare tutte le posizioni ?',
+             function () {
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(emp),
+                    datatype: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                        else {
+                            //location.href = "/Modello/ModelloEdit/" + an_id;
+                            window.location.hash = 'pos';
+                            location.reload(true);
+                        }
+                    }
+                });
+          },
+         function () { }
+         );
+    }
+    /*Cancella le posizioni  selezionate*/
+    function CancellaPosizioni(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var checked = [];
+        $("input[name='multicheckSelect']:checked").each(function () {
+            checked.push(parseInt($(this).val()));
+        });
+        var urlSave = '/Modello/DeleteSinglePos';
+
+        var parms = { AnalisiPosIds: checked };
+        if (checked.length == 0) 
+        {
+            showAlertErrorGeneric('Selezionare almeno una posizione.', 'Attenzione');
+            return;
+        }
+        var conf = $.modal.confirm;
+        conf('Eliminare le posizioni selezionate? ',
+             function () {
+            $.ajax({
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify(parms),
+                datatype: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (retdata) {
+                    if (!retdata.ok) {
+                        showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                    }
+                    else {
+                        //location.href = "/Modello/ModelloEdit/" + an_id;
+                        window.location.hash = 'pos';
+                        location.reload(true);
+                    }
+                }
+            });
+        },
+         function () { }
+         );
+    }
+    /*Clona le posizioni selezionate*/
+    function CopiaPosizione(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var checked = [];
+        $("input[name='multicheckSelect']:checked").each(function () {
+            checked.push(parseInt($(this).val()));
+        });
+        var urlSave = '/Modello/ClonaPosizione';
+
+        var parms = { AnalisiPosIds: checked };
+
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify(parms),
+            datatype: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (retdata) {
+                if (!retdata.ok) {
+                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                }
+                else {
+                    //location.href = "/Modello/ModelloEdit/" + an_id;
+                    window.location.hash = 'pos';
+                    location.reload(true);
+                }
+            }
+        });
+    }
+</script>
+@PopolaUdm();
+@PopolaFasi();
+ <p >
+        
+        @if (@IsEditable())
+        {
+            <a href="javascript:NuovaPosizione(@Model.Analisi.Analisi_id);" title="Nuova posizione" class="button icon-plus-round green-gradient glossy">Nuova posizione</a>
+            <a href="javascript:CopiaPosizione(@Model.Analisi.Analisi_id);" title="Copia posizione" class="button icon-plus-round green-gradient glossy">Copia posizione</a>
+            <a href="javascript:CancellaPosizioni(@Model.Analisi.Analisi_id);" title="Cancella posizione" class="button icon-plus-round red-gradient glossy">Cancella posizione</a>
+            <a href="javascript:SvuotaPosizioni(@Model.Analisi.Analisi_id);" title="Elimina tutto" class="button icon-plus-round red-gradient glossy">Elimina tutto</a>
+        }
+</p>
+    <p class="button-height">
+    @if (1 == 10)
+    {<a href="#" title="Copia da valorizzazione" class="button icon-plus-round green-gradient glossy">Copia da valorizzazione</a>}
+    @if (1 == 0)
+    {<a href="#" title="Crea da modello" class="button icon-plus-round green-gradient glossy">Crea da modello</a>}
+</p>
+<div style="clear">
+   
+    
+   <table class="table responsive-table" id="idTable">
+        <thead>
+            <tr>
+                <th scope="col" width="10px" class="align-center">&nbsp;</th>
+                <th scope="col" width="14%" class="align-center">Fase</th>
+                <th scope="col" width="14%" class="align-center">Analisi /<br />Intermedio</th>
+                <th scope="col" width="14%" class="align-center ">Prodotto</th>
+                <th scope="col" width="14%" class="align-center ">Apparecchiatura dedicata</th>
+		        <th scope="col" width="16%" class="align-center ">Fig.<br />professionale</th>
+                <th scope="col" width="18%" class="align-center ">Descrizione</th>
+                <th scope="col" width="10%" class="align-center ">Unit&agrave; di Misura</th>
+                @*<th scope="col" width="6%" class="align-center ">Quantità</th>*@
+           @*     <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Unitario</th>
+                <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Posizione</th>*@
+                
+            </tr>
+        </thead>
+        <tfoot>
+		    <tr>
+			    <td colspan="11">
+				    @Model.ElencoModelliPos.Count().ToString() Elementi presenti
+			    </td>
+		    </tr>
+	    </tfoot>
+        <tbody>
+            @foreach (MyAnalisiPos map in Model.ElencoModelliPos)
+            { 
+                <tr>
+                    <td >
+                    <table>
+                        <tr><td align="center" >@CounterValue()</td></tr>   
+                        <tr><td align="center" ><input type="checkbox" name="multicheckSelect" value="@map.AnalisiPos_id" @IsEditableString()/></td></tr>
+                    </table> 
+                    </td>
+                    <td class="align-center" >@* Fase *@
+                    @if (@IsEditable())
+                    {  
+                        @*@Html.DropDownList("Fase", map.AnalisiPos_ListaFasiSL, null, new { style = "width:120px", id = "Fase_" + @map.AnalisiPos_id.ToString() })*@
+                        @Html.DropDownList("Fase", ListaFasiSL(map.AnalisiPos_Fase_id), null, new { style = "width:120px", id = "Fase_" + @map.AnalisiPos_id.ToString() })
+                    }
+                    else
+                    { 
+                        @*@Html.DropDownList("Fase", map.AnalisiPos_ListaFasiSL, null, new { style = "width:120px", id = "Fase_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })*@
+                        @Html.DropDownList("Fase", ListaFasiSL(map.AnalisiPos_Fase_id), null, new { style = "width:120px", id = "Fase_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })
+                    }
+                    </td>
+                    <td class="align-center" > @* AnalisiIntermedio *@
+                        <table >
+                            <tr style ="width :100%" >
+                                <td width="90%" rowspan="2"><span>
+                                    <label ><a href="javascript:openAnalisiDettRO('/Analisi/PPIntermAnalisiDettRO/@map.AnalisiPos_id')" id="closePopUpAnalisi"><span id="@contact("AnalisiPos_Analisi_desc", @map.AnalisiPos_id)" >@map.AnalisiPos_Analisi_Desc </span></a></label> 
+                                    <input type="hidden" id="@contact("AnalisiPos_Analisi_id", @map.AnalisiPos_id)" value="@map.AnalisiPos_Analisi_id"/></span></td>
+                                <td width="10%">
+                                    @if (@IsEditable())
+                                    {<a id="@contact("AnalisiPos_Analisi_img", @map.AnalisiPos_id)" href="javascript:openRicercaPPIntermAnalisi('/Analisi/PPIntermAnalisi/@map.AnalisiPos_id?sec=0',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>}
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td>
+                                @if (@IsEditable())
+                                {<a href="javascript:void(0);" id="@contact("clearPPInterAnalisi", @map.AnalisiPos_id)" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="clearDataPPAnalisi(@map.AnalisiPos_id,false);" ></a>}
+                                </td>
+                            </tr>
+                            @*<tr>
+                                <td><a href="javascript:openAnalisiDettRO('/Analisi/PPIntermAnalisiDettRO/@map.AnalisiPos_id')" id="closePopUpAnalisi" class="button"  style="background-image:url(../../Content/img/fineFiles/16/text.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Dettaglio" ></a></td>
+                            </tr>*@
+                        </table>
+                    </td> 
+                    <td class="align-center" > @* Prodotto *@
+                        <table >
+                            <tr style ="width :100%" >
+                                <td width="90%" rowspan="2"><span>
+                                    <label ><a href="javascript:openAnalisiDettRO('/Analisi/PPProdottiDettRO/@map.AnalisiPos_id')" id="closePopUpProdotti"><span id="@contact("AnalisiPos_Prodotto_Desc", @map.AnalisiPos_id)" >@map.AnalisiPos_Prodotto_Desc</span></a></label> 
+                                    <input type="hidden" id="@contact("AnalisiPos_Prodotto_id", @map.AnalisiPos_id)" value="@map.AnalisiPos_Prodotto_id"/>
+                                    <input type="hidden" id="@contact("AnalisiPos_Prodotto_UDM_ID", @map.AnalisiPos_id)" value="@map.AnalisiPos_Prodotto_UDM_id"/>
+                                    </span></td>
+                                <td width="10%">
+                                    @if (@IsEditable())
+                                    {<a id="@contact("AnalisiPos_Prodotto_img", @map.AnalisiPos_id)" href="javascript:openRicercaPPProdotti('/Analisi/PPProdotti/@map.AnalisiPos_id?sec=0',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>}
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td>@if (@IsEditable())
+                                    {<a href="javascript:void(0);" id="@contact("clearPPProdotti", @map.AnalisiPos_id)" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="clearDataPopUpProdotti(@map.AnalisiPos_id,false);" ></a>}</td>
+                            </tr>
+                            @*<tr>
+                                <td><a href="javascript:openAnalisiDettRO('/Analisi/PPProdottiDettRO/@map.AnalisiPos_id')" id="closePopUpProdotti" class="button"  style="background-image:url(../../Content/img/fineFiles/16/text.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Dettaglio" ></a></td>
+                            </tr>*@
+                        </table>
+                    </td>
+                    <td class="align-center" > @* Macchinario *@
+                      <table >
+                            <tr style ="width :100%" >
+                                <td width="90%" rowspan="2"><span>
+                                    <label ><a href="javascript:openAnalisiDettRO('/Analisi/PPMacchinarioDettRO/@map.AnalisiPos_id')"     title="Dettaglio" ><span id="@contact("AnalisiPos_Macchinario_Desc", @map.AnalisiPos_id)" >@map.AnalisiPos_Macchinario_Desc </span></a></label> 
+                                    <input type="hidden" id="@contact("AnalisiPos_Macchinario_id", @map.AnalisiPos_id)" value="@map.AnalisiPos_Macchinario_id"/>
+                                    </span></td>
+                                <td width="10%">
+                                    @if (@IsEditable())
+                                    {<a id="@contact("AnalisiPos_Macchinario_img", @map.AnalisiPos_id)" href="javascript:openRicercaPPMacchinario('/Analisi/PPMacchinari/@map.AnalisiPos_id?sec=0',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>}
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td>@if (@IsEditable())
+                                    {<a href="javascript:void(0);" id="@contact("clearPPMacchinario", @map.AnalisiPos_id)" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="clearDataPopUpMacchinario(@map.AnalisiPos_id,false);" ></a>}</td>
+                            </tr>
+                            </table> 
+                    </td> 
+                    <td class="align-center" >@* Livello *@
+                       @if (@IsEditable())
+                       {
+                       @Html.DropDownList("Livello", map.AnalisiPos_ListaFigProfSL, null, new { style = "width:100px", id = "FigProf_" + @map.AnalisiPos_id.ToString() })
+                       }
+                       else
+                       {
+                            @Html.DropDownList("Livello", map.AnalisiPos_ListaFigProfSL, null, new { style = "width:100px", id = "FigProf_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })
+                       }
+                        @*@Html.DropDownListFor(modelItem => map.AnalisiPos_ListaFigProf ,map.AnalisiPos_ListaFigProfSL)*@
+                    </td>
+                    <td class="align-center">
+                        @if (@IsEditable())
+                        { @Html.TextBox("Descrizione", map.AnalisiPos_desc, new { Class = "input", id = "AnalisiPos_Desc_" + @map.AnalisiPos_id.ToString(), Style = "width:150px", @onmouseover = "posDescIn(this," + @map.AnalisiPos_id + ");", @onmouseout = "posDescOut(this);" })
+                        }
+                        else
+                        { 
+                            @Html.TextBox("Descrizione", map.AnalisiPos_desc, new { Class = "input", id = "AnalisiPos_Desc_" + @map.AnalisiPos_id.ToString(), Style = "width:150px", disabled = "disabled", @onmouseover = "posDescIn(this," + @map.AnalisiPos_id + ");", @onmouseout = "posDescOut(this);" })
+                        }
+                    </td>
+                    <td class="align-center" >@* UdM *@
+                        <input type="hidden" id=@contact("UdMOLD", @map.AnalisiPos_id) value="@getIntValue(map.AnalisiPos_UdM_id)"  />
+                     @if (@IsEditable())
+                     {
+                        <img id=@contact("imgUdM", @map.AnalisiPos_id) alt="Errore" src="../../Content/img/fineFiles/16/required_field.gif" style ="width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px"/>
+                        @*@Html.DropDownList("UdM", map.AnalisiPos_ListaUdMSL, null, new { style = "width:50px", id = "UdM_" + @map.AnalisiPos_id.ToString(), @onmouseover = "udmCoeffValIn(this," + @map.AnalisiPos_id + ",'" + @map.AnalisiPos_Prodotto_UDM_Desc + "');", @onmouseout = "udmCoeffValOut(this);" })*@
+                         @Html.DropDownList("UdM", ListaUdMSL(map.AnalisiPos_UdM_id), null, new { style = "width:50px", id = "UdM_" + @map.AnalisiPos_id.ToString(), @onmouseover = "udmCoeffValIn(this," + @map.AnalisiPos_id + ",'" + @map.AnalisiPos_Prodotto_UDM_Desc + "');", @onmouseout = "udmCoeffValOut(this);" })
+                        <a id=@contact("aUdM", @map.AnalisiPos_id)  href="javascript:openPPUDM('/Analisi/PPUdMConversione/@map.AnalisiPos_id?sec=0',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>
+                        <input type="hidden" id=@contact("UdMCoeff", @map.AnalisiPos_id) value="@GetConversione(@map.AnalisiPos_CoeffConversione)" />
+                        <input type="hidden" id=@contact("UdMProdotDesc", @map.AnalisiPos_id) value="@map.AnalisiPos_Prodotto_UDM_Desc" />
+                     }
+                     else
+                     { 
+                       @*@Html.DropDownList("UdM", map.AnalisiPos_ListaUdMSL, null, new { style = "width:50px", id = "UdM_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })*@
+                       @Html.DropDownList("UdM", ListaUdMSL(map.AnalisiPos_UdM_id), null, new { style = "width:50px", id = "UdM_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })  
+                     }
+                    </td>
+                   
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+
+</div>
+
+   

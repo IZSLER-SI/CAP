@@ -1,0 +1,133 @@
+﻿@model IZSLER_CAP.Models.ReportModel
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@using IZSLER_CAP.Helpers
+	<script type="text/javascript">
+	    $(document).ready();
+    </script>
+    
+    <div class = "white-bg">
+    <hgroup id="block-title" class="thin " style ="padding-left:30px;padding-top:20px">
+			<h1><span style="color:#3366cc"><b>Andamento Costo Primo</b></span></h1>
+            <input type ="hidden" id="idCurr" value="@Model.ID"/>
+            <input type ="hidden" id="mode" value="@Model.Mode"/>
+    </hgroup>
+    <hgroup id="block-title" class="thin " style ="padding-left:30px;">
+        <h3><span style="color:#3366cc"><b>@Model.TestataReport</b> </span> </h3>
+    </hgroup>
+    <hgroup id="main-filter" class="thin" style="margin-bottom:0px;">
+    <div class="anthracite-gradient" style="padding-top:10px;padding-bottom:10px;">
+            <p class="button-height" ><strong>&nbsp;</strong><strong>Periodo&nbsp;da&nbsp;:&nbsp;</strong>
+				<span class="input">
+					<span class="icon-calendar"></span>
+					<input type="text" name="special-input-3" id="dataDa" class="input-unstyled datepicker" value="" />
+				</span><strong>&nbsp;&nbsp;a&nbsp;:&nbsp;</strong>
+				<span class="input">
+					<span class="icon-calendar"></span>
+					<input type="text" name="special-input-3" id="dataA" class="input-unstyled datepicker" value="" />
+				</span>
+                <strong>&nbsp;&nbsp;</strong>
+                    <button onclick="Ricarica();" type ="button" value ="Visualizza" class="button blue-gradient glossy">Visualizza</button >
+<strong>&nbsp;&nbsp;</strong>
+                    <button onclick="Pulisci();" type ="button" value ="Annulla" class="button orange-gradient glossy">Annulla</button >
+			</p>
+            </div> 
+    </hgroup>
+
+
+    <div class="dashboard">
+
+		<div class="columns">
+
+			<div class="six-columns six-columns-mobile" id="demo-chart">
+				<!-- This div will hold the chart generated in the footer -->
+			</div>
+		</div>
+    </div>
+    <div class="with-padding">
+			<div class="columns">
+				<div class="six-columns six-columns-mobile"">
+				<table class="simple-table responsive-table" id="destTable">
+
+				<thead>
+					<tr>
+						<th scope="col" width="20%" class="align-center">Data rilevazione </th>
+						<th scope="col" width="20%" class="align-center">Costo primo<br />Deliberato</th>
+						<th scope="col" width="20%" class="align-center">Costo primo<br />Attualizzato</th>
+						<th scope="col" width="40%" class="align-center">Trend</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+				</div>
+			</div>
+	</div>
+
+    </div>
+<script type ="text/javascript" src="http://www.google.com/jsapi"></script>   
+<script  type ="text/javascript">    loadScriptRef("startShow.js");</script>
+   
+   @this.ScriptBlock(
+        @<script  type='text/javascript'>
+         
+             google.load("visualization", "1", { packages: ["corechart"] });
+             google.setOnLoadCallback(drawAreaChart);
+             var optionsChart =null;
+             var jsonDataChar = null;
+             var idVal = $('#idCurr').val();
+             var modeVal = $('#mode').val();
+             var dataDaVal = $('#dataDa').val();
+             var dataAVal = $('#dataA').val();
+              $.getJSON
+                    (
+                        "/Report/GetElencoChart",
+                          { id: idVal,
+                            mode: modeVal,
+                            dataDa:dataDaVal,
+                            dataA:dataAVal
+                            },
+                           function(data) 
+                           {
+                            var len = data.length;
+                            var multiArray= new Array(len);
+                            var pos=0;
+                            $.each(data,function (index, itemData) 
+                            {
+                                
+                                multiArray[pos]  = new Array(3);
+                                if(pos==0){
+                                  multiArray[pos][0]=  itemData.Titolo;
+                                  multiArray[pos][1]=  itemData.Val1;
+                                  multiArray[pos][2]=  itemData.Val2;
+                                }
+                                else 
+                                {
+                                  multiArray[pos][0]=itemData.Titolo;
+                                  multiArray[pos][1]=parseFloat(itemData.Val1);
+                                  multiArray[pos][2]=parseFloat(itemData.Val2);
+                                }
+                                pos=pos+1;
+                            });
+
+                            jsonDataChar = multiArray;
+                          }
+                    );
+              @Html.Raw(Model.GetDrawChart("demo-chart"))
+         </script>
+         )
+
+      @this.WriteScriptBlocks()    
+
+
+      <script type ="text/javascript" >
+          $(document).ready
+        (
+        function () {
+            $('#dataDa').glDatePicker({ zIndex: 100 });
+            $('#dataA').glDatePicker({ zIndex: 100 });
+        });
+      </script>

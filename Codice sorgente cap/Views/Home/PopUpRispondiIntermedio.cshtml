@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "PopUpRispondiIntermedio";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@model IZSLER_CAP.Models.RichiestaModel
+@using IZSLER_CAP.Helpers         
+@functions 
+{
+    public string check(string cod)
+    {
+        if (cod == "NORMAL") { return "checked"; } else { return ""; }
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "-" + id.ToString();
+    }
+
+}  
+
+<div class="with-padding">
+
+	<form method="post" action="" class="columns" >@*onsubmit="return false">*@
+
+	<div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+        <fieldset class="fieldset">
+        <legend class="legend">Risposta</legend>
+         <table width ="100%">
+        <tr >
+        <td colspan="2"><p>Inserire le informazioni relative alla richiesta intermedio</p></td></tr>
+	    <tr><td colspan="">&nbsp;</td>
+        </tr> 
+        <tr>
+            <td colspan="2">
+        <p class="button-height">
+	        @*<label for="input-2" class="label">Motivazione</label>*@
+	        <textarea  name="cleditorRespInter" id="cleditorRespInter"  ></textarea>
+        </p>
+        </td>
+        </tr>
+         <tr><td colspan="">&nbsp;</td></tr>
+         <tr>
+        <td width="80%">
+        <p class="button-height">
+        
+        <span class="button-group">
+        @foreach (var priorita in Model.ElencoPrioritaRichiesta)
+        { 
+            <label for="button-radio-sblocco-@priorita.T_Ricpri_id"  class="button @priorita.T_Ricpri_color-active">
+				<input type="radio" name="button-radio-sblocco"  id="@contact("button-radio-sblocco", priorita.T_Ricpri_id)"  
+                    value="@priorita.T_Ricpri_id" @check(priorita.T_Ricpri_codice)/>
+				@Html.DisplayFor(modelItem => priorita.T_Ricpri_desc)
+			</label>
+        }
+        </span>
+        </p>
+        </td>
+        <td width="20%"  class="align-right">
+        <p class="button-height">
+            <a href="#" onclick="saveDataPopUpRispondiIntermedio( @Model.RichiestaCorrente.Richie_id);"  class="button red-gradient glossy">Invia</a>
+        </p>
+        </td> 
+        </tr>
+        </table>
+
+        </fieldset>
+    </div> 
+    </form> 
+</div>
+
+  <script  type ="text/javascript">      loadScriptRef("startPopUpRispondiIntermedio.js");</script>

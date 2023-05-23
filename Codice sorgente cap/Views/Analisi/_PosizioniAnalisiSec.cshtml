@@ -1,0 +1,1242 @@
+﻿@model IZSLER_CAP.Models.AnalisiModel
+@*@{Layout = "~/Views/Shared/_LayoutClear.cshtml";}*@
+@using IZSLER_CAP.Helpers
+@functions 
+{
+    //sim04
+    protected LoadEntities m_le = new LoadEntities();
+    List<MyUdM> ListaUdm = new List<MyUdM>();
+    List<MyFase> ListaFasi = new List<MyFase>();
+
+
+    //sim04
+    public string PopolaUdm()
+    {
+
+        ListaUdm = m_le.GetElencoUDMVisible();
+        return "";
+    }
+
+    //sim04
+    public IEnumerable<SelectListItem> ListaUdMSL(int? UdM_id)
+    {
+        return m_le.ListMyUdMToSLI(ListaUdm, UdM_id, true);
+    }
+
+    //sim04
+    public string PopolaFasi()
+    {
+        ListaFasi = m_le.GetFasiDelAnalisi(Model.Analisi.Analisi_id);
+        return "";
+    }
+
+    //sim04
+    public IEnumerable<SelectListItem> ListaFasiSL(int? Fase_id)
+    {
+        return m_le.ListMyFaseToSLI(ListaFasi, Fase_id, true);
+    }
+
+    private int counterPosSec = 0;
+    public string CounterValueSec()
+    {
+        counterPosSec++;
+        return counterPosSec.ToString();
+    }
+    public string getIntValue(int? val)
+    {
+        if (val.HasValue)
+            return val.Value.ToString();
+        return "0";
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        { return val.Value.ToString().Replace(".", ","); }
+        return "0,00";
+    }
+    public bool IsNotAccettazione(int? Fase_ID)
+    {
+        bool lret = true;
+        if (Fase_ID.HasValue && Fase_ID.Value == 1) lret = false;
+        return lret;
+    }
+    public bool IsEditable()
+    {
+        //if (!Model.Analisi.Analisi_flgBloccato)
+        //Ric#3
+        if (!Model.Analisi.Analisi_flgBloccato && IsAssociato(@Model.Analisi.Analisi_utente_id, Model.Analisi.Analisi_flg_assegn_al_gruppo))
+        {
+            if (Html.IsEditableStato(Model.Analisi))
+                return true;
+            //if (Model.Analisi.Analisi_T_Staval_id == 2 || Model.Analisi.Analisi_T_Staval_id == 7)
+            //  return true;
+
+        }
+        return false;
+    }
+    public string IsEditableString()
+    {
+        if (IsEditable()) return "";
+        return "disabled";
+    }
+    public string GetConversione(double? val)
+    {
+        if (val.HasValue)
+        { return val.Value.ToString(); }
+        return "";
+    }
+
+    //Ric#3
+    public bool IsAssociato(int Utente_id, bool? Analisi_flg_assegn_al_gruppo)
+    {
+        if (Analisi_flg_assegn_al_gruppo == true)
+        {
+            return true;
+        }
+        if (Utente_id == @Html.GetUserID())
+        {
+            return true;
+        }
+        int profilo_id = @Html.GetUserProfileID();
+        if (profilo_id == 3 || profilo_id == 4 || profilo_id == 7)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+}
+
+
+<script type="text/javascript">
+    function Gid(val) {
+        return '#' + val;
+    }
+    function Gid(val, pos) {
+        if (typeof pos === "undefined")
+            return '#' + val;
+
+        return '#' + val + "_" + pos;
+    }
+    function GidS(val) {
+        return '#S' + val;
+    }
+    function GidS(val, pos) {
+        if (typeof pos === "undefined")
+            return '#S' + val;
+        return '#S' + val + "_" + pos;
+    }
+
+    $(document).ready
+    (
+
+
+        function () {
+            $('img[id^="SimgUdM_"]').each(function () {
+
+                var pos = $(this)[0].id.replace("SimgUdM_", "");
+                checkUDMSec(pos);
+            });
+            //    $('#Fase_1').change(function () { alert(1); });
+            /*cambia la Fase*/
+            $('select[id^="SFase_"]').change
+            (
+                function () {
+                    var pos = $(this)[0].id.replace("SFase_", "");
+                    var idDept = $(this).val();
+                    var analisi_idVal = $(Gid('analisi_id')).val();
+                    var AnalisiPos_Analisi_desc = Gid('SAnalisiPos_Analisi_desc', pos);
+                    var val_AnalisiPos_Analisi_desc = $(AnalisiPos_Analisi_desc).text();
+                    var AnalisiPos_Prodotto_Desc = "#SAnalisiPos_Prodotto_Desc_" + pos;
+                    var val_AnalisiPos_Prodotto_Desc = $(AnalisiPos_Prodotto_Desc).text();
+
+                    var AnalisiPos_Macchinario_Desc = '#SAnalisiPos_Macchinario_Desc_' + pos;
+                    var val_AnalisiPos_Macchinario_Desc = $(AnalisiPos_Macchinario_Desc).text();
+
+                    // manca prodotto
+                    var flgPulisciCosto = true;
+                    if ((val_AnalisiPos_Analisi_desc != null && val_AnalisiPos_Analisi_desc != "")
+                        || (val_AnalisiPos_Prodotto_Desc != null && val_AnalisiPos_Prodotto_Desc != "")
+                        || (val_AnalisiPos_Macchinario_Desc != null && val_AnalisiPos_Macchinario_Desc != "")
+                        ) {
+                        flgPulisciCosto = false;
+                    }
+
+
+                    var imgAnalisi = $("#SAnalisiPos_Analisi_img_" + pos);
+                    var imgProdotto = $("#SAnalisiPos_Prodotto_img_" + pos);
+                    var imgMacchinario = $("#SAnalisiPos_Macchinario_img_" + pos);
+
+                    var Fase_Val = '#SFase_' + pos;
+                    var textSelVal = $(Fase_Val + ' :selected').text();
+                    //if (idDept == 1)  // Fase == "Accettazione"
+                    if (textSelVal == "Accettazione") {
+
+                        imgAnalisi.hide();
+                        imgProdotto.hide();
+                        imgMacchinario.hide();
+                        $(AnalisiPos_Analisi_desc).text("");
+                        $(AnalisiPos_Prodotto_Desc).text("");
+                        $(AnalisiPos_Macchinario_Desc).text("");
+                        $.getJSON
+                        (
+                            "/Analisi/GetImportoFaseAccettazione",
+                            { analisi_id: analisi_idVal, Attivi_id: idDept, valpos_id: pos },
+                            function (myData) {
+                                var select = $('#SFigProf_' + pos);
+                                $('#SFigProf_' + pos).find('option').remove().end();
+                                select.empty();
+                                $.each(myData,
+                                           function (index, itemData) {
+                                               var Costo_Unitario = "#SCosto_Unitario_" + pos;
+                                               $(Costo_Unitario).val(itemData.Text);
+                                               updateCostoTotaleSec(pos);
+                                               var emp =
+                                                {
+                                                    TipoSalvataggio: "FaseAccettazione",
+                                                    AnalisiPos_id: pos,
+                                                    AnalisiPos_Fase_id: idDept,
+                                                    AnalisiPos_QuantitaCosto: itemData.Text
+                                                };
+                                               var urlSave = '/Analisi/SaveValPos';
+                                               $.ajax({
+                                                   type: "POST",
+                                                   url: urlSave,
+                                                   data: JSON.stringify(emp),
+                                                   datatype: "JSON",
+                                                   contentType: "application/json; charset=utf-8",
+                                                   success: function (retdata) {
+                                                       if (!retdata.ok) {
+                                                           showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                                                       }
+
+                                                   }
+                                               });
+                                               var SlUDM = "#SUdM_" + pos;
+                                               $(SlUDM).val('25'); // imposto udm a "Numero"
+                                               //$(SlUDM).val('13'); // imposto udm a minuti
+                                               $('#SUdMOLD_' + pos).val($('#SUdM_' + pos).val()); // imposta il nuovo valore del UDM dll nella var UDM_OLD
+                                           }
+                                       );
+                            }
+                         );
+                    }
+                    else // Fase diversa da != Accettazione
+                    {
+                        imgAnalisi.show();
+                        imgProdotto.show();
+                        imgMacchinario.show();
+
+                        $.getJSON
+                    (
+                        "/Analisi/GetElencoFigProfessionaliSec",
+                        { analisi_id: analisi_idVal, Attivi_id: idDept, valpos_id: pos },
+                        function (myData) {
+                            var select = $('#SFigProf_' + pos);
+                            $('#SFigProf_' + pos).find('option').remove().end();
+                            select.empty();
+                            $.each(myData,
+                                        function (index, itemData) {
+                                            select.append($('<option/>',
+                                            { value: itemData.Value, text: itemData.Text }));
+                                        }
+                                    );
+                        }
+                     );
+                    }
+                    var idUDM_ID = 0;
+                    if (
+                        (val_AnalisiPos_Analisi_desc == null || val_AnalisiPos_Analisi_desc == "")
+                        && (val_AnalisiPos_Prodotto_Desc == null || val_AnalisiPos_Prodotto_Desc == "")
+                        && (val_AnalisiPos_Macchinario_Desc == null || val_AnalisiPos_Macchinario_Desc != "")
+                       ) {
+                        var SlUDM = "#SUdM_" + pos;
+                        idUDM_ID = 25;
+                        // idUDM_ID = 13;
+                        $(SlUDM).val('25'); // imposto udm a "Numero"
+                        //$(SlUDM).val('13'); // imposto udm a minuti
+                        $('#SUdMOLD_' + pos).val($('#SUdM_' + pos).val()); // imposta il nuovo valore del UDM dll nella var UDM_OLD
+                    }
+                    var emp =
+                    {
+                        TipoSalvataggio: "Fase",
+                        AnalisiPos_id: pos,
+                        AnalisiPos_Fase_id: idDept,
+                        AnalisiPos_UdM_id: idUDM_ID
+                    };
+                    var urlSave = '/Analisi/SaveValPos';
+                    callAjax(urlSave, emp);
+
+                    if (flgPulisciCosto) {
+                        var Costo_Unitario = "#SCosto_Unitario_" + pos;
+                        //$(Costo_Unitario).text("0,00");
+                        $(Costo_Unitario).val("0,00");
+                        updateCostoTotaleSec(pos); // $(Costo_Unitario).change();
+                        var empClearCosto =
+                        { TipoSalvataggio: "PulisciCosto",
+                            AnalisiPos_id: pos,
+                            AnalisiPos_QuantitaCosto: 0
+                        }
+                        var urlSave = ' /Analisi/SaveValPos';
+                        $.ajax({
+                            type: "POST",
+                            url: urlSave,
+                            data: JSON.stringify(empClearCosto),
+                            datatype: "JSON",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (retdata) {
+                                if (!retdata.ok) {
+                                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                                }
+
+                            }
+                        });
+                    }
+                }
+           );
+            /*cambia il livello*/
+            $('select[id^="SFigProf_"]').change
+            (
+                function () {
+                    var pos = $(this)[0].id.replace("SFigProf_", "");
+                    var tmp_NewVal = $(this).val();
+                    var n = tmp_NewVal.split('|');
+                    var newVal = n[0];
+                    var costo = "0,00";
+                    if (n.length == 2)
+                        costo = n[1];
+                    var analisi_idVal = $('#analisi_id').val();
+
+                    var AnalisiPos_Analisi_desc = '#SAnalisiPos_Analisi_desc_' + pos;
+                    var AnalisiPos_Prodotto_Desc = '#SAnalisiPos_Prodotto_Desc_' + pos;
+                    var AnalisiPos_Prodotto_id = '#AnalisiPos_Prodotto_id_' + pos;
+                    var AnalisiPos_Prodotto_UDM_ID = '#SAnalisiPos_Prodotto_UDM_ID_' + pos;
+
+                    var AnalisiPos_Macchinario_Desc = '#SAnalisiPos_Macchinario_Desc_' + pos;
+
+                    var Costo_Unitario = "#SCosto_Unitario_" + pos;
+                    //$(Costo_Unitario).text(costo);
+                    $(Costo_Unitario).val(costo);
+
+                    $(AnalisiPos_Analisi_desc).text("");
+                    $(AnalisiPos_Prodotto_Desc).text("");
+                    $(AnalisiPos_Prodotto_id).val("");
+                    $(AnalisiPos_Prodotto_UDM_ID).val("");
+                    $(AnalisiPos_Macchinario_Desc).text("");
+
+                    var UdMCoeff = '#SUdMCoeff_' + pos;
+                    var udmRatio = "1";
+                    $(UdMCoeff).val(udmRatio)
+
+
+                    var idUDM_ID = 0;
+                    var SlUDM = "#SUdM_" + pos;
+                    //idUDM_ID = 25;
+                    idUDM_ID = 13;
+                    //$(SlUDM).val('25'); // imposto udm a "Numero"
+                    $(SlUDM).val('13'); // imposto udm a minuti
+
+                    updateCostoTotaleSec(pos); // $(Costo_Unitario).change();
+
+                    var emp =
+                    {
+                        TipoSalvataggio: "Livello",
+                        AnalisiPos_id: pos,
+                        AnalisiPos_FigProf_id: newVal,
+                        AnalisiPos_QuantitaCosto: costo,
+                        AnalisiPos_UdM_id: idUDM_ID
+                    };
+                    var urlSave = ' /Analisi/SaveValPos';
+                    $.ajax({
+                        type: "POST",
+                        url: urlSave,
+                        data: JSON.stringify(emp),
+                        datatype: "JSON",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (retdata) {
+                            if (!retdata.ok) {
+                                showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                            }
+                        }
+                    });
+                }
+            );
+            /*cambia la udm*/
+            $('select[id^="SUdM_"]').change
+            (
+                function () {
+                    var pos = $(this)[0].id.replace("SUdM_", "");
+                    var newVal = $(this).val();
+                    var UdMCoeff = '#SUdMCoeff_' + pos;
+                    var ProdUDM = '#SAnalisiPos_Prodotto_UDM_ID_' + pos;
+                    var valProdUDM = $(ProdUDM).val();
+                    var analisi_idVal = $('#analisi_id').val();
+                    var emp =
+                    {
+                        TipoSalvataggio: "UdM",
+                        AnalisiPos_id: pos,
+                        AnalisiPos_UdM_id: newVal
+                    };
+
+                    if (valProdUDM != "") {
+                        if (valProdUDM == newVal)  // se il prodotto ha udm come quella selezionata
+                        {
+                            $(UdMCoeff).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                        }
+                        else {
+                            $(UdMCoeff).val("");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "clear"
+                            };
+                        }
+                    }
+
+
+                    var AnalisiPos_Analisi_desc = '#SAnalisiPos_Analisi_desc_' + pos;
+
+                    var val_AnalisiPos_Analisi_desc = $(AnalisiPos_Analisi_desc).text();
+                    var AnalisiPos_Prodotto_Desc = "#SAnalisiPos_Prodotto_Desc_" + pos;
+                    var val_AnalisiPos_Prodotto_Desc = $(AnalisiPos_Prodotto_Desc).text();
+
+                    var AnalisiPos_Macchinario_Desc = '#SAnalisiPos_Macchinario_Desc_' + pos;
+                    var val_AnalisiPos_Macchinario_Desc = $(AnalisiPos_Macchinario_Desc).text();
+
+                    val_AnalisiPos_Analisi_desc = $.trim(val_AnalisiPos_Analisi_desc);
+                    val_AnalisiPos_Prodotto_Desc = $.trim(val_AnalisiPos_Prodotto_Desc);
+                    val_AnalisiPos_Macchinario_Desc = $.trim(val_AnalisiPos_Macchinario_Desc);
+                    var idUDM_ID = 0;
+
+
+                    /*recupero variabili*/
+                    var Fase_Val = '#SFase_' + pos;
+                    var Fase_Val_desc = $(Fase_Val).val();
+                    var FigProf_Val = '#SFigProf_' + pos;
+                    var FigProf_Val_desc = $(FigProf_Val).val();
+                    var textSelVal = $(Fase_Val + ' :selected').text();
+                    /*Controllo Accettazione*/
+                    if ((textSelVal == "Accettazione") && (newVal == 25)) {
+                        $('#SUdMCoeff_' + pos).val("1");
+                        emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                    }
+                    if ((textSelVal == "Accettazione") && (newVal != 25)) {
+                        showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                        $('#SUdM_' + pos).val($('#SUdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                        return;
+                    }
+                    /* FINE Controllo Accettazione*/
+
+                    if ((textSelVal != "Accettazione")) {
+                        /* Intermedi Analisi */
+                        if ((val_AnalisiPos_Analisi_desc != null && val_AnalisiPos_Analisi_desc != "") && (newVal != 25)) {
+                            showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                            $('#SUdM_' + pos).val($('#SUdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                            return;
+                        }
+                        if ((val_AnalisiPos_Analisi_desc != null && val_AnalisiPos_Analisi_desc != "") && (newVal == 25)) {
+                            $('#SUdMCoeff_' + pos).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                        }
+                        /* Intermedi Analisi  FINE */
+
+                        /* Macchinari */
+                        if ((val_AnalisiPos_Macchinario_Desc != null && val_AnalisiPos_Macchinario_Desc != "") && (newVal != 13)) 
+                        {
+                            showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                            $('#SUdM_' + pos).val($('#SUdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                            return;
+                        }
+                        if ((val_AnalisiPos_Macchinario_Desc != null && val_AnalisiPos_Macchinario_Desc != "") && (newVal == 13)) 
+                        {
+                            $('#SUdMCoeff_' + pos).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            };
+                        }
+                        /* Macchinari FINE */
+                        /*FigProf*/
+                        if ((FigProf_Val_desc != "0") && (newVal != 13)) 
+                        {
+                            showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                            $('#SUdM_' + pos).val($('#SUdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                            return;
+                        }
+                        if ((FigProf_Val_desc != "0") && (newVal == 13)) 
+                        {
+                            $('#SUdMCoeff_' + pos).val("1");
+                            emp =
+                            {
+                                TipoSalvataggio: "UdM",
+                                AnalisiPos_id: pos,
+                                AnalisiPos_UdM_id: newVal,
+                                AnalisiPos_CoeffConversioneString: "1"
+                            }; 
+                        }
+                        /*FigProf FINE */
+                    }
+                    /* Gestione Solo FASE */
+                    /* Rimossa
+                    if ( 
+                    (val_AnalisiPos_Analisi_desc == null || val_AnalisiPos_Analisi_desc == "")
+                    && (val_AnalisiPos_Prodotto_Desc == null || val_AnalisiPos_Prodotto_Desc == "")
+                    && (val_AnalisiPos_Macchinario_Desc == null || val_AnalisiPos_Macchinario_Desc == "")
+                    ) {
+                    var Fase_Val = '#SFase_' + pos;
+                    var Fase_Val_desc = $(Fase_Val).val();
+                    var FigProf_Val = '#SFigProf_' + pos;
+                    var FigProf_Val_desc = $(FigProf_Val).val();
+                    var textSelVal = $(Fase_Val + ' :selected').text();
+
+                    if ((textSelVal == "Accettazione" || FigProf_Val_desc != "0") && (newVal == 25 )) {
+                    //if ((textSelVal  == "Accettazione" || FigProf_Val_desc != "0") && (newVal == 13 )) {
+                    //if ((Fase_Val_desc == "1" || FigProf_Val_desc != "0") && (newVal == 13  )) {
+                    var lUDM = "#SUdM_" + pos;
+                    var lAnalisiPos_CoeffConversioneString = "1"
+                    if (newVal == 14) // ore
+                    { lAnalisiPos_CoeffConversioneString = "60" } // 1h = 60 min
+                    if (newVal == 12) // Sec
+                    { lAnalisiPos_CoeffConversioneString = "0,01666" } // 1min = 60 sec ==> 1 sec = 0,01666 min
+                    $('#SUdMCoeff_' + pos).val(lAnalisiPos_CoeffConversioneString);
+                    emp =
+                    {
+                    TipoSalvataggio: "UdM",
+                    AnalisiPos_id: pos,
+                    AnalisiPos_UdM_id: newVal,
+                    AnalisiPos_CoeffConversioneString: lAnalisiPos_CoeffConversioneString
+                    };
+                    }
+                    else {
+                    showAlertErrorGeneric('Unità di misura non permessa', 'Attenzione');
+                    $('#SUdM_' + pos).val($('#SUdMOLD_' + pos).val()); // reimposta il vecchio valore del UDM dll
+                    return;
+                    }
+                    } 
+                    */
+                    /*  FINE Gestione Solo FASE */
+
+
+                    var urlSave = '/Analisi/SaveValPos';
+                    $.ajax({
+                        type: "POST",
+                        url: urlSave,
+                        data: JSON.stringify(emp),
+                        datatype: "JSON",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (retdata) {
+                            if (!retdata.ok) {
+                                showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                            }
+                        }
+                    });
+                    //checkUDMSec(pos);
+                    updateCostoTotaleSec(pos);
+                }
+            );
+            /*cambia la descrizione*/
+            $('input[id^="SAnalisiPos_Desc_"]').bind('blur', function () {
+                var pos = $(this)[0].id.replace("SAnalisiPos_Desc_", "");
+
+                var newVal = $(this).val();
+
+                var emp =
+                {
+                    TipoSalvataggio: "Descrizione",
+                    AnalisiPos_id: pos,
+                    AnalisiPos_desc: newVal
+                };
+
+                var urlSave = ' /Analisi/SaveValPos';
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(emp),
+                    datatype: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                    }
+                });
+
+                // alert("pos:" + pos + "<br>Descrizione:" + newVal);
+            }
+            );
+            /*cambia la costoQuantita*/
+            $('input[id^="SCosto_Unitario_"]').bind('change', function () {
+                var pos = $(this)[0].id.replace("SCosto_Unitario_", "");
+
+                var newVal = $(this).val();
+                var Costo_Totale = "#SCosto_Totale_" + pos;
+                $(Costo_Totale).val(newVal);
+
+
+            }
+           );
+            /*cambia la Quantita*/
+            $('input[id^="SAnalisiPos_Quantita_"]').bind('blur', function () {
+                var pos = $(this)[0].id.replace("SAnalisiPos_Quantita_", "");
+
+                //var newVal = $(this).val();
+                //newVal = newVal.replace(".", ",");
+                var lval = $(this).val();
+                var newVal = parseFloat(lval);
+                newVal = newVal.toFixed(5);
+                newVal = newVal.replace(".", ",");
+
+                var emp =
+                {
+                    TipoSalvataggio: "Quantita",
+                    AnalisiPos_id: pos,
+                    AnalisiPos_Quantita: newVal
+                };
+                var Costo_Unitario = "#SCosto_Unitario_" + pos;
+                updateCostoTotaleSec(pos); // $(Costo_Unitario).change();
+                var urlSave = ' /Analisi/SaveValPos';
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(emp),
+                    datatype: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                    }
+                });
+                // alert("pos:" + pos + "<br>Quantita:" + newVal);
+            }
+           );
+
+
+            var anchorsAnalisiS = $('a[id^="SAnalisiPos_Analisi_img_"]');
+
+            $.each(anchorsAnalisiS,
+                        function (index, anchor) {
+                            var value = anchor.id;
+                            var pos = value.replace("SAnalisiPos_Analisi_img_", "");
+                            var valFase = $('#SFase_' + pos).val();
+                            if (valFase == "1") {
+                                anchor.outerHTML = '<a id="SAnalisiPos_Analisi_img_' + pos + '" href="javascript:openRicercaPPIntermAnalisi(\'/Analisi/PPIntermAnalisi/' + pos + '?sec=1\',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px;display:none;"></a>';
+                            }
+
+                        }
+                        );
+
+            var anchorsProdottiS = $('a[id^="SAnalisiPos_Prodotto_img_"]');
+
+            $.each(anchorsProdottiS,
+                        function (index, anchor) {
+                            var value = anchor.id;
+                            var pos = value.replace("SAnalisiPos_Prodotto_img_", "");
+                            var valFase = $('#SFase_' + pos).val();
+                            if (valFase == "1") {
+                                anchor.outerHTML = '<a id="SAnalisiPos_Prodotto_img_' + pos + '" href="javascript:openRicercaPPProdotti(\'/Analisi/PPProdotti/' + pos + '?sec=1\',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px;display:none;"></a>';
+                            }
+
+                        }
+           );
+
+            var anchorsMacchinariS = $('a[id^="SAnalisiPos_Macchinario_img_"]');
+
+            $.each(anchorsMacchinariS,
+                        function (index, anchor) {
+                            var value = anchor.id;
+                            var pos = value.replace("SAnalisiPos_Macchinario_img_", "");
+                            var valFase = $('#SFase_' + pos).val();
+                            if (valFase == "1") {
+                                anchor.outerHTML = '<a id="SAnalisiPos_Macchinario_img_' + pos + '" name="mac_' + pos + '" href="javascript:openRicercaPPMacchinario(\'/Analisi/PPMacchinari/' + pos + '?sec=1\',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px;display:none;"></a>';
+                            }
+
+                        }
+           );
+        }
+
+    );
+    function callAjax(urlSave,emp)
+    {
+        $.ajax
+        (
+            {
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify(emp),
+                datatype: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (retdata) 
+                        {
+                            if (!retdata.ok) { showAlertErrorGeneric(retdata.infopersonali, 'Attenzione'); }
+                        }
+            }
+        );
+    }
+
+    function udmCoeffValOutSec(s) {
+        $(s).removeTooltip();
+    }
+
+    function CstUnitCondOutSec(s) {
+        $(s).removeTooltip();
+    }    
+
+    //Vecchia Funzione
+    function udmCoeffValInSecOld(s, pos_id) {
+        var text = "";
+        var textVal = $('#SUdMCoeff_' + pos_id).val();
+        text = "Coeff. di Conversione:" + textVal;
+        if (textVal == "")
+            text ="Coeff. di Conversione da impostare";
+        //alert(text);
+        $(s).tooltip(text);
+    }
+
+
+
+    //La nuova funzione non deve mostrare la frazione ma la scritta 1 ml = 600 cmq
+    function udmCoeffValInSec(s, pos_id, desc) {
+
+        var visualizza = false;
+        if ($('#SAnalisiPos_Prodotto_id_' + pos_id).val() > 0)
+            visualizza = true;
+
+        if (!visualizza)
+            return;
+
+
+        var text = "";
+
+        var textVal = $('#SUdMCoeff_' + pos_id).val();
+        var descUdm = $('#SUdM_' + pos_id + ' option:selected').text();
+        var descProdotto = $('#SUdMProdotDesc_' + pos_id).val();
+
+        var coeffDB = parseFloat(textVal.replace(",", "."));
+
+        var valoreProdotto = "";
+        var valoreUdmPosizione = "";
+
+        if (coeffDB > 1) //Il valore della udm del prodotto è maggiore rispetto a quella della UDM della posizione
+        {
+            valoreProdotto = coeffDB;
+            valoreUdmPosizione = 1;
+        }
+        else {
+            valoreProdotto = 1;
+            valoreUdmPosizione = 1 / coeffDB;
+        }
+
+        text = valoreProdotto + " " + descProdotto + " = " + valoreUdmPosizione + " " + descUdm;
+
+        if (textVal == "")
+            text = "Coeff. di Conversione da impostare";
+        //alert(text);
+        $(s).tooltip(text);
+
+        //alert($('#UdMProdotDesc_' + pos_id).val());
+    }
+
+    function CstUnitCondInSec(s, pos_id) {
+
+        var textVal = $('#SUdMCoeff_' + pos_id).val();
+        var coeffDB = parseFloat(textVal.replace(",", "."));
+
+        var visualizza = false;
+        if ($('#SAnalisiPos_Prodotto_id_' + pos_id).val() > 0 && coeffDB != 1)
+            visualizza = true;
+
+        if (!visualizza)
+            return;
+
+        var text = "";
+
+
+
+        var textCst = $('#SCosto_Unitario_' + pos_id).val();
+
+        var descUdm = $('#SUdM_' + pos_id + ' option:selected').text();
+
+
+        var costo_unitario = parseFloat(textCst.replace(",", "."));
+
+        var valoreCstUnitCond = "";
+
+        valoreCstUnitCond = roundNumber(coeffDB * costo_unitario,7);
+
+        text = "il costo unitario per " + descUdm + " é " + valoreCstUnitCond.toString().replace(".", ",");
+
+        $(s).tooltip(text);
+
+    }
+
+
+    function posDescOutSec(s) {
+        $(s).removeTooltip();
+    }
+
+    function posDescInSec(s, pos_id) {
+        var text = "";
+        var textVal = $('#SAnalisiPos_Desc_' + pos_id).val();
+        text = textVal;
+        $(s).tooltip(text);
+
+    }
+    function checkUDMSec(posid) {
+        /*cambia il prodotto_UDM*/
+        var ProdUDM = '#SAnalisiPos_Prodotto_UDM_ID_' + posid;
+        var UdMCoeff = '#SUdMCoeff_' + posid;
+        var img = '#SimgUdM_' + posid;
+        var aUdM = '#SaUdM_' + posid;
+        var UdM = '#SUdM_' + posid;
+        var onm = '#onm_' + posid;
+        var cstun = '#cstun_' + posid;
+        var valProdUDM = $(ProdUDM).val();
+        var valUdM = $(UdM).val();
+        var valUdMCoeff = $(UdMCoeff).val();
+        // se il coeff di conversione e' settatoa sono ok
+
+        if (valUdMCoeff == "1" || valUdMCoeff == "") {
+            $(onm).hide();
+            $(cstun).hide();
+        }
+
+        if (valUdMCoeff != "1" && valUdMCoeff != "") {
+            $(onm).show();
+            $(cstun).show();
+        }
+        
+        if (valUdMCoeff != "") 
+        {
+            $(img).hide();
+            $(aUdM).hide();
+            return; 
+        }
+
+
+
+        if (valProdUDM == "" || valProdUDM == valUdM)
+        { $(img).hide(); $(aUdM).hide(); return; }
+
+        if (valProdUDM != valUdM)
+        { $(img).show(); $(aUdM).show(); }
+    }
+    function updateCostoTotaleSec(posid) {
+        checkUDMSec(posid);
+        var Costo_Unitario = "#SCosto_Unitario_" + posid;
+        var Costo_Totale = "#SCosto_Totale_" + posid;
+        var AnalisiPos_Quantita = "#SAnalisiPos_Quantita_" + posid;
+        var val_CU = $(Costo_Unitario).val();
+        var val_QTA = $(AnalisiPos_Quantita).val();
+        val_CU = parseFloat(val_CU.replace(',', '.'));
+        val_QTA = parseFloat(val_QTA.replace(',', '.'));
+
+        $('#SUdMOLD_' + posid).val($('#SUdM_' + posid).val()); // imposta il nuovo valore del UDM dll nella var UDM_OLD
+
+        var UdMCoeff = '#SUdMCoeff_' + posid;
+        var UdMCoeffVal = $(UdMCoeff).val();
+        if (UdMCoeffVal == "") 
+        {
+            UdMCoeffVal = "0"
+        }
+        UdMCoeffVal = parseFloat(UdMCoeffVal.replace(',', '.'));
+       
+
+        var val_Tot = 0;
+        val_Tot = roundNumber(val_CU, 5) * roundNumber(val_QTA, 5) * UdMCoeffVal;
+        val_Tot = roundNumber(val_Tot, 5);
+
+        var strTot = "";
+        strTot = val_Tot.toFixed(5).toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $(Costo_Totale).val(strTot);
+
+        calcolaTotaleCorrente();
+    }
+    function roundNumber(num, dec) {
+        var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+        return result;
+    }
+    /*Nuova posizione*/
+    function SNuovaPosizione(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var emp =
+        { AnalisiPos_MasterAnalisi_id: an_id ,AnalisiPos_Secondaria:true};
+
+        var urlSave = '/Analisi/AddNewValPos';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify(emp),
+            datatype: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (retdata) {
+                if (!retdata.ok) {
+                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                }
+                else {
+                    //location.href = "/Analisi/AnalisiEdit/" + an_id;
+
+                    window.location.hash = 'posS';
+                    location.reload(true);
+                    
+                }
+            }
+        });
+    }
+    /*Cancella tutte le posizioni*/
+    function SSvuotaPosizioni(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var emp =
+        { AnalisiPos_MasterAnalisi_id: an_id, AnalisiPos_Secondaria: true };
+        var urlSave = '/Analisi/DeleteAllPos';
+        var conf = $.modal.confirm;
+        conf('Eliminare tutte le posizioni ?',
+                function () {
+                        $.ajax({
+                            type: "POST",
+                            url: urlSave,
+                            data: JSON.stringify(emp),
+                            datatype: "JSON",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (retdata) {
+                                if (!retdata.ok) {
+                                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                                }
+                                else {
+                                    location.href = "/Analisi/AnalisiEdit/" + an_id;
+                                }
+                            }
+                        });
+                    },
+        function () { }
+         );
+    }
+    /*Cancella le posizioni  selezionate*/
+    function SCancellaPosizioni(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var checked = [];
+        $("input[name='SmulticheckSelect']:checked").each(function () {
+            checked.push(parseInt($(this).val()));
+        });
+        var urlSave = '/Analisi/DeleteSinglePos';
+
+        var parms = { AnalisiPosIds: checked };
+        if (checked.length == 0) 
+        {
+            showAlertErrorGeneric('Selezionare almeno una posizione.', 'Attenzione');
+            return;
+        }
+        var conf = $.modal.confirm;
+        conf('Eliminare le posizioni selezionate ?',
+        function () {
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(parms),
+                    datatype: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                        else {
+                            location.href = "/Analisi/AnalisiEdit/" + an_id;
+                        }
+                    }
+                });
+            },
+         function () { }
+         );
+    }
+    /*Clona le posizioni selezionate*/
+    function SCopiaPosizione(ana_id) {
+        var an_id = 0;
+        an_id = ana_id;
+        var checked = [];
+        $("input[name='SmulticheckSelect']:checked").each(function () {
+            checked.push(parseInt($(this).val()));
+        });
+        var urlSave = ' /Analisi/ClonaPosizione';
+
+        var parms = { AnalisiPosIds: checked };
+
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify(parms),
+            datatype: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (retdata) {
+                if (!retdata.ok) {
+                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                }
+                else {
+                    location.href = "/Analisi/AnalisiEdit/" + an_id;
+                }
+            }
+        });
+    }
+</script>
+@PopolaUdm()
+@PopolaFasi()
+ <p >
+ @if (@IsEditable() && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+ {
+    <a href="javascript:SNuovaPosizione(@Model.Analisi.Analisi_id);" title="Nuova posizione" class="button icon-plus-round green-gradient glossy">Nuova posizione</a>
+    <a href="javascript:SCopiaPosizione(@Model.Analisi.Analisi_id);" title="Copia posizione" class="button icon-plus-round green-gradient glossy">Copia posizione</a>
+    <a href="javascript:SCancellaPosizioni(@Model.Analisi.Analisi_id);" title="Cancella posizione" class="button icon-plus-round red-gradient glossy">Cancella posizione</a>
+    <a href="javascript:SSvuotaPosizioni(@Model.Analisi.Analisi_id);" title="Elimina tutto" class="button icon-plus-round red-gradient glossy">Elimina tutto</a>
+    <a href="javascript:openRicercaPPCopiaModello('/Analisi/PPCopiaModelloAnalisi/@Model.Analisi.Analisi_id?sec=1&p=0')" title="Crea da modello" class="button icon-plus-round orange-gradient glossy">Crea da modello</a>
+ }
+ </p>
+<p class="button-height">
+    @if (1 == 10)
+    {<a href="#" title="Copia da valorizzazione" class="button icon-plus-round green-gradient glossy">Copia da valorizzazione</a>}
+    @if (1 == 0)
+    {<a href="#" title="Crea da modello" class="button icon-plus-round green-gradient glossy">Crea da modello</a>}
+</p>
+<div style="clear">
+   
+    
+   <table class="table responsive-table" id="idTable">
+        <thead>
+            <tr>
+                <th scope="col" width="10px" class="align-center">&nbsp;</th>
+                <th scope="col" width="10%" class="align-center">Fase</th>
+                <th scope="col" width="13%" class="align-center">Analisi /<br />Intermedio</th>
+                <th scope="col" width="13%" class="align-center ">Prodotto</th>
+                <th scope="col" width="12%" class="align-center ">Apparecchiatura dedicata</th>
+		        <th scope="col" width="13%" class="align-center ">Fig.<br />professionale</th>
+                <th scope="col" width="11%" class="align-center ">Descrizione</th>
+                <th scope="col" width="10%" class="align-center ">Unit&agrave; di Misura</th>
+                <th scope="col" width="6%" class="align-center ">Quantità</th>
+                <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Unitario</th>
+                <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Posizione</th>
+                
+            </tr>
+        </thead>
+        <tfoot>
+		    <tr>
+			    <td colspan="11">
+				    @Model.ElencoAnalisiPosSec.Count().ToString() Elementi presenti
+			    </td>
+		    </tr>
+	    </tfoot>
+        <tbody>
+            @foreach (MyAnalisiPos map in Model.ElencoAnalisiPosSec)
+            { 
+                <tr>
+                    <td >
+                    <table>
+                        <tr><td align="center">@CounterValueSec()</td></tr>  
+                        <tr><td align="center"><input type="checkbox" name="SmulticheckSelect"   value="@map.AnalisiPos_id" @IsEditableString()/></td></tr>  
+                    </table>
+                    </td>
+                    <td class="align-center" >@* Fase *@
+                     @if (@IsEditable())
+                     {  @*@Html.DropDownList("Fase", map.AnalisiPos_ListaFasiSL, null, new { style = "width:120px", id = "SFase_" + @map.AnalisiPos_id.ToString() })*@
+                       @Html.DropDownList("Fase", ListaFasiSL(map.AnalisiPos_Fase_id), null, new { style = "width:120px", id = "SFase_" + @map.AnalisiPos_id.ToString() })
+                     }
+                     else
+                     { @* @Html.DropDownList("Fase", map.AnalisiPos_ListaFasiSL, null, new { style = "width:120px", id = "SFase_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })*@
+                       @Html.DropDownList("Fase", ListaFasiSL(map.AnalisiPos_Fase_id), null, new { style = "width:120px", id = "SFase_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })
+                     }
+                    </td>
+                    <td class="align-center" > @* AnalisiIntermedio *@
+                        <table >
+                            <tr style ="100%" >
+                                <td width="90%" rowspan="2"><span>
+                                    @*<label id="@contact("SAnalisiPos_Analisi_desc", @map.AnalisiPos_id)" ><span >@map.AnalisiPos_Analisi_Desc </span></label> *@
+
+                                    <label ><a href="javascript:openAnalisiDettRO('/Analisi/PPIntermAnalisiDettRO/@map.AnalisiPos_id')" id="SclosePopUpAnalisi" ><span id="@contact("SAnalisiPos_Analisi_desc", @map.AnalisiPos_id)" >@map.AnalisiPos_Analisi_Desc</span></a> </label> 
+                                    <input type="hidden" id="@contact("SAnalisiPos_Analisi_id", @map.AnalisiPos_id)" value="@map.AnalisiPos_Analisi_id"/></span></td>
+                                <td width="10%">
+                                @if (@IsEditable())
+                                {
+                                    <a id="@contact("SAnalisiPos_Analisi_img", @map.AnalisiPos_id)"  href="javascript:openRicercaPPIntermAnalisi('/Analisi/PPIntermAnalisi/@map.AnalisiPos_id?sec=1',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>
+                                }
+                                </td>
+                            </tr> 
+                            <tr>
+                                @if (@IsEditable())
+                                {
+                                    <td><a href="javascript:void(0);" id="@contact("SclearPPInterAnalisi", @map.AnalisiPos_id)" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="clearDataPPAnalisi(@map.AnalisiPos_id,true);" ></a></td>
+                                }
+                            </tr>
+                          @*  <tr>
+                                <td><a href="javascript:openAnalisiDettRO('/Analisi/PPIntermAnalisiDettRO/@map.AnalisiPos_id')" id="SclosePopUpAnalisi" class="button"  style="background-image:url(../../Content/img/fineFiles/16/text.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Dettaglio" ></a></td>
+                            </tr>*@
+                        </table>
+                    </td> 
+                    <td class="align-center" > @* Prodotto *@
+                        <table >
+                            <tr style ="width :100%" >
+                                <td width="90%" rowspan="2"><span>
+                                    <label ><a href="javascript:openAnalisiDettRO('/Analisi/PPProdottiDettRO/@map.AnalisiPos_id')" id="SclosePopUpProdotti" title="Dettaglio" ><span id="@contact("SAnalisiPos_Prodotto_Desc", @map.AnalisiPos_id)" >@map.AnalisiPos_Prodotto_Desc  </span></a></label> 
+                                    <input type="hidden" id="@contact("SAnalisiPos_Prodotto_id", @map.AnalisiPos_id)" value="@map.AnalisiPos_Prodotto_id"/>
+                                    <input type="hidden" id="@contact("SAnalisiPos_Prodotto_UDM_ID", @map.AnalisiPos_id)" value="@map.AnalisiPos_Prodotto_UDM_id"/>
+                                    </span></td>
+
+                                <td width="10%">
+                                    @if (@IsEditable())
+                                    {
+                                        <a id="@contact("SAnalisiPos_Prodotto_img", @map.AnalisiPos_id)"  href="javascript:openRicercaPPProdotti('/Analisi/PPProdotti/@map.AnalisiPos_id?sec=1',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>
+                                    }
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td>
+                                    @if (@IsEditable())
+                                    {
+                                        <a href="javascript:void(0);" id="@contact("SclearPPProdotti", @map.AnalisiPos_id)" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="clearDataPopUpProdotti(@map.AnalisiPos_id,true);" ></a>
+                                    }
+                                 </td>
+                            </tr>
+                            @* <tr>
+                                <td><a href="javascript:openAnalisiDettRO('/Analisi/PPProdottiDettRO/@map.AnalisiPos_id')" id="SclosePopUpProdotti" class="button"  style="background-image:url(../../Content/img/fineFiles/16/text.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Dettaglio" ></a></td>
+                            </tr>*@
+                        </table>
+                    </td>
+                    <td class="align-center" > @* Macchinario *@
+                      <table >
+                            <tr style ="width :100%" >
+                                <td width="90%" rowspan="2"><span>
+                                    <label ><a href="javascript:openAnalisiDettRO('/Analisi/PPMacchinarioDettRO/@map.AnalisiPos_id')"     title="Dettaglio" ><span id="@contact("SAnalisiPos_Macchinario_Desc", @map.AnalisiPos_id)" >@map.AnalisiPos_Macchinario_Desc </span></a></label> 
+                                    <input type="hidden" id="@contact("SAnalisiPos_Macchinario_id", @map.AnalisiPos_id)" value="@map.AnalisiPos_Macchinario_id"/>
+                                    </span></td>
+                                <td width="10%">
+                                    @if (@IsEditable())
+                                    {<a id="@contact("SAnalisiPos_Macchinario_img", @map.AnalisiPos_id)"  href="javascript:openRicercaPPMacchinario('/Analisi/PPMacchinari/@map.AnalisiPos_id?sec=1',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>}
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td>@if (@IsEditable())
+                                    {<a href="javascript:void(0);" id="@contact("clearPPMacchinario", @map.AnalisiPos_id)" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;float:right;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="clearDataPopUpMacchinario(@map.AnalisiPos_id,true);" ></a>}</td>
+                            </tr>
+                            </table> 
+                    </td> 
+                    <td class="align-center" >@* Livello *@
+                    @if (@IsEditable())
+                    {
+                        @Html.DropDownList("Livello", map.AnalisiPos_ListaFigProfSL, null, new { style = "width:100px", id = "SFigProf_" + @map.AnalisiPos_id.ToString() })
+                    }
+                    else
+                    {
+                        @Html.DropDownList("Livello", map.AnalisiPos_ListaFigProfSL, null, new { style = "width:100px", id = "SFigProf_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })
+                    }
+                    </td>
+                    <td class="align-center">
+                     @if (@IsEditable())
+                     {
+                        @Html.TextBox("Descrizione", map.AnalisiPos_desc, new { Class = "input", id = "SAnalisiPos_Desc_" + @map.AnalisiPos_id.ToString(), Style = "width:100px", @onmouseover = "posDescInSec(this," + @map.AnalisiPos_id + ");", @onmouseout = "posDescOutSec(this);" })
+                     }
+                     else
+                     { 
+                        @Html.TextBox("Descrizione", map.AnalisiPos_desc, new { Class = "input", id = "SAnalisiPos_Desc_" + @map.AnalisiPos_id.ToString(), Style = "width:100px", disabled = "disabled", @onmouseover = "posDescInSec(this," + @map.AnalisiPos_id + ");", @onmouseout = "posDescOutSec(this);" })
+                     }
+                    </td>
+                    <td class="align-center" >@* UdM *@
+                        <input type="hidden" id=@contact("SUdMOLD", @map.AnalisiPos_id) value="@getIntValue(map.AnalisiPos_UdM_id)"  />
+                    @if (@IsEditable())
+                    {
+                         <div id=@contact("onm", @map.AnalisiPos_id) name="onm" onmouseover = "udmCoeffValInSec(this,@map.AnalisiPos_id,'@map.AnalisiPos_Prodotto_UDM_Desc');" onmouseout = "udmCoeffValOut(this);" style ="width: 50px;height: 10px; display:block;float:right;padding-right:0px;padding-left:0px;text-align:right">
+                         * 
+                         </div>
+                        <img id=@contact("SimgUdM", @map.AnalisiPos_id) alt="Errore" src="../../Content/img/fineFiles/16/required_field.gif" style ="width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px"/>
+                        @*@Html.DropDownList("UdM", map.AnalisiPos_ListaUdMSL, null, new { style = "width:50px", id = "SUdM_" + @map.AnalisiPos_id.ToString(), @onmouseover = "udmCoeffValInSec(this," + @map.AnalisiPos_id + ",'" + @map.AnalisiPos_Prodotto_UDM_Desc + "');", @onmouseout = "udmCoeffValOutSec(this);" })*@
+                        @Html.DropDownList("UdM", ListaUdMSL(map.AnalisiPos_UdM_id), null, new { style = "width:50px", id = "SUdM_" + @map.AnalisiPos_id.ToString(), @onmouseover = "udmCoeffValInSec(this," + @map.AnalisiPos_id + ",'" + @map.AnalisiPos_Prodotto_UDM_Desc + "');", @onmouseout = "udmCoeffValOutSec(this);" })
+                        <a id=@contact("SaUdM", @map.AnalisiPos_id) href="javascript:openPPUDM('/Analisi/PPUdMConversione/@map.AnalisiPos_id?sec=1',this)" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;float:right;padding-right:0px;padding-left:0px" ></a>
+                        <input type="hidden" id=@contact("SUdMCoeff", @map.AnalisiPos_id) value="@GetConversione(@map.AnalisiPos_CoeffConversione)" />
+                        <input type="hidden" id=@contact("SUdMProdotDesc", @map.AnalisiPos_id) value="@map.AnalisiPos_Prodotto_UDM_Desc" />
+                    }
+                    else
+                    { 
+                        @*@Html.DropDownList("UdM", map.AnalisiPos_ListaUdMSL, null, new { style = "width:50px", id = "SUdM_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })*@
+                       <div>
+                       @if (@map.AnalisiPos_CoeffConversione != 1)
+                       {
+                       <div id=@contact("onm", @map.AnalisiPos_id) name="onm" onmouseover = "udmCoeffValInSec(this,@map.AnalisiPos_id,'@map.AnalisiPos_Prodotto_UDM_Desc');" onmouseout = "udmCoeffValOut(this);" style ="width: 50px;height: 10px; display:block;float:right;padding-right:0px;padding-left:0px;text-align:right">
+                       * 
+                       </div>
+                       }
+                        @Html.DropDownList("UdM", ListaUdMSL(map.AnalisiPos_UdM_id), null, new { style = "width:50px", id = "SUdM_" + @map.AnalisiPos_id.ToString(), disabled = "disabled" })
+                        </div>
+                        <input type="hidden" id=@contact("SUdMCoeff", @map.AnalisiPos_id) value="@GetConversione(@map.AnalisiPos_CoeffConversione)" />
+                        <input type="hidden" id=@contact("SUdMProdotDesc", @map.AnalisiPos_id) value="@map.AnalisiPos_Prodotto_UDM_Desc" />
+                       
+                    }
+                    </td>
+                    <td class="align-center">
+                        <span class="number input">
+                        @*<button type="button" class="button number-down"  @IsEditableString()>-</button>*@
+                        <input type="text" name="special-input-2" id=@contact("SAnalisiPos_Quantita", @map.AnalisiPos_id)  class="input-unstyled" style="width:50px" value="@map.AnalisiPos_Quantita.ToString()"  data-number-options='{"min":0,"increment":1,"precision":0.00001}'  @IsEditableString()/>
+				        @*<button type="button" class="button number-up" @IsEditableString()>+</button>*@
+				        </span>
+                    </td>
+                     <td class="align-center">
+                     @if (@IsEditable())
+                     {
+                       <div id=@contact("cstun", @map.AnalisiPos_id) name="cstun" onmouseover= "CstUnitCondInSec(this, @map.AnalisiPos_id)" onmouseout = "CstUnitCondOutSec(this);" style ="width: 45px;height: 10px; display:block;float:right;padding-right:0px;padding-left:0px;text-align:right">
+                       *
+                       </div>
+                     }
+                     else
+                     {
+                         if (@map.AnalisiPos_CoeffConversione != 1)
+                         {
+                         <div id=@contact("cstun", @map.AnalisiPos_id) name="cstun" onmouseover= "CstUnitCondInSec(this, @map.AnalisiPos_id)" onmouseout = "CstUnitCondOutSec(this);" style ="width: 45px;height: 10px; display:block;float:right;padding-right:0px;padding-left:0px;text-align:right">
+                       *
+                       </div>
+                         }
+                     }
+                            <input type="text" name=@contact("SCosto_Unitario", @map.AnalisiPos_id) id="@contact("SCosto_Unitario", @map.AnalisiPos_id)" class="input" value="@SetImporto(map.AnalisiPos_QuantitaCosto)" disabled=""  style ="width:45px;text-align :right;"/>
+                     </td> 
+                     <td class="align-center">
+                        <input type="text" name=@contact("SCosto_Totale", @map.AnalisiPos_id) id="@contact("SCosto_Totale", @map.AnalisiPos_id)" class="input" value="@SetImporto(map.AnalisiPos_TotCosto)" disabled=""  style ="width:50px;text-align :right;" />
+                      </td> 
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+
+</div>
+
+   

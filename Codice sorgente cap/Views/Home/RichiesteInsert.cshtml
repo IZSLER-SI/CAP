@@ -1,0 +1,219 @@
+﻿@model IZSLER_CAP.Models.RichiestaModel
+@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+}
+
+@using IZSLER_CAP.Helpers
+
+@functions 
+{
+    public string isDisabled(bool disable)
+    {
+        if (disable)
+            return "disabled";
+        return "";
+    }
+
+    public string check (string cod)
+    {
+        if (cod == "NORMAL") { return "checked"; } else { return ""; }
+    }
+
+        
+}
+
+<hgroup id="main-title" class="thin">
+<h1>@ViewBag.Message</h1>
+<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+		</hgroup>
+
+    @*<section> *@
+		<div class="with-padding">
+
+			<form method="post" action="" class="columns" >@*onsubmit="return false">*@
+                
+				<div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+                <input type="hidden" id="tipoOggetto" value="@Model.TipoOggetto" />
+					<h3 class="thin underline">Dati della richiesta</h3>
+                    
+                    <p class="button-height">
+                    @*{<a href="javascript:openConfirm();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}*@
+                            
+                            
+                            @if (@Html.IsVisible(CARichieste.BT_RICH_SALVA))
+                            {
+                                <a href="javascript:saveRichiesta();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")
+                                
+                            }
+                            @if (@Html.IsVisible(CARichieste.BT_RICH_INV) && @Model.TipoOggetto==TipoOggettoRichiesta.Intermedio.ToString())
+                            {
+                                <a href="javascript:InviaRichiesta();" class="button green-gradient glossy">Invia</a>@Html.Raw("&nbsp;")
+                                
+                            }
+                         @*   @if (@Html.IsVisible(CARichieste.BT_RICH_CANCELLA) && !@Model.IsVisibleProdotto )
+                            {<a href="javascript:openConfirm();" class="button red-gradient glossy">Cancella</a>@Html.Raw("&nbsp;")}
+                            @if (@Html.IsVisible(CARichieste.BT_RICH_INV_VAL) && !@Model.IsVisibleProdotto)
+                            {<a href="javascript:openConfirm();" class="button green-gradient glossy">Invia a Validatore</a>@Html.Raw("&nbsp;")}
+                            @if (@Html.IsVisible(CARichieste.BT_RICH_INV_CDG) && !@Model.IsVisibleProdotto)
+                            {<a href="javascript:openConfirm();" class="button green-gradient glossy">Invia al CDG</a>@Html.Raw("&nbsp;")}
+                            @if (@Html.IsVisible(CARichieste.BT_RICH_REGDEL) && !@Model.IsVisibleProdotto)
+                            {<a href="javascript:openConfirm();" class="button green-gradient glossy">Registra delibera</a>@Html.Raw("&nbsp;")}
+                            @if (@Html.IsVisible(CARichieste.BT_RICH_WORKFLOW) && !@Model.IsVisibleProdotto)
+                            {<a href="javascript:openConfirm();" class="button orange-gradient glossy">Visualizza workflow</a>}*@
+                                
+                            @if (Model.TipoOggetto == TipoOggettoRichiesta.Intermedio.ToString())
+                            {
+                                <a href="/Content/Help/Manuale utente CAP.htm#Inserimento intermedio" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                            }
+                            else
+                            {
+                                if (Model.TipoOggetto == TipoOggettoRichiesta.Prodotto.ToString())
+                                {
+                                   <a href="/Content/Help/Manuale utente CAP.htm#Inserimento della valorizzazione - Prodotto" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                                }
+                                else
+                                {
+                                   <a href="/Content/Help/Manuale utente CAP.htm#Inserimento della valorizzazione – Analisi" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                                }
+                            }
+
+                    </p>
+
+					<fieldset class="fieldset">
+						<legend class="legend">Testata</legend>
+                       <input style ="visibility:hidden" id="rc_id" value=""></input>
+                       
+             
+                       <input  style ="visibility:hidden" id="richiedente_utente_id" class="" value="@Html.GetUserID()" />
+						
+                       <p class="button-height inline-label">
+						     <label for="input-2" class="label">Destinatario</label>
+                               @if (!@Model.IsRichiestaDiSblocco)
+                               {
+						    <input  disabled type="text" name="input-2" id="ric_utente_desc" class="input" value=""  style="float:left;"/>
+                            <a href="javascript:openRicercaUtenti('/Home/PopUpIndirizziUtenti')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>
+                                   @Html.Raw("&nbsp;")<a href="javascript:void(0);" id="closepopup" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearData();" ></a>
+                               }
+                               else
+                               { 
+                                <input  disabled type="text" name="input-2" id="ric_utente_desc" class="input" value="@Model.destinatatio_nome"  style="float:left;"/>
+                               
+                               }
+                            <input type ="hidden" id="ric_utente_id" value="@Model.destinatatio_id" />
+                       </p>
+
+                       @* Aggiungo la gestione del Flag assegna a gruppo Ric#3*@
+                        @if (@Model.TipoOggetto != TipoOggettoRichiesta.Intermedio.ToString())
+                        {
+                            <p class="button-height inline-label">
+                                <label for="input-2" class="label">Assegna a gruppo</label>
+                                <input  @isDisabled(@Model.IsReadOnly) type="checkbox" name="Ric_flag_assegna_gruppo" id="Ric_flag_assegna_gruppo" value="" />
+                            </p> 
+
+                        }
+
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Oggetto</label>
+							<input  @isDisabled(@Model.IsReadOnly) type="text" name="input-2" id="ric_titolo" class="input full-width" value="" />
+						</p>
+
+
+
+                        @if (@Model.IsVisibleProdotto)
+                        {
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Prodotto</label>
+							<input type="text" name="input-2" id="ric_prodot_desc" class="input" value="@Model.chiave_desc" disabled style="float:left;" />
+                             @if (!@Model.IsRichiestaDiSblocco)
+                             {
+                              <a href="javascript:openRicercaProdotto('/Prodotto/PopUpProdotto')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>
+                                         @Html.Raw("&nbsp;")<a href="javascript:void(0);" id="closePopUpProdotto" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearDataPopUpProdotto();" ></a>
+                             }
+                             <input type ="hidden" id="ric_prodot_id"  value=@Model.Chiave  /> 
+						</p>
+                        }
+                        else
+                        {
+                            if (@Model.TipoOggetto != TipoOggettoRichiesta.Intermedio.ToString())
+                            {
+                                <p class="button-height inline-label">
+							        <label for="input-2" class="label">Chiave</label>
+
+							        @*<input type="text" name="input-2" id="ric_chiave" class="input" value="" @isDisabled(@Model.IsReadOnly) />*@
+                             
+                                    <input  disabled type="text" name="input-2" id="ric_valid_desc" class="input" value="@Model.chiave_desc"  style="float:left;"/>   
+                                     @if (!@Model.IsRichiestaDiSblocco)
+                                     {
+                                        <a href="javascript:openRicercaAnalisi('/Analisi/PopUpAnalisi')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>
+                                         @Html.Raw("&nbsp;")<a href="javascript:void(0);" id="closePopUpAnalisi" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearDataPopUpAnalisi();" ></a>
+                                 
+                                
+                                     }
+
+                            
+                                    <input type ="hidden" id="ric_valid_id"  value=@Model.Chiave /> 
+
+						        </p>
+                            }
+                        }
+
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Stato</label>
+							<input disabled type="text" name="input-2" id="ric_stato" class="input" value="" @isDisabled(@Model.IsReadOnly) />
+                            @*<select class="select" disabled>
+						    <option value="1" selected="selected">Inserita</option>
+							<option value="2">In validazione</option>
+							<option value="3">Al CDG</option>
+							<option value="4">Deliberata</option>
+						    </select>*@
+						</p>
+                        
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Descrizione</label>
+							<textarea  name="cleditor" id="cleditor"  ></textarea>
+						</p>
+
+					</fieldset>
+
+@*                    <fieldset class="fieldset">
+						<legend class="legend">Metodo di prova</legend>
+                        <label for="input-2" class="label">File</label>
+							<input type="file" name="input-2" id="Text1" class="input" value="" />
+                    </fieldset>*@
+
+					<fieldset class="fieldset">
+						<legend class="legend">Priorit&agrave;</legend>
+						<p class="button-height inline-label">
+							<span class="label">Priorit&agrave;</span>
+                            <span class="button-group">
+                            @foreach (var priorita in Model.ElencoPrioritaRichiesta)
+                            {
+                            	<label for="button-radio-@priorita.T_Ricpri_id"  class="button @priorita.T_Ricpri_color-active">
+									<input type="radio" name="button-radio"  id="button-radio-@priorita.T_Ricpri_id"  
+                                     value="@priorita.T_Ricpri_id"  @check(priorita.T_Ricpri_codice)/>
+									@Html.DisplayFor(modelItem => priorita.T_Ricpri_desc)
+								</label>
+                            }
+                            </span>
+						</p>
+
+					</fieldset>
+
+				</div>
+
+
+			</form>
+
+		</div>
+
+	@*</section>*@
+	<!-- End main content -->
+
+ <script  type ="text/javascript">loadScriptRef("startPopUpProdotto.js");</script>
+ <script  type ="text/javascript">loadScriptRef("startPopUpAnalisi.js");</script>
+ <script  type ="text/javascript">loadScriptRef("startPopup.js");</script>
+<script type ="text/javascript">loadScriptRef("startRichiesteEdit.js");</script>
+<script type ="text/javascript">loadScriptRef("startRichiesteEditClEditorEnable.js");</script>
+
+
+

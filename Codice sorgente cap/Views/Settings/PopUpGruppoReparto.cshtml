@@ -1,0 +1,26 @@
+﻿@model IZSLER_CAP.Models.GruppiModel
+@{ ViewBag.Title = "Gruppi";  
+   Layout = "~/Views/Shared/_LayoutClear.cshtml";}
+
+
+
+    <script type="text/javascript">
+        function callAjax_GR(urlSave, emp) {
+            $.ajax
+        (
+            {
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify(emp),
+                datatype: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (retdata) {
+                    $("#myGridGrurep").html(retdata.partial);
+                }
+            }
+        );
+        }
+    </script>
+  <div class="with-padding">
+  @Html.Partial("_PopUpGruppoReparto")
+</div> 

@@ -1,0 +1,32 @@
+D:\Progetti10\MVC3\IZSLER_CAP\bin\IZSLER_CAP.dll
+D:\Progetti10\MVC3\IZSLER_CAP\bin\IZSLER_CAP.pdb
+D:\Progetti10\MVC3\IZSLER_CAP\bin\System.Web.Helpers.dll
+D:\Progetti10\MVC3\IZSLER_CAP\bin\System.Web.Mvc.dll
+D:\Progetti10\MVC3\IZSLER_CAP\bin\System.Web.WebPages.dll
+D:\Progetti10\MVC3\IZSLER_CAP\obj\Debug\IZSLER_CAP.dll
+D:\Progetti10\MVC3\IZSLER_CAP\obj\Debug\IZSLER_CAP.pdb
+D:\Progetti10\MVC3\IZSLER_CAP\obj\Debug\IZSLER_CAP.csprojResolveAssemblyReference.cache
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\bin\IZSLER_CAP.dll
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\bin\IZSLER_CAP.pdb
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\bin\System.Web.Helpers.dll
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\bin\System.Web.Mvc.dll
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\bin\System.Web.WebPages.dll
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\obj\Debug\ResolveAssemblyReference.cache
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\obj\Debug\IZSLER_CAP.dll
+C:\Simone\IZSLER\Sorgenti\Sorgenti Sito CAP\obj\Debug\IZSLER_CAP.pdb
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\bin\IZSLER_CAP.dll
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\bin\IZSLER_CAP.pdb
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\bin\System.Web.Helpers.dll
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\bin\System.Web.Mvc.dll
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\bin\System.Web.WebPages.dll
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\obj\Debug\ResolveAssemblyReference.cache
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\obj\Debug\IZSLER_CAP.dll
+C:\Sorgenti IZSLER\Sorgenti Sito CAP\obj\Debug\IZSLER_CAP.pdb
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\bin\IZSLER_CAP.dll
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\bin\IZSLER_CAP.pdb
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\bin\System.Web.Helpers.dll
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\bin\System.Web.Mvc.dll
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\bin\System.Web.WebPages.dll
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\obj\Debug\IZSLER_CAP.csprojResolveAssemblyReference.cache
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\obj\Debug\IZSLER_CAP.dll
+D:\Sviluppo\Sorgenti IZSLER\Sorgenti Sito CAP\obj\Debug\IZSLER_CAP.pdb

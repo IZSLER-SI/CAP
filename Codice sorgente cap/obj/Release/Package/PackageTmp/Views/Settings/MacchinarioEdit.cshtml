@@ -1,0 +1,232 @@
+﻿@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IZSLER_CAP.Models.ListaMacchinari
+
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string SetImporto(decimal val)
+    {
+        decimal? v = val;
+        return SetImporto(v);
+    }
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.00}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.00}", 0).Replace(".", ",");
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+}
+    <hgroup id="main-title" class="thin">
+    <h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+    <h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+    </hgroup>
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dati dell'apparecchiatura dedicata</h3>
+               <p class="button-height">
+                 <a href="javascript:saveMacchinario();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")
+              
+                 <a href="javascript:EliminaMacchinario();" class="button red-gradient glossy">Elimina</a>@Html.Raw("&nbsp;")
+
+                 @Html.ActionLink("Elenco Apparecchiature dedicate", "../Settings/Macchinari", null, new { Class = "button orange-gradient glossy" })@Html.Raw("&nbsp;")
+
+                 <a href="/Content/Help/Manuale utente CAP.htm#Modifica Attrezzatura Dedicata" target="_blank" class="button anthracite-gradient glossy">Help</a>
+               </p>
+            
+            <details class="details margin-bottom" open>
+               <summary>Intestazione</summary>
+                                        
+                    	<div class="with-padding">
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="1">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice Inventario</label>
+							        <input type="text" name="input-1" id="mac_Codice" class="input" value="@Model.Macchinario.Macchi_Codice"/>
+                                    <input type="hidden" id="mac_id" class="input" value="@Model.Macchinario.Macchi_ID"/>
+                                </p>
+                                </td>
+                            </tr> 
+                       
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Descrizione</label>
+                                 <input type="text" name="input-4" id="mac_Descrizione" maxlength="100" class="input" style="width:300px" value="@Model.Macchinario.Macchi_Desc" />
+						        </p>
+                                </td>
+                            </tr>
+                        
+                            <tr style="height:40px;">
+                            <td >
+                                <p class="button-height inline-label"><label for="input-1" class="label">Gruppo</label>
+                                <input type="text" name="input-4" id="Gruppo_Desc" class="input" value="@Model.Macchinario.Macchi_Grurep_Desc" /><span style="float:right;width:140px;white-space: nowrap;">
+                                
+                                <a href="javascript:openRicercaPPGruppiReparti('/Settings/PPGruppiReparti')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;padding-right:0px;padding-left:0px" ></a>
+                                <a href="javascript:void(0);" id="clearGruppi" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="cancellaDataPPGruppiIntermedi(1);" ></a>
+                                </span>
+                                <input type="hidden" id="Gruppo_ID"  value= "@Model.Macchinario.Macchi_Grurep_id" />
+                                <input type="hidden" id="Gruppo_flgReparto"  value />
+                                </p> 
+                            </td>
+                            </tr> 
+                             
+                             <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Valore Strumentazione</label>
+                                 <input type="text" id="mac_Val_Strum" maxlength="10" class="input" value="@SetImporto(@Model.Macchinario.Macchi_Valore_Strumentazione)" />
+						        </p>
+                                </td>
+                            </tr>
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Vita Utile (Anni)</label>
+                                 <input type="text" id="mac_Vita_Utile" maxlength="10" class="input" value="@SetImporto(@Model.Macchinario.Macchi_Vita_Utile_Anni)"/>
+						        </p>
+                                </td>
+                            </tr>
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Costo Manutenzione annua</label>
+                                 <input type="text" id="mac_Costo_Manutenzione" maxlength="10" class="input" value="@SetImporto(@Model.Macchinario.Macchi_Costo_Manutenzione_Annuo)" />
+						        </p>
+                                </td>
+                            </tr>
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Minuti Annuali Utilizzo</label>
+                                 <input type="text"  id="mac_Minuti_Annuali" maxlength="10" class="input" value="@SetImporto(@Model.Macchinario.Macchi_Minuti_Anno)" />
+						        </p>
+                                </td>
+                            </tr>
+                           <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Costo al Minuto</label>
+                                 <input type="text" name="input-4" id="mac_Costo" maxlength="10" class="input" value="@Model.Macchinario.Macchi_Prezzo" disabled />
+						        </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                       </div>
+                </details>
+                </div> 
+        </form> 
+    </div>
+    
+<script type ="text/javascript">
+    $(document).ready(function () {
+        $("#mac_Minuti_Annuali").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+        $("#mac_Vita_Utile").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+
+        $("#mac_Costo_Manutenzione").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+
+
+        $("#mac_Val_Strum").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+    });
+</script>
+<script  type ="text/javascript">    loadScriptRef("startMacchinariEdit.js");</script>

@@ -1,0 +1,79 @@
+﻿@model IZSLER_CAP.Models.B16ModelMgr
+@using IZSLER_CAP.Helpers 
+
+@{
+    ViewBag.Title = "Solleciti";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+
+
+ @functions{
+     
+ public string denominazione(string nome, string cognome)
+     {
+         return nome + " " + cognome;
+     }
+}
+
+
+
+   
+@*<hgroup id="main-title" class="thin">
+<h1>@ViewBag.Message</h1>
+<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+</hgroup>
+*@
+
+    
+    
+   <div class="with-padding">
+
+			<form method="post" action="" class="columns" >
+
+				<div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+
+					@*<h3 class="thin underline">Dati del sollecito</h3>*@
+                    
+                   
+
+					<fieldset class="fieldset">
+						<legend class="legend">Sollecito</legend>
+                       
+                       <p class="align-right" >
+                            <a href="javascript:SalvaSollecito();" class="button red-gradient glossy">Invia</a>@Html.Raw("&nbsp;")
+                       </p>
+
+                       <input style ="visibility:hidden" id="Soll_ric_id" value="@Model.Sollec_ric_id"></input>
+         
+
+                        
+						<input  style ="visibility:hidden" type="text" name="input-2" id="soll_Utente_id" class="input" value="@Model.Sollec_sollecitato_id" />
+                        
+
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Data scadenza</label>
+                            
+                            <span class="input"><span class="icon-calendar"></span>
+							    <input type="text" name="special-input-3" id="soll_data_scadenza" class="input-unstyled datepicker" value=""/>
+                            </span>
+						
+						</p>
+
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Messaggio</label>
+                            <textarea  name="cleditor" id="cleditorSollIns"  ></textarea>
+						</p>
+                       
+                       
+
+
+                    </fieldset>
+
+                </div>
+			</form>
+		</div> 
+
+
+
+ <script type ="text/javascript">     loadScriptRef("startPopupSollecitiInsert.js");</script>
+

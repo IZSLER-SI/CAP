@@ -1,0 +1,217 @@
+﻿@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@model IZSLER_CAP.Models.ListaMacchinariPModel
+
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string SetImporto(decimal val)
+    {
+        decimal? v = val;
+        return SetImporto(v);
+    }
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.00}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.00}", 0).Replace(".", ",");
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+}
+    <hgroup id="main-title" class="thin">
+ @*   <h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+    <h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+*@    </hgroup>
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dati dell'apparecchiatura dedicata</h3>
+            
+            <details class="details margin-bottom" open>
+               <summary>Intestazione</summary>
+                                        
+                    	<div class="with-padding">
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="1">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice Inventario</label>
+							        @Model.Macchinario.Macchi_Codice
+                                    <input type="hidden" id="mac_id" class="input" value="@Model.Macchinario.Macchi_ID"/>
+                                </p>
+                                </td>
+                            </tr> 
+                       
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Descrizione</label>
+                                 @Model.Macchinario.Macchi_Desc
+						        </p>
+                                </td>
+                            </tr>
+                        
+                            <tr style="height:40px;">
+                            <td >
+                                <p class="button-height inline-label"><label for="input-1" class="label">Gruppo</label>
+                                @Model.Macchinario.Macchi_Grurep_Desc
+                                </p> 
+                            </td>
+                            </tr> 
+                             
+                             <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Valore Strumentazione</label>
+                                 @SetImporto(@Model.Macchinario.Macchi_Valore_Strumentazione)
+						        </p>
+                                </td>
+                            </tr>
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Vita Utile (Anni)</label>
+                                 @SetImporto(@Model.Macchinario.Macchi_Vita_Utile_Anni)
+						        </p>
+                                </td>
+                            </tr>
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Costo Manutenzione annua</label>
+                                 @SetImporto(@Model.Macchinario.Macchi_Costo_Manutenzione_Annuo)
+						        </p>
+                                </td>
+                            </tr>
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Minuti Annuali Utilizzo</label>
+                                 @SetImporto(@Model.Macchinario.Macchi_Minuti_Anno)
+						        </p>
+                                </td>
+                            </tr>
+                           <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Costo al Minuto</label>
+                                 @Model.Macchinario.Macchi_Prezzo
+						        </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                       </div>
+                </details>
+                </div> 
+        </form> 
+    </div>
+    
+<script type ="text/javascript">
+    $(document).ready(function () {
+        $("#mac_Minuti_Annuali").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+        $("#mac_Vita_Utile").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+
+        $("#mac_Costo_Manutenzione").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+
+
+        $("#mac_Val_Strum").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+    });
+</script>
+<script  type ="text/javascript">    loadScriptRef("startMacchinariEdit.js");</script>

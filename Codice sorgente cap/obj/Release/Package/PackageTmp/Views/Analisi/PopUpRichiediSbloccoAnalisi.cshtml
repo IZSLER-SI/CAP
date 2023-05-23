@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "PopUpRichiediSbloccoAnalisi";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@model IZSLER_CAP.Models.AnalisiModelSblocco
+@using IZSLER_CAP.Helpers         
+@functions 
+{
+    public string check(string cod)
+    {
+        if (cod == "NORMAL") { return "checked"; } else { return ""; }
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "-" + id.ToString();
+    }
+
+}
+<div class="with-padding">
+
+	<form method="post" action="" class="columns" >
+
+	<div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+        <fieldset class="fieldset">
+        <legend class="legend">Motivazione</legend>
+        <table width ="100%">
+        <tr>
+            <td colspan="2" style="color:Red"><p>Si raccomanda di sbloccare e ribloccare anche tutti gli intermedi della valorizzazione</p>
+            </td>
+        </tr>
+        <tr><td colspan="">&nbsp;</td>
+        <tr >
+            <td colspan="2"><p>Inserire il motivo della richiesta di sblocco per l'analisi @Model.Analisi.Analisi_VN - @Model.Analisi.Analisi_MP_Rev </p>
+            </td>
+        </tr>
+        <tr><td colspan="">&nbsp;</td>
+        </tr> 
+	    <tr>
+            <td colspan="2">
+        <p class="button-height">
+	        @*<label for="input-2" class="label">Motivazione</label>*@
+	        <textarea  name="cleditorRichSblocco" id="cleditorRichSblocco"  ></textarea>
+        </p>
+        </td> 
+        </tr> 
+        <tr><td colspan="">&nbsp;</td></tr>
+        
+        <tr>
+        <td width="80%">
+        
+
+
+
+        <p class="button-height">
+        
+        <span class="button-group">
+        @foreach (var priorita in Model.ElencoPrioritaRichiesta)
+        { 
+            <label for="button-radio-sblocco-@priorita.T_Ricpri_id"  class="button @priorita.T_Ricpri_color-active">
+				<input type="radio" name="button-radio-sblocco"  id="@contact("button-radio-sblocco", priorita.T_Ricpri_id)"  
+                    value="@priorita.T_Ricpri_id" @check(priorita.T_Ricpri_codice)/>
+				@Html.DisplayFor(modelItem => priorita.T_Ricpri_desc)
+			</label>
+        }
+        </span>
+        </p>
+        </td>
+        <td width="20%"  class="align-right">
+        <p class="button-height">
+        <span class="align-right">
+            <a href="#" onclick="saveDataPopUpAnalisiSblocco( @Model.Analisi.Analisi_id);"  class="button red-gradient glossy">Invia</a>
+        </span>
+        </p> 
+        </td>
+        </tr> 
+        </table>
+        
+        </fieldset>
+    </div> 
+    </form> 
+</div>
+
+  <script  type ="text/javascript">      loadScriptRef("startPopUpRichiediSbloccoAnalisi.js");</script>

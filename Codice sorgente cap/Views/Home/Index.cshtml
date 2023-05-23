@@ -1,0 +1,258 @@
+﻿@model IZSLER_CAP.Models.RichiestaModel
+@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+}
+
+@functions{
+
+    public string SetLimetergradient(string color)
+    {
+        return "meter " + color + "-gradient";
+
+    }
+    /*
+    public int numRichiesteInviate()
+    {
+        return ElencoInviate().Count();
+    }
+    */
+    
+    //sim01
+    int numRichiesteInviate = 0;
+    
+    public List<MyRichiesta > ElencoInviate()
+    {
+
+        List<MyRichiesta> lret = Model.ElencoRichieste
+                                    .Where(z => z.Richie_richiedente_utente_id == @Html.GetUserID()
+                                            && z.T_staric_desc != "Inserita" 
+                                            && z.T_staric_desc != "Eliminata" 
+                                          ).ToList<MyRichiesta>();
+        
+        numRichiesteInviate = lret.Count();
+        
+        return lret;
+    }
+
+    int numAttivitaDaFare = 0;
+    List<MyRichiesta> ListaElencoAttività = new List<MyRichiesta>();
+    
+    public List<MyRichiesta > ElencoAttivita()
+    {
+    
+        List<MyRichiesta> lret = Model.ElencoRichieste
+                                .Where(z =>
+                                            (
+                                            (z.T_staric_desc != "Eliminata" &&
+                                                (z.Richie_destinatario_utente_id == @Html.GetUserID() && z.T_staric_desc != "Inserita")
+                                                ||
+                                                (z.Richie_richiedente_utente_id == @Html.GetUserID() && z.T_staric_desc == "Inserita")
+                                            )
+                                            )
+                                       ).ToList<MyRichiesta>();
+        
+        
+        //sim
+        numAttivitaDaFare = lret.Count();
+        ListaElencoAttività = lret;
+        
+        
+        return lret;
+    }
+
+    public int NumElencoRicDaInviare()
+    {
+        int num = ListaElencoAttività.Where(z =>
+                                        z.Richie_richiedente_utente_id == @Html.GetUserID()
+                                        //&& @Model.IsInsert(z.Richie_id)
+                                        //&& !@Model.IsElimina(z.Richie_id)
+                                        ).ToList<MyRichiesta>().Count();
+        
+        
+        //return lst.Count();
+        return num;
+        
+    }
+    public int NumElencoRicDaLavorare()
+    {
+        
+        int num = ListaElencoAttività.Where(z =>
+                                        z.Richie_destinatario_utente_id == @Html.GetUserID()
+                                        //&& !@Model.IsInsert(z.Richie_id)
+                                        //&& !@Model.IsElimina(z.Richie_id)
+                                        ).ToList<MyRichiesta>().Count();
+        
+        //return lst.Count();
+        return num;
+    }
+}
+
+@using IZSLER_CAP.Helpers
+<hgroup id="main-title" class="thin">
+			<h1>@ViewBag.Message</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+</hgroup>
+<div class="with-padding">
+	<div class="columns">
+				<div class="eight-columns six-columns-tablet twelve-columns-mobile">
+
+					<h2 class="relative thin">
+						Attività da fare
+						<span class="info-spot">
+							<span class="icon-info-round"></span>
+							<span class="info-bubble">
+								Elenco delle richieste da lavorare e a cui dare risposta.
+							</span>
+						</span>
+                        <span class="button-group">
+                            <a  href="/Content/Help/Manuale utente CAP.htm#Dashboard" target="_blank" class="button anthracite-gradient glossy">Help</a>
+   						</span>
+
+						<span class="button-group absolute-right">
+							<a href="javascript:openLoadingInformazioni()" title="Ricarica elenco" class="button icon-redo"></a>
+						</span>
+					</h2>
+
+					<ul class="list spaced">
+
+                    @foreach (var item in ElencoAttivita().Take(10))
+                    {
+                            <li>
+                            @{
+                            string val = @SetLimetergradient(item.T_Richie_color);
+                            ViewBag.SetLimetergradient = val;
+                            }
+
+							    <a href="/Home/RichiesteEdit/@item.Richie_id?origine=home_index" class="list-link icon-user" title="click per modificare">
+								    <span class="@ViewBag.SetLimetergradient"></span>
+
+								    da <strong>@Html.DisplayFor(modelItem => item.Richie_utente_ric_nome)</strong>
+                                       @Html.DisplayFor(modelItem => item.Richie_utente_ric_cognome) - @Html.DisplayFor(modelItem => item.Richie_titolo)
+							    </a>
+							    <div class="button absolute-right show-on-parent-hover" style ="border-style :none ;padding-right:0px; padding-left:0px;height:0px">
+								    @Html.ActionLink("Modifica", "RichiesteEdit", new { id = item.Richie_id , origine = "home_index" }, new { Class = "button compact icon-gear" })
+								    @*Ric#8*@
+                                    @if (@Html.IsVisible(CARichieste.BT_RICH_CANCELLA))
+                                    {
+								        <a href="javascript:deleteRichiestaList('@item.Richie_id.ToString()','@item.Richie_titolo','@item.Richie_richiedente_utente_id.ToString()','@item.Richie_destinatario_utente_id.ToString()','@item.Richie_testo','@item.T_staric_desc','@item.Richie_t_ricpri_id.ToString()');"  title="Cancella" class = "button compact icon-gear">Cancella</a>
+                                    }
+                                </div>
+						    </li>
+                    }
+
+					</ul>
+                  @if (numAttivitaDaFare > 0)
+                    {
+                  @Html.ActionLink("Vedi tutte (" + numAttivitaDaFare.ToString() + ")", "RichiesteElencoDaFare", new { origine = "Lavorare" }, new { Class = "button compact icon-gear" })
+                    }
+
+
+                    <h2 class="relative thin">
+						Richieste inviate
+						<span class="info-spot">
+							<span class="icon-info-round"></span>
+							<span class="info-bubble">
+								Richieste inviate di cui si attende risposta.
+							</span>
+						</span>
+                                                
+                        <span class="button-group">
+                            <a  href="/Content/Help/Manuale utente CAP.htm#Dashboard" target="_blank" class="button anthracite-gradient glossy">Help</a>
+   						</span>
+
+						@*<span class="button-group absolute-right">
+							<a href="javascript:openLoadingInformazioni()" title="Ricarica elenco" class="button icon-redo"></a>
+						</span>*@
+					</h2>
+
+                    <ul class="list spaced">
+                    
+
+                    @foreach (var item in @ElencoInviate().Take(10))
+                    {
+                         <li>
+                            @{
+                        string val = @SetLimetergradient(item.T_Richie_color);
+                        ViewBag.SetLimetergradient = val;
+                            }
+
+							    <a href="/Home/RichiesteEdit/@item.Richie_id?origine=home_index" class="list-link icon-user" title="click per modificare">
+								    <span class="@ViewBag.SetLimetergradient"></span>
+
+								    a <strong>@Html.DisplayFor(modelItem => item.Richie_utente_des_nome)</strong>
+                                       @Html.DisplayFor(modelItem => item.Richie_utente_des_cognome) - @Html.DisplayFor(modelItem => item.Richie_titolo)
+							    </a>
+                                
+							    <div class="button absolute-right show-on-parent-hover" style ="border-style :none ;padding-right:0px; padding-left:0px;height:0px">
+                                    
+								    @Html.ActionLink("Visualizza", "RichiesteEdit", new { id = item.Richie_id, origine = "home_index" }, new { Class = "button compact icon-gear" }) 
+                                    <a href="javascript:openSollecitoInsert('/Shared/_SollecitiInsert?ric_id=@item.Richie_id.ToString()&origine=home_index');"  class = "button compact icon-gear" title="Sollecita">Sollecita</a>
+                                    
+								
+                                </div> 
+							    
+						    </li>
+                                                
+                    
+                    @*<div id="otherActions" style="display: none" class="button-height">
+				        @Html.ActionLink("Sollecita", "../Shared/_SollecitiInsert", new { ric_id = item.Richie_id, origine = "home_index" }, new { Class = "button full-width" })
+                        
+					</div>
+                    *@        
+                    }
+                    </ul>
+                   @if (numRichiesteInviate >0)
+                    {
+                     @*   @Html.ActionLink("Vedi tutte (" + @numRichiesteInviate() + ")", "RichiesteElencoDaFare", new { origine = "Inviate" }, new { Class = "button compact icon-gear" }) --sim01 *@
+                        @Html.ActionLink("Vedi tutte (" + numRichiesteInviate.ToString() + ")", "RichiesteElencoDaFare", new { origine = "Inviate" }, new { Class = "button compact icon-gear" })
+                    }
+					
+					<!-- This div holds the content of the 'Other actions' menu -->
+
+                    
+
+				</div>
+
+				<div class="new-row-mobile four-columns six-columns-tablet twelve-columns-mobile">
+
+					<div class="block large-margin-bottom">
+
+						<div class="block-title">
+							<h3>Attivit&agrave; da svolgere</h3>
+						</div>
+
+						<ul class="events">
+
+                             <li>
+								<span class="event-date green">@NumElencoRicDaLavorare()</span>
+								<span class="event-description">
+									<h4>Richieste da Elaborare</h4>
+									<p>Richieste in attesa di elaborazione</p>
+								</span>
+							</li>
+
+							<li>
+								<span class="event-date orange">@NumElencoRicDaInviare()</span>
+								<span class="event-description">
+									<h4>Richieste da Inviare</h4>
+									<p>Richieste in attesa di Invio</p>
+								</span>
+							</li>
+
+							<li>
+								<span class="event-date blue">@numRichiesteInviate.ToString()</span> 
+                                <span class="event-description">
+									<h4>Richieste Inviate</h4>
+									<p>Richieste in attesa di completamento</p>
+								</span>
+							</li>
+							
+						</ul>
+
+					</div>
+
+				</div>
+			</div>
+    </div>
+    <script type ="text/javascript" >        loadScriptRef("startPopupSollecitiInsert.js")</script>
+    

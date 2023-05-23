@@ -1,0 +1,235 @@
+﻿@model IZSLER_CAP.Models.FaseModel
+@{
+    ViewBag.Title = "Fasi";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string GetChecked(int Figpro_Id)
+    {
+         List<MyFiguraProfessionale_attivita> fa = Model.ElencoFigureprof_attivita
+                .Where(z => z.M_Figatt_Figpro_Id == Figpro_Id
+                    && z.M_Figatt_Fase_Id == Model.CurrentFase.Fase_ID)
+                .ToList<MyFiguraProfessionale_attivita>();
+
+        if (fa.Count != 0)
+            return "checked";
+        else
+            return null;
+       
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<hgroup id="main-title" class="thin">
+			<h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+            
+</hgroup>
+
+<div class="with-padding">
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+     <dl class="accordion same-height" open>
+        <dt>Modifica Fase</dt>
+	    <dd>
+    
+               <div class="with-padding">
+<table width ="100%">
+
+
+    <input style ="visibility:hidden" id="Fase_ID" value="@Model.CurrentFase.Fase_ID"></input>
+
+    <tr style="height:40px;">
+    <td colspan ="2">
+        <p class="button-height inline-label">
+    <label for="input-1" class="label">Codice</label>
+        <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtCodice" maxlength="10" name="txtCodice" title="Campo obbligatorio" type="text" value="@Model.CurrentFase.Fase_Codice" />
+        </p>
+    </td>
+    </tr>
+    <tr style="height:40px;">
+
+    <td colspan ="2">
+    <p class="button-height inline-label ">
+    <label for="input-1" class="label">Descrizione</label>
+        <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtDescrizione" maxlength="50" name="txtDescrizione" title="Campo obbligatorio" type="text" value="@Model.CurrentFase.Fase_Desc_Clear" />
+    </p></td>
+    </tr>
+    <tr style="height:40px;">
+
+<td colspan ="2">
+<p class="button-height inline-label ">
+<label for="input-2" class="label">Gruppo</label>
+<input  disabled type="text" name="input-2" id="Grurep_desc" class="input" value="@Model.CurrentFase.Fase_Grurep_desc"  style="float:left;"  />&nbsp; 
+<a href="javascript:openRicercaGruppoReparto('/Settings/PopUpGruppoReparto')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>&nbsp;<a href="javascript:void(0);" id="closepopup" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearDataGruppoReparto();" ></a>
+<input type ="hidden" id="Grurep_ID"  value="@Model.CurrentFase.Fase_Grurep_ID" />
+</p>
+</td>
+</tr>
+
+    <tr style="height:40px;"><td colspan ="2">&nbsp;</td></tr> 
+    <tr style="height:40px;">
+    <td colspan ="2" style="width:100px">
+        <p class="button-height">
+        <a href="javascript:saveFaseEdit();" class="button green-gradient glossy">Salva</a>
+        &nbsp;
+        @Html.ActionLink("Torna alla lista", "Fasi", null, new { Class = "button green-gradient glossy" })
+        &nbsp;
+        <a href="/Content/Help/Manuale utente CAP.htm#Modifica fase" target="_blank" class="button anthracite-gradient glossy">Help</a>
+        </p>
+    </td>
+    </tr>
+
+</table>
+</div>
+  
+  </dd> 
+  </dl> 
+
+}
+</div>
+
+<div class="with-padding">
+<input style ="visibility:hidden" id="Fp_Fase_ID" value="@Model.CurrentFase.Fase_ID"></input>
+@*    <details class="details margin-bottom" open>*@
+    <dl class="accordion same-height" open>
+        <dt>Figure professionali</dt>
+	    <dd>
+        <div class="with-padding">
+
+
+
+        <table class="table responsive-table" id="sorting-Attivita">
+        <thead>
+            <tr>
+            <th scope="col" width="1%" class="align-center" ></th>
+                @*<th scope="col" width="1%" class="align-center" >ID</th>*@
+		        <th scope="col" width="14%" class="align-center hide-on-mobile">Codice</th>
+		        <th scope="col" width="30%" class="align-center hide-on-mobile-portrait">Descrizione</th>
+                <th scope="col" width="30%" class="align-center hide-on-mobile-portrait">Costo</th>
+		       </tr></thead>
+                <tfoot>
+		    <tr>
+			    <td colspan="10">
+				    @*@Model.ElencoFigureprof.Count().ToString() *@
+			    </td>
+		    </tr>
+	    </tfoot>
+        <tbody>
+        @foreach (var item in Model.ElencoFigureprof)
+        {
+            <tr>
+               <td  class="align-center"><input type="checkbox" name="@contact("Check_FiguraProf",@item.Figpro_Id)" id="@item.Figpro_Id" value="" 
+                    onclick="javascript:saveFaseFiguraprof(@item.Figpro_Id,@Model.CurrentFase.Fase_ID);"
+                   @GetChecked(@item.Figpro_Id)
+                   />
+                  </td> 
+                @*<td >
+
+                    @Html.DisplayFor(modelItem => item.Figpro_Id)
+                </td>*@
+                <td >
+                    @Html.DisplayFor(modelItem => item.Figpro_Codice)
+                </td>
+                 <td >
+                    @Html.DisplayFor(modelItem => item.Figpro_Desc)
+                 </td>
+                <td >
+                    @Html.DisplayFor(modelItem => item.Figpro_Costo) €
+                </td>
+                </tr>
+        }
+        </tbody>
+
+        </table>
+        </div>
+        
+        
+        </dd>
+        </dl>
+    @*</details>*@
+    </div>
+<script type="text/javascript">
+    function saveFaseEdit() {
+
+        var Fase_ID = $('#Fase_ID').val();
+        var txtCodice = $('#txtCodice').val();
+        var txtDescrizione = $('#txtDescrizione').val();
+        var grurep_id = $('#Grurep_ID').val(); 
+        var emp = { Fase_Codice: txtCodice,
+            Fase_Desc: txtDescrizione,
+            Fase_id: Fase_ID,
+            Fase_Grurep_ID: grurep_id
+        }
+        if (txtCodice == null || txtCodice == "" || txtDescrizione == null || txtDescrizione == "") {
+            showAlertErrorGeneric('Valorizzare tutti i campi prima di procedere al salvataggio.', 'Attenzione');
+            return;
+        }
+
+        var urlSave = '/Settings/SaveFaseEdit';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify(emp),
+            datatype: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (retdata) {
+                if (retdata.ok) {
+
+                    location.href = "/Settings/Fasi";
+                }
+                else {
+
+                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                }
+
+            }
+        });
+    }
+
+    function saveFaseFiguraprof(figpro_id, fase_id) {
+
+       
+        var isChecked = $('input[name=Check_FiguraProf_' + figpro_id + ']').attr('checked') ? true : false;
+       
+        var emp = { M_Figatt_Fase_Id: fase_id,
+            M_Figatt_Figpro_Id: figpro_id,
+            M_Figatt_checked: isChecked
+        }
+
+        var urlSave = '/Settings/SaveM_Figatt';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify(emp),
+            datatype: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (retdata) {
+                if (retdata.ok) {
+
+                 //   $.modal.alert("ok");
+                }
+                else {
+
+                    //$.modal.alert("ko");
+                }
+
+            }
+
+       })
+    }
+</script>
+<script  type ="text/javascript">    loadScriptRef("startPopUpGruppoReparto.js");</script>

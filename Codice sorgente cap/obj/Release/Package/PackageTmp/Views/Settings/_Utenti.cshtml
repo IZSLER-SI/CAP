@@ -1,0 +1,823 @@
+﻿@model IZSLER_CAP.Models.UtentiModel 
+@functions
+{
+
+    public int getValue(int? val)
+    {
+        if (val.HasValue) return val.Value;
+        return 0;
+    }
+
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+    public string GetChecked_flg_principale(bool check)
+    {
+        if (check)
+            return "checked";
+        else
+            return null;
+    }
+   
+
+    public string GetChecked(int currID)
+    {
+        if (currID == Model.SelectUtente_ID)
+            return "checked";
+        return "";
+    }
+
+    public string GetChecked_Utenti_lock(bool utenti_lock)
+    {
+        if (utenti_lock)
+            return "checked";
+        return "";
+    }
+
+
+    public int GetResultNumbersDown()
+    {
+        return Model.ElencoUtenti_profili_gruppi.Count();
+    }
+    public string GetStringResultNumbersDown()
+    {
+        int i = GetResultNumbersDown();
+        if (i == 0)
+            return "Nessun elemento presente";
+        else
+        {
+            if (i == 1)
+                return i.ToString() + " elemento presente";
+            return i.ToString() + " elementi presenti";
+        }
+    }
+
+
+    public int GetResultNumbers()
+    {
+        return Model.ElencoUtenti.Count();
+    }
+    public string GetStringResultNumbers()
+    {
+        int i = GetResultNumbers();
+        if (i == 0)
+            return "Nessun elemento presente";
+        else
+        {
+            if (i == 1)
+                return i.ToString() + " elemento presente";
+            return i.ToString() + " elementi presenti";
+        }
+    }
+    public int InitPage(int passo)
+    {
+        int currPage = 1;
+        int NumberOfPages = 1;
+        try
+        {
+            currPage = @Model.CurrentPage;
+        }
+        catch { currPage = 1; }
+        try
+        {
+            NumberOfPages = @Model.NumberOfPages;
+        }
+        catch { NumberOfPages = 1; }
+        if (NumberOfPages < passo)
+        {//return currPage;
+            int height = currPage / passo;
+            if ((currPage % passo) == 0)
+            {
+                height = height - 1;
+            }
+            return (height * passo) + 1;
+        }
+        if (NumberOfPages >= passo)
+        {
+            int height = currPage / passo;
+            if ((currPage % passo) == 0)
+            {
+                height = height - 1;
+            }
+            return (height * passo) + 1;
+
+        }
+        return 1;
+    }
+    public int EndPage(int passo)
+    {
+        int currPage = 1;
+        int NumberOfPages = 1;
+        try
+        {
+            currPage = @Model.CurrentPage;
+        }
+        catch { currPage = 1; }
+        try
+        {
+            NumberOfPages = @Model.NumberOfPages;
+        }
+        catch { NumberOfPages = 1; }
+        if (currPage > NumberOfPages)
+        { @Model.CurrentPage = NumberOfPages; }
+
+        if (NumberOfPages < passo)
+        {
+            return NumberOfPages + 1;
+
+        }
+        else
+        {
+            return InitPage(passo) + passo;
+        }
+    }
+    public int InitPageDown(int passo)
+    {
+        int currPage = 1;
+        int NumberOfPages = 1;
+        try
+        {
+            currPage = @Model.CurrentPage_Down;
+        }
+        catch { currPage = 1; }
+        try
+        {
+            NumberOfPages = @Model.NumberOfPages_Down;
+        }
+        catch { NumberOfPages = 1; }
+        if (NumberOfPages < passo)
+        {//return currPage;
+            int height = currPage / passo;
+            if ((currPage % passo) == 0)
+            {
+                height = height - 1;
+            }
+            return (height * passo) + 1;
+        }
+        if (NumberOfPages >= passo)
+        {
+            int height = currPage / passo;
+            if ((currPage % passo) == 0)
+            {
+                height = height - 1;
+            }
+            return (height * passo) + 1;
+
+        }
+        return 1;
+    }
+    public int EndPageDown(int passo)
+    {
+        int currPage = 1;
+        int NumberOfPages = 1;
+        try
+        {
+            currPage = @Model.CurrentPage_Down;
+        }
+        catch { currPage = 1; }
+        try
+        {
+            NumberOfPages = @Model.NumberOfPages_Down;
+        }
+        catch { NumberOfPages = 1; }
+        if (currPage > NumberOfPages)
+        { @Model.CurrentPage_Down = NumberOfPages; }
+
+        if (NumberOfPages < passo)
+        {
+            return NumberOfPages + 1;
+
+        }
+        else
+        {
+            return InitPage(passo) + passo;
+        }
+    }
+}
+
+
+ <script type="text/javascript">
+     $(document).ready
+        (
+             function () {
+
+                 $('input[name^="Utenti"]').click
+                (
+                    function () {
+                        var pageNum = parseInt($(".paginate_active_UP").html());
+                        var NumEntities = $('#NumEntities_UP').val();
+                        var table_search = $('#table_search_UP').val();
+
+
+                        var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                        var NumEntities_Down = $('#NumEntities_Down').val();
+                        var table_search_Down = $('#table_search_Down').val();
+
+                        var idR = $(this).val();
+
+                        var SelectUtente_ID = $('#SelectUtente_ID').text(idR);
+
+                        var emp =
+                        {
+                            id: idR,
+                            NumEntities: NumEntities,
+                            SearchDescription: table_search,
+                            CurrentPage: pageNum,
+                            NumEntities_Down: NumEntities_Down,
+                            SearchDescription_Down: table_search_Down,
+                            CurrentPage_Down: pageNum_Down
+                        }
+                        var urlSave = '/Settings/Utenti';
+                        callAjax(urlSave, emp);
+                    }
+                    );
+
+
+
+                    
+                    $('#sorting-Analisi_last_UP').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_last_UP').unbind('click');
+                      
+                     var pageNum = $('#NumOfPages_id').val();
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+
+                     var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var idR = $('#SelectUtente_ID').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+
+                 
+                 $('#sorting-Analisi_first_UP').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_first_UP').unbind('click');
+                     var pageNum = 1
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+                     var idR = $('#SelectUtente_ID').val();
+
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+                 
+                 $('#sorting-Analisi_previous_UP').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_previous_UP').unbind('click');
+                     
+                     var pageNum = parseInt($(".paginate_active_UP").html());
+                     if (pageNum >= 2)
+                     { pageNum = pageNum - 1; }
+
+                     var idR = $('#SelectUtente_ID').val();
+
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+                 
+                 $('#sorting-Analisi_next_UP').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_next_UP').unbind('click');
+
+                     var idR = $('#SelectUtente_ID').val();
+
+                     var pageNum = parseInt($(".paginate_active_UP").html());
+                     pageNum = pageNum + 1;
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+                 $('.page-number_UP').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('.page-number_UP').unbind('click');
+                     var idR = $('#SelectUtente_ID').val();
+
+                     var pageNum = parseInt($(this).html());
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+
+
+                 $('#NumEntities_UP').change
+                (
+                  function () {
+                      // alert('change NumEntities');
+                      var idR = $('#SelectUtente_ID').val();
+                      var idSelVal = $(this).val();
+                      var table_search_Down = $('#table_search_Down').val();
+                      var NumEntities_Down = $('#NumEntities_Down').val();
+                      var table_search = $('#table_search_UP').val();
+                      var table_search_Down = $('#table_search_Down').val();
+                      var pageNum_Down = parseInt($(".paginate_active_Down").html());
+
+                      var emp = { id: idR, 
+                           NumEntities: idSelVal,
+                          SearchDescription: table_search,
+                          NumEntities_Down: NumEntities_Down,
+                          SearchDescription_Down: table_search_Down,
+                          CurrentPage_Down: pageNum_Down
+                      };
+                      callAjax('/Settings/Utenti', emp);
+                  }
+                )
+
+                 $('#table_search_UP').change
+                (function () {
+                    //alert('change table_search');
+
+
+                    var idSelVal = $(this).val();
+                    var NumEntities = $('#NumEntities_UP').val();
+                    var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                    var NumEntities_Down = $('#NumEntities_Down').val();
+                    var table_search_Down = $('#table_search_Down').val();
+
+                    var url = document.URL;
+                    if (url.indexOf("?") > -1) {
+                        url = url.substr(0, url.indexOf("?"));
+                    }
+
+                    var emp = { NumEntities: NumEntities,
+                        SearchDescription: idSelVal,
+                        NumEntities_Down: NumEntities_Down,
+                        SearchDescription_Down: table_search_Down,
+                        CurrentPage_Down: pageNum_Down
+                    };
+                    callAjax('/Settings/Utenti', emp);
+                })
+
+
+
+                 /* asezione bassa*/
+
+
+
+
+                 
+                 $('#sorting-Analisi_last_Down').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_last_Down').unbind('click');
+                     var pageNum = parseInt($(".paginate_active_UP").html());
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+
+                     var pageNum_Down = $('#NumOfPages_id_Down').val();
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var idR = $('#SelectUtente_ID').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+
+                 
+                 $('#sorting-Analisi_first_Down').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_first_Down').unbind('click');
+                     var pageNum = parseInt($(".paginate_active_UP").html());
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     var pageNum_Down = 1;
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+                     var idR = $('#SelectUtente_ID').val();
+
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+                 
+                 $('#sorting-Analisi_previous_Down').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_previous_Down').unbind('click');
+                     var pageNum = parseInt($(".paginate_active_UP").html());
+
+                     var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                     if (pageNum_Down >= 2)
+                     { pageNum_Down = pageNum_Down - 1; }
+
+                     var idR = $('#SelectUtente_ID').val();
+
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+                 
+                 $('#sorting-Analisi_next_Down').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_next_Down').unbind('click');
+                     var idR = $('#SelectUtente_ID').val();
+                     var pageNum = parseInt($(".paginate_active_UP").html());
+                     var pageNum_Down = parseInt($(".paginate_active_Down").html());
+                     pageNum_Down = pageNum_Down + 1;
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+                 $('.page-number_Down').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('.page-number_Down').unbind('click');
+                     var idR = $('#SelectUtente_ID').val();
+                     var pageNum = parseInt($(".paginate_active_UP").html());
+                     var NumEntities = $('#NumEntities_UP').val();
+                     var table_search = $('#table_search_UP').val();
+                     var idR = $('#SelectUtente_ID').val();
+                     var pageNum_Down = parseInt($(this).html());
+                     var NumEntities_Down = $('#NumEntities_Down').val();
+                     var table_search_Down = $('#table_search_Down').val();
+
+                     var emp = { id: idR, NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         NumEntities_Down: NumEntities_Down,
+                         SearchDescription_Down: table_search_Down,
+                         CurrentPage_Down: pageNum_Down
+                     };
+                     callAjax('/Settings/Utenti', emp);
+                 });
+
+                 $('#NumEntities_Down').change
+                (
+                  function () {
+                      // alert('change NumEntities');
+                      var idR = $('#SelectUtente_ID').val();
+                      var idSelVal = $(this).val();
+                      var table_search_Down = $('#table_search_Down').val();
+                      var numEntities =$('#NumEntities_UP').val();
+                      var table_search = $('#table_search_UP').val();
+                      var pageNum  = parseInt($(".paginate_active_UP").html());
+                      var emp = { id: idR, NumEntities_Down: idSelVal,
+                          SearchDescription_Down: table_search_Down,
+                          NumEntities: numEntities,
+                          SearchDescription:table_search ,
+                          CurrentPage: pageNum
+                      };
+                      callAjax('/Settings/Utenti', emp);
+                  }
+                )
+
+                  $('#table_search_Down').change
+                (function () {
+
+
+                    //alert('change table_search');
+                    var idSelVal = $(this).val();
+                    var NumEntities_Down = $('#NumEntities_Down').val();
+                    var idR = $('#SelectUtente_ID').val();
+                    var numEntities = $('#NumEntities_UP').val();
+                    var table_search = $('#table_search_UP').val();
+
+                    var url = document.URL;
+                    if (url.indexOf("?") > -1) {
+                        url = url.substr(0, url.indexOf("?"));
+                    }
+
+                    var emp = { id: idR, NumEntities_Down: NumEntities_Down,
+                        SearchDescription_Down: idSelVal,
+                        NumEntities: numEntities,
+                        SearchDescription: table_search
+                             
+                    };
+                    callAjax('/Settings/Utenti', emp);
+                })
+
+
+
+
+             });
+
+       
+
+</script>
+       
+ <div id="myGrid">
+
+  <dl class="accordion same-height" >
+                    <dt>Elenco utenti</dt>
+                    <dd >
+               <div class="with-padding">      
+<p class="button-height">
+  @Html.ActionLink("Nuovo Utente", "../Settings/UtentiInsert", new
+  { @*origine = "prodotto_index", chiave = 5 *@}, new { Class = "button icon-plus-round green-gradient glossy" })
+  &nbsp;
+  <a href="/Content/Help/Manuale utente CAP.htm#Gestione Utenti" target="_blank" class="button anthracite-gradient glossy">Help</a>
+
+</p>
+       
+            <div class="table-header blue-gradient button-height">
+	        <div class="float-right">
+		        Ricerca &nbsp;<input type="text" name="table_search_UP" id="table_search_UP" value="@Model.SearchDescription" class="input mid-margin-left"/>
+	        </div>Mostra&nbsp;
+            @Html.DropDownListFor(x => x.NumEntities_UP, Model.EntitiesN, null, new { Class = "select blue-gradient glossy replacement" })&nbsp;
+            &nbsp;[@GetStringResultNumbers()]
+         </div>
+   
+        @if (Model.ElencoUtenti.Count() > 0)
+        {
+          <table class="table responsive-table">
+                <thead>
+                <tr>
+                    <th scope="col" width="1%" class="align-center" >
+                    <input type="hidden" value  ="@Model.NumberOfPages" id = "NumOfPages_id" />
+                    <input type="hidden" value  ="@Model.SelectUtente_ID" id = "SelectUtente_ID" />
+                    </th>
+                    
+                    <th scope="col" width="23%" class="align-center ">Utente di dominio</th>
+		            <th scope="col" width="18%" class="align-center ">Nome</th>
+                    <th scope="col" width="18%" class="align-center ">Cognome</th>
+                    <th scope="col" width="18%" class="align-center ">Email</th>
+                    <th scope="col" width="5%" class="align-center ">Bloccato</th>
+                    <th scope="col" width="15%" class="align-center ">Azioni</th>
+                </tr>
+            </thead>
+          <tfoot class="dataTables_footer">
+		    <tr>
+            <td colspan="7" class = "button-height align-right" style ="background:transparent;border:0px;color:#FFFFFF;">
+            <div class="dataTables_paginate paging_full_numbers" id="sorting-Analisi_paginate_UP" style="padding:0px">
+                <a tabindex="0" class="first paginate_button" id="sorting-Analisi_first_UP">Inizio</a>
+                <a tabindex="0" class="previous paginate_button" id="sorting-Analisi_previous_UP">Precedente</a>
+                <span>
+                
+
+                @{
+            int passo = 5;
+            int start = @InitPage(passo);
+            int end = @EndPage(passo);
+
+            for (int i = start; i < end; i++)
+            {
+                if (i == Model.CurrentPage)
+                {
+                           <a class="paginate_active_UP" style ="">@i</a>
+                }
+                else
+                {
+                            <a class="page-number_UP paginate_button" href="#" style ="">@i</a>
+                }
+            }
+                }
+                </span>
+                <a tabindex="0" class="next paginate_button paginate_button" id="sorting-Analisi_next_UP">Successivo</a>
+                <a tabindex="0" class="last paginate_button paginate_button" id="sorting-Analisi_last_UP">Fine</a>
+                </div>
+            </td>
+       
+
+		    </tr>
+	    </tfoot>
+        <tbody>
+            @foreach (var item in Model.Data)
+            {
+                <tr>
+                    <td><input type="radio" name="Utenti" id="@item.Utente_ID" value="@item.Utente_ID"  @GetChecked(@item.Utente_ID)/></td>
+                    <td class="align-left" >
+                        @Html.DisplayFor(modelItem => item.Utente_User)
+                    </td>
+                    <td class="align-left" >
+                        @Html.DisplayFor(modelItem => item.Utente_Nome)
+                    </td>
+                    <td class="align-left" >
+                        @Html.DisplayFor(modelItem => item.Utente_Cognome)
+                    </td>
+                    <td class="align-left" >
+                        @Html.DisplayFor(modelItem => item.Utente_Email)
+                    </td>
+                    <td class="align-center">
+                        @Html.DisplayFor(modelItem => item.Utente_Lock)
+                    </td>
+                     <td  class="low-padding align-center">
+                        @Html.ActionLink("Modifica", "UtentiEdit", new { id = item.Utente_ID }, new { Class = "button compact icon-gear" }) 
+                    </td>
+                </tr> 
+            }
+        </tbody> 
+          </table>
+        }
+
+    </div>
+
+
+
+    <div  class="with-padding">
+ 
+    <dl class="accordion same-height" >
+            <dt>Elenco Gruppi/Profili</dt>
+            <dd >
+        <div class="with-padding">
+                <p class="button-height">
+                 <a href="javascript:NuovoUtenti_profili_gruppi();" class="button green-gradient glossy">Nuovo</a>@Html.Raw("&nbsp;")
+                 <a href="javascript:EliminaUtenti_profili_gruppi();" class="button red-gradient glossy">Elimina</a>@Html.Raw("&nbsp;")
+                 <a href="/Content/Help/Manuale utente CAP.htm#Attribuzione e modifica dei profili utente" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                </p>
+        
+        <div class="table-header blue-gradient button-height">
+        
+        <div class="float-right">
+		        Ricerca &nbsp;<input type="text" name="table_search_Down" id="table_search_Down" value="@Model.SearchDescription_Down" class="input mid-margin-left"/>
+	        </div>Mostra&nbsp;
+            @Html.DropDownListFor(x => x.NumEntities_Down, Model.EntitiesN_Down, null, new { Class = "select blue-gradient glossy replacement" })&nbsp;
+            &nbsp;[@GetStringResultNumbersDown()]
+         </div>
+
+    
+        
+        <table class="table responsive-table" id="sorting-Attivita">
+        <thead>
+            <tr>
+                <th scope="col" width="5%" >&nbsp;</th>
+     	        <th scope="col" width="30%" class="align-center hide-on-mobile">Profilo<input type="hidden" value  ="@Model.NumberOfPages_Down" id = "NumOfPages_id_Down" /></th>
+		        <th scope="col" width="55%" class="align-center hide-on-mobile-portrait">Gruppo</th>
+                <th scope="col" width="10%" class="align-center hide-on-mobile-portrait">Principale</th>
+              </tr></thead>
+       
+
+         <tfoot class="dataTables_footer">
+		    <tr>
+            <td colspan="4" class = "button-height align-right" style ="background:transparent;border:0px;color:#FFFFFF;">
+            <div class="dataTables_paginate paging_full_numbers" id="sorting-Analisi_paginate_Down" style="padding:0px">
+                @if (Model.ElencoUtenti_profili_gruppi.Count() > 0)
+                {
+                    <a tabindex="0" class="first paginate_button" id="sorting-Analisi_first_Down">Inizio</a>
+                    <a tabindex="0" class="previous paginate_button" id="sorting-Analisi_previous_Down">Precedente</a>
+                    <span>
+                    @{
+                    
+                    int passo_dett = 5;
+                    int start_dett = @InitPageDown(passo_dett);
+                    int end_dett = @EndPageDown(passo_dett);
+
+                    for (int i = start_dett; i < end_dett; i++)
+                    {
+                        if (i == Model.CurrentPage_Down)
+                        {
+                                       <a class="paginate_active_Down" style ="">@i</a>
+                        }
+                        else
+                        {
+                                        <a class="page-number_Down paginate_button" href="#" style ="">@i</a>
+                        }
+                    }
+                    }
+                    </span>
+                    <a tabindex="0" class="next paginate_button paginate_button" id="sorting-Analisi_next_Down">Successivo</a>
+                    <a tabindex="0" class="last paginate_button paginate_button" id="sorting-Analisi_last_Down">Fine</a>
+                }
+                else 
+                {
+                <span>&nbsp;</span>
+                }                                      
+                </div>
+            </td>
+       
+
+		    </tr>
+	    </tfoot>
+        <tbody>
+        @foreach (var item in Model.Data_Down)
+        {
+            <tr>
+
+
+                <td >
+                <input type="checkbox" name="multicheckSelectUtenti" value  ="@item.M_Utprgr_Id" id = "M_Utprgr_Id" />
+                </td>
+                <td >@*Class = "select expandable-list", *@
+               @Html.DropDownList("Profilo", @item.ListaProfiliSL, null, new { style = "width:200px", id = "Profilo_id_" + @item.M_Utprgr_Id.ToString(), onchange = "saveGruppoPrincipale(" + @item.M_Utprgr_Id + "," + @getValue(item.M_Utprgr_Profil_Id) + ");" })
+                
+                </td>
+                 @*<td >
+
+                    @Html.DisplayFor(modelItem => item.Gruppo_desc)
+                
+                
+                </td>*@
+                <td colspan ="1" align ="left">
+                    <p class="button-height inline-label" style="padding-left:10px">
+                    <input  disabled type="text" name="input-2" id="@contact("Grurep_desc", @item.M_Utprgr_Id)" class="input" value="@item.Gruppo_desc"  style="float:left;width:300px;"  />&nbsp; 
+                    <a href="javascript:openRicercaGruppoReparto('/Settings/PopUpGruppoReparto?Ut=@item.M_Utprgr_Id')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>&nbsp;<a href="javascript:void(0);" id="closepopup" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearDataGruppoReparto(@item.M_Utprgr_Id);" ></a>
+                    <input type ="hidden" id="@contact("Grurep_ID", @item.M_Utprgr_Id)"  value="@item.M_Utprgr_Grurep_Id" />
+                    </p>
+                    </td>
+                <td class="align-center">
+                    <input type="checkbox" name="@contact("M_Utprgr_Flg_Principale", @item.M_Utprgr_Id)" id="M_Utprgr_Flg_Principale" value="" @GetChecked_flg_principale(@item.M_Utprgr_Flg_Principale)
+                    onclick="javascript:saveGruppoPrincipale(@item.M_Utprgr_Id);"
+                    />
+                </td>
+                </tr>
+        }
+        </tbody>
+
+        </table>
+        </div>
+       @* }*@
+        </dd> 
+        </dl> 
+        </div>
+    </dd> 
+    </dl> 
+    </div>
+
+    <script type ="text/javascript">        loadScriptRef("startUtenti.js");</script>
+    <script type ="text/javascript">        loadScriptRef("startPopUpGruppoReparto.js");</script>
+      <script type="text/javascript">          $("#table_search_UP").focus(); 	</script>

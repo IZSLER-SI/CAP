@@ -1,0 +1,32 @@
+﻿@model IZSLER_CAP.Models.FaseModel
+@{
+    ViewBag.Title = "Fasi";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using IZSLER_CAP.Helpers
+<script type="text/javascript">
+    function callAjax(urlSave, emp) {
+        $.ajax
+        (
+            {
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify(emp),
+                datatype: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (retdata) {
+                    $("#myGrid").html(retdata.partial);
+                }
+            }
+        );
+    }
+    </script>
+<hgroup id="main-title" class="thin">
+			<h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+            
+</hgroup>
+
+<div class="with-padding">
+@Html.Partial("_Fasi")
+</div>

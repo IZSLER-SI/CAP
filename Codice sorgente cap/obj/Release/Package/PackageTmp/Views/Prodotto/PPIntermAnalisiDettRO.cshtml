@@ -1,0 +1,365 @@
+﻿@{
+    ViewBag.Title = "PPIntermAnalisi";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@model IZSLER_CAP.Models.ListaIntermediAnalisiPModel
+@using IZSLER_CAP.Helpers
+@functions
+{
+ 
+    public string SetLabelCosto(decimal? costo)
+    {
+        if (costo != null)
+            return string.Format("{0:f2}", costo) + " €";
+        return "";
+    }
+
+    public List<MyAnalisi> GetElencoAnalisi()
+    {
+
+        int profilo_id = @Html.GetUserProfileID();
+        int utente_id = @Html.GetUserID();
+        List<MyAnalisi> lst = Model.ElencoAnalisi(utente_id, profilo_id).ToList<MyAnalisi>();
+
+        return lst;
+    }
+    public string SetCssChecked(bool isIntermedio)
+    {
+        if (isIntermedio )
+            return "checked";
+        return "";
+    }
+    public string denominazione(string nome, string cognome)
+    {
+        return nome + " " + cognome;
+    }
+    public string calcoloCodiceAnalisi(string Analisi_VN, string Analisi_MP_Rev)
+    {
+        return Analisi_VN + "-" + Analisi_MP_Rev;
+    }
+    public string setPonderazione(bool ponderazione)
+    {
+        if (ponderazione) return "checked";
+        return "";
+    }
+    public string setPonderazioneDrop(bool ponderazione)
+    {
+        if (ponderazione) return "open";
+        return "";
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    
+    public string setVal(int? val)
+    {
+        if (val.HasValue)
+            return val.Value.ToString();
+        return "0"; 
+        
+    }
+    public string getCodice()
+    {
+        if (Model.IntermedioAnalisi.Analisi_flgIntermedio)
+            return Model.IntermedioAnalisi.Analisi_CodiceGenerico;
+        else
+            return @Model.IntermedioAnalisi.Analisi_VN;                
+    }
+    public string getShow(IZSLER_CAP.Helpers.MyAnalisi item)
+    {
+        string lret = "";
+        if (item.Analisi_flgIntermedio) { lret = item.Analisi_Descrizione; }
+        else { lret = item.Analisi_Codice_Descrizione; }
+        return lret;
+    }
+}
+
+
+
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+        @if (Model.IntermedioAnalisi != null)
+        { 
+
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dettaglio </h3>
+               <details class="details margin-bottom" open>
+               <summary>Testata</summary>
+                    
+                    <input style ="visibility:hidden" id="analisi_id" value="@Html.DisplayFor(modelItem => Model.IntermedioAnalisi.Analisi_id)" />
+                    	<div class="with-padding">
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="3">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice VN</label>
+							        @getCodice()
+                                </p>
+                                </td>
+                            </tr> 
+                       <tr class="button-height" style="height:40px;">
+                                <td colspan ="3">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice VN</label>
+							          @getShow(Model.IntermedioAnalisi)
+                                </p>
+                                </td>
+                            </tr> 
+                            <tr class="button-height" style="height:40px;">
+                               <td colspan ="3">
+                                <p class="button-height inline-label"><label for="input-1" class="label">Tecnica</label>
+                                 @Model.IntermedioAnalisi.Analisi_Tecnica</p>
+                                </td>
+                                <td>
+                                <p class="button-height inline-label"><label for="input-1" class="label">&nbsp;Gruppo</label>
+                                 @Model.IntermedioAnalisi.Analisi_Gruppo_desc</p>
+                                </td>
+                            </tr>
+                       
+
+                            <tr style="height:40px;">
+                                <td colspan ="3">
+                                 <p class="button-height inline-label">
+                                    <label for="input-2" class="label">MP+rev</label>
+							        @Model.IntermedioAnalisi.Analisi_MP_Rev
+
+						        </p>
+                            </td>
+                            </tr>
+                       
+                        <tr style="height:40px;">
+                
+                                <td colspan ="1">
+                                <p class="button-height inline-label">
+                                <label for="input-2" class="label">Norma</label>
+                                
+                                 @Model.IntermedioAnalisi.Analisi_legge
+						      
+                                </p>
+                                </td>
+                                <td colspan ="2">
+                                <p class="button-height inline-label">
+                                <label for="input-2" class="label">&nbsp;</label>
+                                 <label ><small class="@SetColorBloccato(@Model.IntermedioAnalisi.Analisi_flgBloccato)">
+                                     @Html.Label(@SetLabelBloccato(@Model.IntermedioAnalisi.Analisi_flgBloccato))</small></label>
+                                    
+                                </p>
+                                </td>
+                            </tr>
+                            <tr style="height:40px;">
+                                <td colspan="1">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Dimensione lotto</label>
+						                
+							                @setVal(Model.IntermedioAnalisi.Analisi_Dim_Lotto)
+						                
+					                </p>
+                                </td>
+                                <td colspan="2">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Nr. Campioni Qualit&agrave;</label>
+						          
+							                @setVal(Model.IntermedioAnalisi.Analisi_Nr_Camp_Qualita)
+						          
+					                </p>
+                                </td>
+                            </tr>
+                        
+                          
+                        <tr style="height:40px;">
+                        <td colspan ="2">
+                                <p class="button-height inline-label">
+                                <label for="input-2" class="label">Note</label>
+                                <textarea id="Analisi_Matrice" 
+                                    class="input full-width  autoexpanding" 
+                                    disabled> @Model.IntermedioAnalisi.Analisi_Matrice
+                                </textarea >
+                                </p>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                        
+                       </div>
+		                
+                </details>
+				
+                <dl class="accordion same-height" open>
+	            <dt>Posizioni</dt>
+	                <dd>
+				        <div class="with-padding"  >
+                        <table class="table responsive-table">
+                        <thead>
+                        <tr>
+                            <th scope="col" width="13%" class="align-center">Fase</th>
+                            <th scope="col" width="13%" class="align-center">Analisi /<br>Intermedio</th>
+                            <th scope="col" width="13%" class="align-center ">Prodotto</th>
+		                    <th scope="col" width="13%" class="align-center ">Livello</th>
+                            <th scope="col" width="20%" class="align-center ">Descrizione</th>
+                            <th scope="col" width="10%" class="align-center ">Unit&agrave; di Misura</th>
+                            <th scope="col" width="6%" class="align-center ">Quantità</th>
+                            <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Unitario</th>
+                            <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Posizione</th>
+                            </tr>
+                        </thead>
+                            @foreach (var item in Model.IntermedioAnalisiPos)
+                            { 
+                                <tr>
+                                      <td>
+                                        @Html.DisplayFor(modelItem => item.AnalisiPos_Fase_desc )
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_Analisi_Desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_Prodotto_Desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_FigProf_desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_UdM_desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_Quantita)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_QuantitaCosto)
+                                        
+                                    </td>
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_TotCosto)
+                                        
+                                    </td>         
+                                 </tr>
+                            }
+                            </table>
+                        </div>  
+                    </dd>
+                 </dl>
+                 <details class="details margin-bottom" @setPonderazioneDrop(@Model.IntermedioAnalisi.Analisi_flgPonderazione) open>
+				    <summary>Ponderazione</summary>
+						<div class="with-padding ">
+                        <table>
+                            <tr>
+                            <td>
+                            <p class="button-height inline-label">
+                            <label for="special-input-2" class="label">Abilita</label>
+                                <span class="number margin-right">
+                                <input type="checkbox" name="switchPonderazioni" id="switch" class="switch mid-margin-right" 
+                                    @setPonderazione(@Model.IntermedioAnalisi.Analisi_flgPonderazione) disabled /></span> 
+                                    
+                             </p>
+
+                        
+                            </td>
+                            <td>
+                               <p class="button-height inline-label">
+                                <label for="special-input-2" class="label">Peso Positivo</label>
+							  @setVal(Model.IntermedioAnalisi.Analisi_Peso_Positivo)
+					        </p>
+                        
+                            </td>
+                            </tr>
+                        </table>
+						</div>
+				</details>	
+                @if (Model.IntermedioAnalisi.Analisi_flgPonderazione)
+                { 
+                 <dl class="accordion same-height" id="posizioniSecondarie" open>
+	            <dt>Posizioni aggiuntive per caso positivo</dt>
+	                <dd>
+				        <div class="with-padding"  >
+                         <table class="table responsive-table">
+                        <thead>
+                        <tr>
+                            <th scope="col" width="13%" class="align-center">Fase</th>
+                            <th scope="col" width="13%" class="align-center">Analisi /<br>Intermedio</th>
+                            <th scope="col" width="13%" class="align-center ">Prodotto</th>
+		                    <th scope="col" width="13%" class="align-center ">Livello</th>
+                            <th scope="col" width="20%" class="align-center ">Descrizione</th>
+                            <th scope="col" width="10%" class="align-center ">Unit&agrave; di Misura</th>
+                            <th scope="col" width="6%" class="align-center ">Quantità</th>
+                            <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Unitario</th>
+                            <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Posizione</th>
+                            </tr>
+                        </thead>
+                            @foreach (var item in Model.IntermedioAnalisiPosSec)
+                            { 
+                                <tr>
+                                       <td>
+                                        @Html.DisplayFor(modelItem => item.AnalisiPos_Fase_desc )
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_Analisi_Desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_Prodotto_Desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_FigProf_desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_UdM_desc)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_Quantita)
+                                        
+                                    </td>        
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_QuantitaCosto)
+                                        
+                                    </td>
+                                    <td>
+                                    @Html.DisplayFor(modelItem => item.AnalisiPos_TotCosto)
+                                        
+                                    </td>         
+                                 </tr>
+                            }
+                            </table>
+                        </div>  
+                    </dd>
+                 </dl>
+                }                    
+             
+            </div> 
+        }
+        else
+        { 
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3> Non esistono Intermedi od analisi collegati alla posizione scelta.</h3>
+            </div> 
+        }
+                 
+        </form> 
+    </div>
+
+
+
+

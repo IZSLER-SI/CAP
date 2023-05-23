@@ -1,0 +1,704 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="IZSLER_CAP_ModelStoreContainer" CdmEntityContainer="IZSLER_CAP_Entities">
+    <EntitySetMapping Name="ATTIVI_ATTIVITA">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.ATTIVI_ATTIVITA">
+        <MappingFragment StoreEntitySet="ATTIVI_ATTIVITA">
+          <ScalarProperty Name="ATTIVI_FLG_OBBLIGATORIA" ColumnName="ATTIVI_FLG_OBBLIGATORIA" />
+          <ScalarProperty Name="ATTIVI_FASE_ID" ColumnName="ATTIVI_FASE_ID" />
+          <ScalarProperty Name="ATTIVI_DESC" ColumnName="ATTIVI_DESC" />
+          <ScalarProperty Name="ATTIVI_CODICE" ColumnName="ATTIVI_CODICE" />
+          <ScalarProperty Name="ATTIVI_ID" ColumnName="ATTIVI_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EMAPAR_EMAIL_PARAMETRI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.EMAPAR_EMAIL_PARAMETRI">
+        <MappingFragment StoreEntitySet="EMAPAR_EMAIL_PARAMETRI">
+          <ScalarProperty Name="EMAPAR_MAIL_ALIAS" ColumnName="EMAPAR_MAIL_ALIAS" />
+          <ScalarProperty Name="EMAPAR_MAIL_FROM" ColumnName="EMAPAR_MAIL_FROM" />
+          <ScalarProperty Name="EMAPAR_DEFAULT" ColumnName="EMAPAR_DEFAULT" />
+          <ScalarProperty Name="EMAPAR_PORT" ColumnName="EMAPAR_PORT" />
+          <ScalarProperty Name="EMAPAR_SSL" ColumnName="EMAPAR_SSL" />
+          <ScalarProperty Name="EMAPAR_PASSWORD" ColumnName="EMAPAR_PASSWORD" />
+          <ScalarProperty Name="EMAPAR_USER" ColumnName="EMAPAR_USER" />
+          <ScalarProperty Name="EMAPAR_SERVER" ColumnName="EMAPAR_SERVER" />
+          <ScalarProperty Name="EMAPAR_ID" ColumnName="EMAPAR_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FASE">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.FASE">
+        <MappingFragment StoreEntitySet="FASE">
+          <ScalarProperty Name="FASE_ORDINE" ColumnName="FASE_ORDINE" />
+          <ScalarProperty Name="FASE_GRUREP_ID" ColumnName="FASE_GRUREP_ID" />
+          <ScalarProperty Name="FASE_FASE_ID" ColumnName="FASE_FASE_ID" />
+          <ScalarProperty Name="FASE_DESC" ColumnName="FASE_DESC" />
+          <ScalarProperty Name="FASE_CODICE" ColumnName="FASE_CODICE" />
+          <ScalarProperty Name="FASE_ID" ColumnName="FASE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GRUREP_GRUPPI_REPARTI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.GRUREP_GRUPPI_REPARTI">
+        <MappingFragment StoreEntitySet="GRUREP_GRUPPI_REPARTI">
+          <ScalarProperty Name="GRUREP_PREZZO_UNIT_ACCET" ColumnName="GRUREP_PREZZO_UNIT_ACCET" />
+          <ScalarProperty Name="GRUREP_COST_IND" ColumnName="GRUREP_COST_IND" />
+          <ScalarProperty Name="GRUREP_FLG_REPARTO" ColumnName="GRUREP_FLG_REPARTO" />
+          <ScalarProperty Name="GRUREP_DESC_ESTESA" ColumnName="GRUREP_DESC_ESTESA" />
+          <ScalarProperty Name="GRUREP_DESC" ColumnName="GRUREP_DESC" />
+          <ScalarProperty Name="GRUREP_CODICE" ColumnName="GRUREP_CODICE" />
+          <ScalarProperty Name="GRUREP_ID" ColumnName="GRUREP_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PROFIL_PROFILI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.PROFIL_PROFILI">
+        <MappingFragment StoreEntitySet="PROFIL_PROFILI">
+          <ScalarProperty Name="PROFIL_DESC_ESTESA" ColumnName="PROFIL_DESC_ESTESA" />
+          <ScalarProperty Name="PROFIL_DESC" ColumnName="PROFIL_DESC" />
+          <ScalarProperty Name="PROFIL_CODICE" ColumnName="PROFIL_CODICE" />
+          <ScalarProperty Name="PROFIL_ID" ColumnName="PROFIL_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SOLLEC_SOLLECITI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.SOLLEC_SOLLECITI">
+        <MappingFragment StoreEntitySet="SOLLEC_SOLLECITI">
+          <ScalarProperty Name="SOLLEC_ARCHIVIATO" ColumnName="SOLLEC_ARCHIVIATO" />
+          <ScalarProperty Name="SOLLEC_DATA_SCADENZA" ColumnName="SOLLEC_DATA_SCADENZA" />
+          <ScalarProperty Name="SOLLEC_MESSAGGIO" ColumnName="SOLLEC_MESSAGGIO" />
+          <ScalarProperty Name="SOLLEC_SOLLECITATO_UTENTE_ID" ColumnName="SOLLEC_SOLLECITATO_UTENTE_ID" />
+          <ScalarProperty Name="SOLLEC_SOLLECITANTE_UTENTE_ID" ColumnName="SOLLEC_SOLLECITANTE_UTENTE_ID" />
+          <ScalarProperty Name="SOLLEC_RICHIE_ID" ColumnName="SOLLEC_RICHIE_ID" />
+          <ScalarProperty Name="SOLLEC_DATA_INS" ColumnName="SOLLEC_DATA_INS" />
+          <ScalarProperty Name="SOLLEC_ID" ColumnName="SOLLEC_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_RICHIE_TIPO_RICHIESTA">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_RICHIE_TIPO_RICHIESTA">
+        <MappingFragment StoreEntitySet="T_RICHIE_TIPO_RICHIESTA">
+          <ScalarProperty Name="T_RICHIE_COLOR" ColumnName="T_RICHIE_COLOR" />
+          <ScalarProperty Name="T_RICHIE_DESC" ColumnName="T_RICHIE_DESC" />
+          <ScalarProperty Name="T_RICHIE_CODICE" ColumnName="T_RICHIE_CODICE" />
+          <ScalarProperty Name="T_RICHIE_ID" ColumnName="T_RICHIE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_STARIC_STATO_RICHIESTA">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_STARIC_STATO_RICHIESTA">
+        <MappingFragment StoreEntitySet="T_STARIC_STATO_RICHIESTA">
+          <ScalarProperty Name="T_STARIC_DESC" ColumnName="T_STARIC_DESC" />
+          <ScalarProperty Name="T_STARIC_CODICE" ColumnName="T_STARIC_CODICE" />
+          <ScalarProperty Name="T_STARIC_ID" ColumnName="T_STARIC_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_STAVAL_STATO_VALORIZZAZIONE">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_STAVAL_STATO_VALORIZZAZIONE">
+        <MappingFragment StoreEntitySet="T_STAVAL_STATO_VALORIZZAZIONE">
+          <ScalarProperty Name="T_STAVAL_DESC" ColumnName="T_STAVAL_DESC" />
+          <ScalarProperty Name="T_STAVAL_CODICE" ColumnName="T_STAVAL_CODICE" />
+          <ScalarProperty Name="T_STAVAL_ID" ColumnName="T_STAVAL_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRKRIC_RICHIESTE_TRACKING">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TRKRIC_RICHIESTE_TRACKING">
+        <MappingFragment StoreEntitySet="TRKRIC_RICHIESTE_TRACKING">
+          <ScalarProperty Name="TRKRIC_T_RICPRI_ID" ColumnName="TRKRIC_T_RICPRI_ID" />
+          <ScalarProperty Name="TRKRIC_TESTO" ColumnName="TRKRIC_TESTO" />
+          <ScalarProperty Name="TRKRIC_TITOLO" ColumnName="TRKRIC_TITOLO" />
+          <ScalarProperty Name="TRKRIC_CODICE" ColumnName="TRKRIC_CODICE" />
+          <ScalarProperty Name="TRKRIC_T_STARIC_ID" ColumnName="TRKRIC_T_STARIC_ID" />
+          <ScalarProperty Name="TRKRIC_UTENTE_ID" ColumnName="TRKRIC_UTENTE_ID" />
+          <ScalarProperty Name="TRKRIC_DATA_INS" ColumnName="TRKRIC_DATA_INS" />
+          <ScalarProperty Name="TRKRIC_RICHIE_ID" ColumnName="TRKRIC_RICHIE_ID" />
+          <ScalarProperty Name="TRKRIC_ID" ColumnName="TRKRIC_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UTENTE">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.UTENTE">
+        <MappingFragment StoreEntitySet="UTENTE">
+          <ScalarProperty Name="UTENTE_LOCK" ColumnName="UTENTE_LOCK" />
+          <ScalarProperty Name="UTENTE_COGNOME" ColumnName="UTENTE_COGNOME" />
+          <ScalarProperty Name="UTENTE_NOME" ColumnName="UTENTE_NOME" />
+          <ScalarProperty Name="UTENTE_EMAIL" ColumnName="UTENTE_EMAIL" />
+          <ScalarProperty Name="UTENTE_USER" ColumnName="UTENTE_USER" />
+          <ScalarProperty Name="UTENTE_ID" ColumnName="UTENTE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CTRACC_CONTROLLO_ACCESSI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.CTRACC_CONTROLLO_ACCESSI">
+        <MappingFragment StoreEntitySet="CTRACC_CONTROLLO_ACCESSI">
+          <ScalarProperty Name="CTRACC_VISIBLE" ColumnName="CTRACC_VISIBLE" />
+          <ScalarProperty Name="CTRACC_PROFIL_ID" ColumnName="CTRACC_PROFIL_ID" />
+          <ScalarProperty Name="CTRACC_ID" ColumnName="CTRACC_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INTERM_INTERMEDIO">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.INTERM_INTERMEDIO">
+        <MappingFragment StoreEntitySet="INTERM_INTERMEDIO">
+          <ScalarProperty Name="INTERM_PESO_POSITIVO" ColumnName="INTERM_PESO_POSITIVO" />
+          <ScalarProperty Name="INTERM_FLG_PONDERAZIONE" ColumnName="INTERM_FLG_PONDERAZIONE" />
+          <ScalarProperty Name="INTERM_COSTO_TOT" ColumnName="INTERM_COSTO_TOT" />
+          <ScalarProperty Name="INTERM_MATRICE" ColumnName="INTERM_MATRICE" />
+          <ScalarProperty Name="INTERM_DIM_LOTTO" ColumnName="INTERM_DIM_LOTTO" />
+          <ScalarProperty Name="INTERM_TECNICA" ColumnName="INTERM_TECNICA" />
+          <ScalarProperty Name="INTERM_DESC" ColumnName="INTERM_DESC" />
+          <ScalarProperty Name="INTERM_MP_REV" ColumnName="INTERM_MP_REV" />
+          <ScalarProperty Name="INTERM_VN" ColumnName="INTERM_VN" />
+          <ScalarProperty Name="INTERM_REPARTO_GRUREP_ID" ColumnName="INTERM_REPARTO_GRUREP_ID" />
+          <ScalarProperty Name="INTERM_GRUPPO_GRUREP_ID" ColumnName="INTERM_GRUPPO_GRUREP_ID" />
+          <ScalarProperty Name="INTERM_UTENTE_ID" ColumnName="INTERM_UTENTE_ID" />
+          <ScalarProperty Name="INTERM_ID" ColumnName="INTERM_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_STAPRO_STATO_PRODOTTO">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_STAPRO_STATO_PRODOTTO">
+        <MappingFragment StoreEntitySet="T_STAPRO_STATO_PRODOTTO">
+          <ScalarProperty Name="T_STAPRO_COLOR" ColumnName="T_STAPRO_COLOR" />
+          <ScalarProperty Name="T_STAPRO_DESCRIZIONE" ColumnName="T_STAPRO_DESCRIZIONE" />
+          <ScalarProperty Name="T_STAPRO_CODICE" ColumnName="T_STAPRO_CODICE" />
+          <ScalarProperty Name="T_STAPRO_ID" ColumnName="T_STAPRO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRKINT_INTERMEDIO_TRACKING">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TRKINT_INTERMEDIO_TRACKING">
+        <MappingFragment StoreEntitySet="TRKINT_INTERMEDIO_TRACKING">
+          <ScalarProperty Name="TRKINT_INTER_DESCRIZIONE" ColumnName="TRKINT_INTER_DESCRIZIONE" />
+          <ScalarProperty Name="TRKINT_INTER_CODICE" ColumnName="TRKINT_INTER_CODICE" />
+          <ScalarProperty Name="TRKINT_INTERM_INTERM_COSTO_TOT" ColumnName="TRKINT_INTERM_INTERM_COSTO_TOT" />
+          <ScalarProperty Name="TRKINT_INTERM_ID" ColumnName="TRKINT_INTERM_ID" />
+          <ScalarProperty Name="TRKINT_DATA_INS" ColumnName="TRKINT_DATA_INS" />
+          <ScalarProperty Name="TRKINT_ID" ColumnName="TRKINT_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRKFIG_FIGPRO_TRACKING">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TRKFIG_FIGPRO_TRACKING">
+        <MappingFragment StoreEntitySet="TRKFIG_FIGPRO_TRACKING">
+          <ScalarProperty Name="TRKFIG_UTENTE_ID" ColumnName="TRKFIG_UTENTE_ID" />
+          <ScalarProperty Name="TRKFIG_FIGPRO_COSTO" ColumnName="TRKFIG_FIGPRO_COSTO" />
+          <ScalarProperty Name="TRKFIG_FIGPRO_ID" ColumnName="TRKFIG_FIGPRO_ID" />
+          <ScalarProperty Name="TRKFIG_DATA_INS" ColumnName="TRKFIG_DATA_INS" />
+          <ScalarProperty Name="TRKFIG_ID" ColumnName="TRKFIG_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_RICPRI_PRIORITA_RICHIESTA">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_RICPRI_PRIORITA_RICHIESTA">
+        <MappingFragment StoreEntitySet="T_RICPRI_PRIORITA_RICHIESTA">
+          <ScalarProperty Name="T_RICPRI_COLOR" ColumnName="T_RICPRI_COLOR" />
+          <ScalarProperty Name="T_RICPRI_DESC" ColumnName="T_RICPRI_DESC" />
+          <ScalarProperty Name="T_RICPRI_CODICE" ColumnName="T_RICPRI_CODICE" />
+          <ScalarProperty Name="T_RICPRI_ID" ColumnName="T_RICPRI_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RICHIE_RICHIESTE">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.RICHIE_RICHIESTE">
+        <MappingFragment StoreEntitySet="RICHIE_RICHIESTE">
+          <ScalarProperty Name="RICHIE_FLG_ASSEGN_AL_GRUPPO" ColumnName="RICHIE_FLG_ASSEGN_AL_GRUPPO" />
+          <ScalarProperty Name="RICHIE_PRODOT_ID" ColumnName="RICHIE_PRODOT_ID" />
+          <ScalarProperty Name="RICHIE_T_RICPRI_ID" ColumnName="RICHIE_T_RICPRI_ID" />
+          <ScalarProperty Name="RICHIE_VALORI_ID" ColumnName="RICHIE_VALORI_ID" />
+          <ScalarProperty Name="RICHIE_T_STARIC_ID" ColumnName="RICHIE_T_STARIC_ID" />
+          <ScalarProperty Name="RICHIE_TESTO" ColumnName="RICHIE_TESTO" />
+          <ScalarProperty Name="RICHIE_DESTINATARIO_UTENTE_ID" ColumnName="RICHIE_DESTINATARIO_UTENTE_ID" />
+          <ScalarProperty Name="RICHIE_RICHIEDENTE_UTENTE_ID" ColumnName="RICHIE_RICHIEDENTE_UTENTE_ID" />
+          <ScalarProperty Name="RICHIE_T_RICHIE_ID" ColumnName="RICHIE_T_RICHIE_ID" />
+          <ScalarProperty Name="RICHIE_DATA_RICHIESTA" ColumnName="RICHIE_DATA_RICHIESTA" />
+          <ScalarProperty Name="RICHIE_TITOLO" ColumnName="RICHIE_TITOLO" />
+          <ScalarProperty Name="RICHIE_CODICE" ColumnName="RICHIE_CODICE" />
+          <ScalarProperty Name="RICHIE_ID" ColumnName="RICHIE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+        <MappingFragment StoreEntitySet="T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+          <ScalarProperty Name="T_GRUDMI_DESC" ColumnName="T_GRUDMI_DESC" />
+          <ScalarProperty Name="T_GRUDMI_CODICE" ColumnName="T_GRUDMI_CODICE" />
+          <ScalarProperty Name="T_GRUDMI_ID" ColumnName="T_GRUDMI_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_UNIMIS_UNITA_MISURA">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_UNIMIS_UNITA_MISURA">
+        <MappingFragment StoreEntitySet="T_UNIMIS_UNITA_MISURA">
+          <ScalarProperty Name="T_UNIDMI_VISIBLE" ColumnName="T_UNIDMI_VISIBLE" />
+          <ScalarProperty Name="T_UNIDMI_DEFAULT" ColumnName="T_UNIDMI_DEFAULT" />
+          <ScalarProperty Name="T_UNIMIS_CONVERSIONE" ColumnName="T_UNIMIS_CONVERSIONE" />
+          <ScalarProperty Name="T_UNIMIS_GRUDMI_ID" ColumnName="T_UNIMIS_GRUDMI_ID" />
+          <ScalarProperty Name="T_UNIMIS_DESC" ColumnName="T_UNIMIS_DESC" />
+          <ScalarProperty Name="T_UNIMIS_CODICE" ColumnName="T_UNIMIS_CODICE" />
+          <ScalarProperty Name="T_UNIMIS_ID" ColumnName="T_UNIMIS_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="T_SETTIN_SETTINGS">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.T_SETTIN_SETTINGS">
+        <MappingFragment StoreEntitySet="T_SETTIN_SETTINGS">
+          <ScalarProperty Name="T_SETTIN_VALUE" ColumnName="T_SETTIN_VALUE" />
+          <ScalarProperty Name="T_SETTIN_CODICE" ColumnName="T_SETTIN_CODICE" />
+          <ScalarProperty Name="T_SETTIN_ID" ColumnName="T_SETTIN_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_FIGATT_FIGURAPROF_ATTIVITA">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.M_FIGATT_FIGURAPROF_ATTIVITA">
+        <MappingFragment StoreEntitySet="M_FIGATT_FIGURAPROF_ATTIVITA">
+          <ScalarProperty Name="M_FIGATT_FIGPRO_ID" ColumnName="M_FIGATT_FIGPRO_ID" />
+          <ScalarProperty Name="M_FIGATT_FASE_ID" ColumnName="M_FIGATT_FASE_ID" />
+          <ScalarProperty Name="M_FIGATT_ID" ColumnName="M_FIGATT_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CTRSTA_CONTROLLO_STATI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.CTRSTA_CONTROLLO_STATI">
+        <MappingFragment StoreEntitySet="CTRSTA_CONTROLLO_STATI">
+          <ScalarProperty Name="CTRSTA_VISIBILE" ColumnName="CTRSTA_VISIBILE" />
+          <ScalarProperty Name="CTRSTA_T_STATO_ID" ColumnName="CTRSTA_T_STATO_ID" />
+          <ScalarProperty Name="CTRSTA_CODICE" ColumnName="CTRSTA_CODICE" />
+          <ScalarProperty Name="CTRSTA_ID" ColumnName="CTRSTA_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CTRSPR_CONTROLLO_STATI_PROFILI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.CTRSPR_CONTROLLO_STATI_PROFILI">
+        <MappingFragment StoreEntitySet="CTRSPR_CONTROLLO_STATI_PROFILI">
+          <ScalarProperty Name="CTRSPR_PROFILO_ID" ColumnName="CTRSPR_PROFILO_ID" />
+          <ScalarProperty Name="CTRSPR_T_STATO_ID" ColumnName="CTRSPR_T_STATO_ID" />
+          <ScalarProperty Name="CTRSPR_CODICE" ColumnName="CTRSPR_CODICE" />
+          <ScalarProperty Name="CTRSPR_ID" ColumnName="CTRSPR_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+        <MappingFragment StoreEntitySet="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+          <ScalarProperty Name="M_UTPRGR_FLG_PRINCIPALE" ColumnName="M_UTPRGR_FLG_PRINCIPALE" />
+          <ScalarProperty Name="M_UTPRGR_GRUREP_ID" ColumnName="M_UTPRGR_GRUREP_ID" />
+          <ScalarProperty Name="M_UTPRGR_PROFIL_ID" ColumnName="M_UTPRGR_PROFIL_ID" />
+          <ScalarProperty Name="M_UTPRGR_UTENTE_ID" ColumnName="M_UTPRGR_UTENTE_ID" />
+          <ScalarProperty Name="M_UTPRGR_ID" ColumnName="M_UTPRGR_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRKPRO_PRODOTTO_TRACKING">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TRKPRO_PRODOTTO_TRACKING">
+        <MappingFragment StoreEntitySet="TRKPRO_PRODOTTO_TRACKING">
+          <ScalarProperty Name="TRKPRO_TS_AGGIORNAMENTO_POSIZIONI" ColumnName="TRKPRO_TS_AGGIORNAMENTO_POSIZIONI" />
+          <ScalarProperty Name="TRKPRO_COSSTO_PRODUZ_INT" ColumnName="TRKPRO_COSSTO_PRODUZ_INT" />
+          <ScalarProperty Name="TRKPRO_COSSTO_APP_DED" ColumnName="TRKPRO_COSSTO_APP_DED" />
+          <ScalarProperty Name="TRKPRO_COSSTO_ANALISI" ColumnName="TRKPRO_COSSTO_ANALISI" />
+          <ScalarProperty Name="TRKPRO_COSSTO_MATERIALI" ColumnName="TRKPRO_COSSTO_MATERIALI" />
+          <ScalarProperty Name="TRKPRO_COSSTO_PERSONALE" ColumnName="TRKPRO_COSSTO_PERSONALE" />
+          <ScalarProperty Name="TRKPRO_COSSTO_INDIRETTO" ColumnName="TRKPRO_COSSTO_INDIRETTO" />
+          <ScalarProperty Name="TRKPRO_COSSTO_DIRETTO" ColumnName="TRKPRO_COSSTO_DIRETTO" />
+          <ScalarProperty Name="TRKPRO_FLG_ASSEGN_AL_GRUPPO" ColumnName="TRKPRO_FLG_ASSEGN_AL_GRUPPO" />
+          <ScalarProperty Name="TRKPRO_T_UNIMIS_ID_SEC" ColumnName="TRKPRO_T_UNIMIS_ID_SEC" />
+          <ScalarProperty Name="TRKPRO_HASHKEY" ColumnName="TRKPRO_HASHKEY" />
+          <ScalarProperty Name="TRKPRO_TARIFFA_PROPOSTA" ColumnName="TRKPRO_TARIFFA_PROPOSTA" />
+          <ScalarProperty Name="TRKPRO_TARIFFA" ColumnName="TRKPRO_TARIFFA" />
+          <ScalarProperty Name="TRKPRO_PERC_SCARTO" ColumnName="TRKPRO_PERC_SCARTO" />
+          <ScalarProperty Name="TRKPRO_STIMA_PROD_ANNO" ColumnName="TRKPRO_STIMA_PROD_ANNO" />
+          <ScalarProperty Name="TRKPRO_COEFF_CONVERSIONE" ColumnName="TRKPRO_COEFF_CONVERSIONE" />
+          <ScalarProperty Name="TRKPRO_CODICE_DESC" ColumnName="TRKPRO_CODICE_DESC" />
+          <ScalarProperty Name="TRKPRO_FLG_BLOCCATO" ColumnName="TRKPRO_FLG_BLOCCATO" />
+          <ScalarProperty Name="TRKPRO_DESC_ESTESA" ColumnName="TRKPRO_DESC_ESTESA" />
+          <ScalarProperty Name="TRKPRO_DOCUMENTO" ColumnName="TRKPRO_DOCUMENTO" />
+          <ScalarProperty Name="TRKPRO_FLG_BLOCCATO_MAGAZZINO" ColumnName="TRKPRO_FLG_BLOCCATO_MAGAZZINO" />
+          <ScalarProperty Name="TRKPRO_CODICE" ColumnName="TRKPRO_CODICE" />
+          <ScalarProperty Name="TRKPRO_DESC" ColumnName="TRKPRO_DESC" />
+          <ScalarProperty Name="TRKPRO_FLG_INTERNO" ColumnName="TRKPRO_FLG_INTERNO" />
+          <ScalarProperty Name="TRKPRO_REPARTO_GRUREP_ID" ColumnName="TRKPRO_REPARTO_GRUREP_ID" />
+          <ScalarProperty Name="TRKPRO_NR_CAMP_QUALITA" ColumnName="TRKPRO_NR_CAMP_QUALITA" />
+          <ScalarProperty Name="TRKPRO_T_UNIMIS_ID" ColumnName="TRKPRO_T_UNIMIS_ID" />
+          <ScalarProperty Name="TRKPRO_COSTOUNITARIO_DELIBE" ColumnName="TRKPRO_COSTOUNITARIO_DELIBE" />
+          <ScalarProperty Name="TRKPRO_COSTOUNITARIO" ColumnName="TRKPRO_COSTOUNITARIO" />
+          <ScalarProperty Name="TRKPRO_DIM_LOTTO" ColumnName="TRKPRO_DIM_LOTTO" />
+          <ScalarProperty Name="TRKPRO_T_STAPRO_ID" ColumnName="TRKPRO_T_STAPRO_ID" />
+          <ScalarProperty Name="TRKPRO_PRODOT_UTENTE_ID" ColumnName="TRKPRO_PRODOT_UTENTE_ID" />
+          <ScalarProperty Name="TRKPRO_UTENTE_ID" ColumnName="TRKPRO_UTENTE_ID" />
+          <ScalarProperty Name="TRKPRO_DATA_INS" ColumnName="TRKPRO_DATA_INS" />
+          <ScalarProperty Name="TRKPRO_PRODOT_ID" ColumnName="TRKPRO_PRODOT_ID" />
+          <ScalarProperty Name="TRKPRO_ID" ColumnName="TRKPRO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VALORI_VALORIZZAZIONI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI">
+        <MappingFragment StoreEntitySet="VALORI_VALORIZZAZIONI">
+          <ScalarProperty Name="VALORI_TS_AGGIORNAMENTO_POSIZIONI" ColumnName="VALORI_TS_AGGIORNAMENTO_POSIZIONI" />
+          <ScalarProperty Name="VALORI_COSSTO_PRODUZ_INT" ColumnName="VALORI_COSSTO_PRODUZ_INT" />
+          <ScalarProperty Name="VALORI_COSSTO_APP_DED" ColumnName="VALORI_COSSTO_APP_DED" />
+          <ScalarProperty Name="VALORI_COSSTO_ACCETTAZIONE" ColumnName="VALORI_COSSTO_ACCETTAZIONE" />
+          <ScalarProperty Name="VALORI_COSSTO_ANALISI" ColumnName="VALORI_COSSTO_ANALISI" />
+          <ScalarProperty Name="VALORI_COSSTO_MATERIALI" ColumnName="VALORI_COSSTO_MATERIALI" />
+          <ScalarProperty Name="VALORI_COSSTO_PERSONALE" ColumnName="VALORI_COSSTO_PERSONALE" />
+          <ScalarProperty Name="VALORI_COSSTO_INDIRETTO" ColumnName="VALORI_COSSTO_INDIRETTO" />
+          <ScalarProperty Name="VALORI_COSSTO_DIRETTO" ColumnName="VALORI_COSSTO_DIRETTO" />
+          <ScalarProperty Name="VALORI_FLG_ASSEGN_AL_GRUPPO" ColumnName="VALORI_FLG_ASSEGN_AL_GRUPPO" />
+          <ScalarProperty Name="VALORI_ALLEGATO2" ColumnName="VALORI_ALLEGATO2" />
+          <ScalarProperty Name="VALORI_ALLEGATO1" ColumnName="VALORI_ALLEGATO1" />
+          <ScalarProperty Name="VALORI_DOCUMENTO" ColumnName="VALORI_DOCUMENTO" />
+          <ScalarProperty Name="VALORI_COD_VN_MP_REV_SETTORE_V" ColumnName="VALORI_COD_VN_MP_REV_SETTORE_V" />
+          <ScalarProperty Name="VALORI_COD_VN_MP_REV_SETTORE_D" ColumnName="VALORI_COD_VN_MP_REV_SETTORE_D" />
+          <ScalarProperty Name="VALORI_COD_VN_MP_REV_SETTORE" ColumnName="VALORI_COD_VN_MP_REV_SETTORE" />
+          <ScalarProperty Name="VALORI_COSTO_DIRETTO" ColumnName="VALORI_COSTO_DIRETTO" />
+          <ScalarProperty Name="VALORI_COSTO_TARIFFA_D_DELIBERATO" ColumnName="VALORI_COSTO_TARIFFA_D_DELIBERATO" />
+          <ScalarProperty Name="VALORI_LEGGE" ColumnName="VALORI_LEGGE" />
+          <ScalarProperty Name="VALORI_REVISIONE" ColumnName="VALORI_REVISIONE" />
+          <ScalarProperty Name="VALORI_MP_REV_CODICE" ColumnName="VALORI_MP_REV_CODICE" />
+          <ScalarProperty Name="VALORI_VN_CODICE" ColumnName="VALORI_VN_CODICE" />
+          <ScalarProperty Name="VALORI_CODICE_DESC" ColumnName="VALORI_CODICE_DESC" />
+          <ScalarProperty Name="VALORI_FLAG_MODELLO" ColumnName="VALORI_FLAG_MODELLO" />
+          <ScalarProperty Name="VALORI_DATA_MP_REV_SCADENZA" ColumnName="VALORI_DATA_MP_REV_SCADENZA" />
+          <ScalarProperty Name="VALORI_DATA_VN_A" ColumnName="VALORI_DATA_VN_A" />
+          <ScalarProperty Name="VALORI_DATA_VN_DA" ColumnName="VALORI_DATA_VN_DA" />
+          <ScalarProperty Name="VALORI_FLG_NON_PROGRAMMABILI" ColumnName="VALORI_FLG_NON_PROGRAMMABILI" />
+          <ScalarProperty Name="VALORI_CODICE_INTERMEDIO" ColumnName="VALORI_CODICE_INTERMEDIO" />
+          <ScalarProperty Name="VALORI_COSTO_TARIFFA_DELIBERATO" ColumnName="VALORI_COSTO_TARIFFA_DELIBERATO" />
+          <ScalarProperty Name="VALORI_COSTO_TARIFFA" ColumnName="VALORI_COSTO_TARIFFA" />
+          <ScalarProperty Name="VALORI_FLG_INTERM" ColumnName="VALORI_FLG_INTERM" />
+          <ScalarProperty Name="VALORI_T_STAVAL_ID" ColumnName="VALORI_T_STAVAL_ID" />
+          <ScalarProperty Name="VALORI_PESO_POSITIVO" ColumnName="VALORI_PESO_POSITIVO" />
+          <ScalarProperty Name="VALORI_FLG_PONDERAZIONE" ColumnName="VALORI_FLG_PONDERAZIONE" />
+          <ScalarProperty Name="VALORI_COSTO_TOT_DELIB" ColumnName="VALORI_COSTO_TOT_DELIB" />
+          <ScalarProperty Name="VALORI_COSTO_TOT" ColumnName="VALORI_COSTO_TOT" />
+          <ScalarProperty Name="VALORI_MATRICE" ColumnName="VALORI_MATRICE" />
+          <ScalarProperty Name="VALORI_NR_CAMP_QUALITA" ColumnName="VALORI_NR_CAMP_QUALITA" />
+          <ScalarProperty Name="VALORI_DIM_LOTTO" ColumnName="VALORI_DIM_LOTTO" />
+          <ScalarProperty Name="VALORI_TECNICA" ColumnName="VALORI_TECNICA" />
+          <ScalarProperty Name="VALORI_DESC" ColumnName="VALORI_DESC" />
+          <ScalarProperty Name="VALORI_MP_REV" ColumnName="VALORI_MP_REV" />
+          <ScalarProperty Name="VALORI_VN" ColumnName="VALORI_VN" />
+          <ScalarProperty Name="VALORI_REPARTO_GRUREP_ID" ColumnName="VALORI_REPARTO_GRUREP_ID" />
+          <ScalarProperty Name="VALORI_GRUPPO_GRUREP_ID" ColumnName="VALORI_GRUPPO_GRUREP_ID" />
+          <ScalarProperty Name="VALORI_FLG_BLOCCATO" ColumnName="VALORI_FLG_BLOCCATO" />
+          <ScalarProperty Name="VALORI_FLG_INTERNO" ColumnName="VALORI_FLG_INTERNO" />
+          <ScalarProperty Name="VALORI_UTENTE_ID" ColumnName="VALORI_UTENTE_ID" />
+          <ScalarProperty Name="VALORI_ID" ColumnName="VALORI_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FIGPRO_FIGURA_PROFESSIONALE">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.FIGPRO_FIGURA_PROFESSIONALE">
+        <MappingFragment StoreEntitySet="FIGPRO_FIGURA_PROFESSIONALE">
+          <ScalarProperty Name="FIGPRO_COSTO" ColumnName="FIGPRO_COSTO" />
+          <ScalarProperty Name="FIGPRO_DESC" ColumnName="FIGPRO_DESC" />
+          <ScalarProperty Name="FIGPRO_CODICE" ColumnName="FIGPRO_CODICE" />
+          <ScalarProperty Name="FIGPRO_ID" ColumnName="FIGPRO_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRKPPS_PRODOTPOS_TRACKING">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TRKPPS_PRODOTPOS_TRACKING">
+        <MappingFragment StoreEntitySet="TRKPPS_PRODOTPOS_TRACKING">
+          <ScalarProperty Name="TRKVPS_PROPOS_MACCHI_ID" ColumnName="TRKVPS_PROPOS_MACCHI_ID" />
+          <ScalarProperty Name="TRKPPS_PROPOS_COD_SETTORE" ColumnName="TRKPPS_PROPOS_COD_SETTORE" />
+          <ScalarProperty Name="TRKPPS_PROPOS_T_UNIMIS_ID" ColumnName="TRKPPS_PROPOS_T_UNIMIS_ID" />
+          <ScalarProperty Name="TRKPPS_PROPOS_COEFF_CONVERSIONE" ColumnName="TRKPPS_PROPOS_COEFF_CONVERSIONE" />
+          <ScalarProperty Name="TRKPPS_PROPOS_TOT" ColumnName="TRKPPS_PROPOS_TOT" />
+          <ScalarProperty Name="TRKPPS_PROPOS_COSTO_QTA" ColumnName="TRKPPS_PROPOS_COSTO_QTA" />
+          <ScalarProperty Name="TRKPPS_PROPOS_QTA" ColumnName="TRKPPS_PROPOS_QTA" />
+          <ScalarProperty Name="TRKPPS_PROPOS_DESC" ColumnName="TRKPPS_PROPOS_DESC" />
+          <ScalarProperty Name="TRKPPS_PROPOS_FIGPRO_ID" ColumnName="TRKPPS_PROPOS_FIGPRO_ID" />
+          <ScalarProperty Name="TRKPPS_PROPOS_FASE_ID" ColumnName="TRKPPS_PROPOS_FASE_ID" />
+          <ScalarProperty Name="TRKPPS_PROPOS_PRODOT_ID_SEC" ColumnName="TRKPPS_PROPOS_PRODOT_ID_SEC" />
+          <ScalarProperty Name="TRKPPS_PROPOS_INTERM_ID" ColumnName="TRKPPS_PROPOS_INTERM_ID" />
+          <ScalarProperty Name="TRKPPS_PROPOS_PRODOT_ID" ColumnName="TRKPPS_PROPOS_PRODOT_ID" />
+          <ScalarProperty Name="TRKVAL_UTENTE_ID" ColumnName="TRKVAL_UTENTE_ID" />
+          <ScalarProperty Name="TRKVAL_DATA_INS" ColumnName="TRKVAL_DATA_INS" />
+          <ScalarProperty Name="TRKPPS_PROPOS_ID" ColumnName="TRKPPS_PROPOS_ID" />
+          <ScalarProperty Name="TRKPPS_ID" ColumnName="TRKPPS_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRKVPS_VALORIPOS_TRACKING">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TRKVPS_VALORIPOS_TRACKING">
+        <MappingFragment StoreEntitySet="TRKVPS_VALORIPOS_TRACKING">
+          <ScalarProperty Name="TRKVPS_VALPOS_MACCHI_ID" ColumnName="TRKVPS_VALPOS_MACCHI_ID" />
+          <ScalarProperty Name="TRKVPS_VALPOS_COD_SETTORE" ColumnName="TRKVPS_VALPOS_COD_SETTORE" />
+          <ScalarProperty Name="TRKVPS_VALPOS_SECONDARIE" ColumnName="TRKVPS_VALPOS_SECONDARIE" />
+          <ScalarProperty Name="TRKVPS_VALPOS_T_UNIMIS_ID" ColumnName="TRKVPS_VALPOS_T_UNIMIS_ID" />
+          <ScalarProperty Name="TRKVPS_VALPOS_COEFF_CONVERSIONE" ColumnName="TRKVPS_VALPOS_COEFF_CONVERSIONE" />
+          <ScalarProperty Name="TRKVPS_VALPOS_TOT" ColumnName="TRKVPS_VALPOS_TOT" />
+          <ScalarProperty Name="TRKVPS_VALPOS_COSTO_QTA" ColumnName="TRKVPS_VALPOS_COSTO_QTA" />
+          <ScalarProperty Name="TRKVPS_VALPOS_QTA" ColumnName="TRKVPS_VALPOS_QTA" />
+          <ScalarProperty Name="TRKVPS_VALPOS_DESC" ColumnName="TRKVPS_VALPOS_DESC" />
+          <ScalarProperty Name="TRKVPS_VALPOS_FIGPRO_ID" ColumnName="TRKVPS_VALPOS_FIGPRO_ID" />
+          <ScalarProperty Name="TRKVPS_VALPOS_FASE_ID" ColumnName="TRKVPS_VALPOS_FASE_ID" />
+          <ScalarProperty Name="TRKVPS_VALPOS_PRODOT_ID" ColumnName="TRKVPS_VALPOS_PRODOT_ID" />
+          <ScalarProperty Name="TRKVPS_VALPOS_INTERM_ID" ColumnName="TRKVPS_VALPOS_INTERM_ID" />
+          <ScalarProperty Name="TRKVPS_VALPOS_VALORI_ID" ColumnName="TRKVPS_VALPOS_VALORI_ID" />
+          <ScalarProperty Name="TRKVAL_UTENTE_ID" ColumnName="TRKVAL_UTENTE_ID" />
+          <ScalarProperty Name="TRKVAL_DATA_INS" ColumnName="TRKVAL_DATA_INS" />
+          <ScalarProperty Name="TRKVPS_VALPOS_ID" ColumnName="TRKVPS_VALPOS_ID" />
+          <ScalarProperty Name="TRKVPS_ID" ColumnName="TRKVPS_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PROPOS_POSIZIONI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.PROPOS_POSIZIONI">
+        <MappingFragment StoreEntitySet="PROPOS_POSIZIONI">
+          <ScalarProperty Name="PROPOS_COD_SETTORE" ColumnName="PROPOS_COD_SETTORE" />
+          <ScalarProperty Name="PROPOS_MACCHI_ID" ColumnName="PROPOS_MACCHI_ID" />
+          <ScalarProperty Name="PROPOS_T_UNIMIS_ID" ColumnName="PROPOS_T_UNIMIS_ID" />
+          <ScalarProperty Name="PROPOS_COEFF_CONVERSIONE" ColumnName="PROPOS_COEFF_CONVERSIONE" />
+          <ScalarProperty Name="PROPOS_TOT" ColumnName="PROPOS_TOT" />
+          <ScalarProperty Name="PROPOS_COSTO_QTA" ColumnName="PROPOS_COSTO_QTA" />
+          <ScalarProperty Name="PROPOS_QTA" ColumnName="PROPOS_QTA" />
+          <ScalarProperty Name="PROPOS_DESC" ColumnName="PROPOS_DESC" />
+          <ScalarProperty Name="PROPOS_FIGPRO_ID" ColumnName="PROPOS_FIGPRO_ID" />
+          <ScalarProperty Name="PROPOS_FASE_ID" ColumnName="PROPOS_FASE_ID" />
+          <ScalarProperty Name="PROPOS_PRODOT_ID_SEC" ColumnName="PROPOS_PRODOT_ID_SEC" />
+          <ScalarProperty Name="PROPOS_INTERM_ID" ColumnName="PROPOS_INTERM_ID" />
+          <ScalarProperty Name="PROPOS_PRODOT_ID" ColumnName="PROPOS_PRODOT_ID" />
+          <ScalarProperty Name="PROPOS_ID" ColumnName="PROPOS_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MACCHI_MACCHINARIO">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.MACCHI_MACCHINARIO">
+        <MappingFragment StoreEntitySet="MACCHI_MACCHINARIO">
+          <ScalarProperty Name="MACCHI_MINUTI_ANNO" ColumnName="MACCHI_MINUTI_ANNO" />
+          <ScalarProperty Name="MACCHI_VITA_UTILE_ANNI" ColumnName="MACCHI_VITA_UTILE_ANNI" />
+          <ScalarProperty Name="MACCHI_COSTO_MANUTENZIONE_ANNUALE" ColumnName="MACCHI_COSTO_MANUTENZIONE_ANNUALE" />
+          <ScalarProperty Name="MACCHI_VALORE_STRUMENTAZIONE" ColumnName="MACCHI_VALORE_STRUMENTAZIONE" />
+          <ScalarProperty Name="MACCHI_GRUREP_ID" ColumnName="MACCHI_GRUREP_ID" />
+          <ScalarProperty Name="MACCHI_PREZZO_UNITARIO" ColumnName="MACCHI_PREZZO_UNITARIO" />
+          <ScalarProperty Name="MACCHI_DESC" ColumnName="MACCHI_DESC" />
+          <ScalarProperty Name="MACCHI_CODICE" ColumnName="MACCHI_CODICE" />
+          <ScalarProperty Name="MACCHI_ID" ColumnName="MACCHI_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PRODOT_PRODOTTI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.PRODOT_PRODOTTI">
+        <MappingFragment StoreEntitySet="PRODOT_PRODOTTI">
+          <ScalarProperty Name="PRODOT_TS_AGGIORNAMENTO_POSIZIONI" ColumnName="PRODOT_TS_AGGIORNAMENTO_POSIZIONI" />
+          <ScalarProperty Name="PRODOT_COSSTO_PRODUZ_INT" ColumnName="PRODOT_COSSTO_PRODUZ_INT" />
+          <ScalarProperty Name="PRODOT_COSSTO_APP_DED" ColumnName="PRODOT_COSSTO_APP_DED" />
+          <ScalarProperty Name="PRODOT_COSSTO_ANALISI" ColumnName="PRODOT_COSSTO_ANALISI" />
+          <ScalarProperty Name="PRODOT_COSSTO_MATERIALI" ColumnName="PRODOT_COSSTO_MATERIALI" />
+          <ScalarProperty Name="PRODOT_COSSTO_PERSONALE" ColumnName="PRODOT_COSSTO_PERSONALE" />
+          <ScalarProperty Name="PRODOT_COSSTO_INDIRETTO" ColumnName="PRODOT_COSSTO_INDIRETTO" />
+          <ScalarProperty Name="PRODOT_COSSTO_DIRETTO" ColumnName="PRODOT_COSSTO_DIRETTO" />
+          <ScalarProperty Name="PRODOT_FLG_ASSEGN_AL_GRUPPO" ColumnName="PRODOT_FLG_ASSEGN_AL_GRUPPO" />
+          <ScalarProperty Name="PRODOT_DOCUMENTO" ColumnName="PRODOT_DOCUMENTO" />
+          <ScalarProperty Name="PRODOT_T_UNIMIS_ID_SEC" ColumnName="PRODOT_T_UNIMIS_ID_SEC" />
+          <ScalarProperty Name="PRODOT_HASHKEY" ColumnName="PRODOT_HASHKEY" />
+          <ScalarProperty Name="PRODOT_TARIFFA_PROPOSTA" ColumnName="PRODOT_TARIFFA_PROPOSTA" />
+          <ScalarProperty Name="PRODOT_TARIFFA" ColumnName="PRODOT_TARIFFA" />
+          <ScalarProperty Name="PRODOT_PERC_SCARTO" ColumnName="PRODOT_PERC_SCARTO" />
+          <ScalarProperty Name="PRODOT_STIMA_PROD_ANNO" ColumnName="PRODOT_STIMA_PROD_ANNO" />
+          <ScalarProperty Name="PRODOT_COEFF_CONVERSIONE" ColumnName="PRODOT_COEFF_CONVERSIONE" />
+          <ScalarProperty Name="PRODOT_CODICE_DESC" ColumnName="PRODOT_CODICE_DESC" />
+          <ScalarProperty Name="PRODOT_FLG_BLOCCATO_MAGAZZINO" ColumnName="PRODOT_FLG_BLOCCATO_MAGAZZINO" />
+          <ScalarProperty Name="PRODOT_FLG_INTERNO" ColumnName="PRODOT_FLG_INTERNO" />
+          <ScalarProperty Name="PRODOT_REPARTO_GRUREP_ID" ColumnName="PRODOT_REPARTO_GRUREP_ID" />
+          <ScalarProperty Name="PRODOT_COSTOUNITARIO_DELIBE" ColumnName="PRODOT_COSTOUNITARIO_DELIBE" />
+          <ScalarProperty Name="PRODOT_NR_CAMP_QUALITA" ColumnName="PRODOT_NR_CAMP_QUALITA" />
+          <ScalarProperty Name="PRODOT_DIM_LOTTO" ColumnName="PRODOT_DIM_LOTTO" />
+          <ScalarProperty Name="PRODOT_T_STAPRO_ID" ColumnName="PRODOT_T_STAPRO_ID" />
+          <ScalarProperty Name="PRODOT_UTENTE_ID" ColumnName="PRODOT_UTENTE_ID" />
+          <ScalarProperty Name="PRODOT_T_UNIMIS_ID" ColumnName="PRODOT_T_UNIMIS_ID" />
+          <ScalarProperty Name="PRODOT_COSTOUNITARIO" ColumnName="PRODOT_COSTOUNITARIO" />
+          <ScalarProperty Name="PRODOT_FLG_BLOCCATO" ColumnName="PRODOT_FLG_BLOCCATO" />
+          <ScalarProperty Name="PRODOT_DESC_ESTESA" ColumnName="PRODOT_DESC_ESTESA" />
+          <ScalarProperty Name="PRODOT_DESC" ColumnName="PRODOT_DESC" />
+          <ScalarProperty Name="PRODOT_CODICE" ColumnName="PRODOT_CODICE" />
+          <ScalarProperty Name="PRODOT_ID" ColumnName="PRODOT_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TRKVAL_VALORIZZAZIONI_TRACKING">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TRKVAL_VALORIZZAZIONI_TRACKING">
+        <MappingFragment StoreEntitySet="TRKVAL_VALORIZZAZIONI_TRACKING">
+          <ScalarProperty Name="TRKVAL_TS_AGGIORNAMENTO_POSIZIONI" ColumnName="TRKVAL_TS_AGGIORNAMENTO_POSIZIONI" />
+          <ScalarProperty Name="TRKVAL_COSSTO_PRODUZ_INT" ColumnName="TRKVAL_COSSTO_PRODUZ_INT" />
+          <ScalarProperty Name="TRKVAL_COSSTO_APP_DED" ColumnName="TRKVAL_COSSTO_APP_DED" />
+          <ScalarProperty Name="TRKVAL_COSSTO_ACCETTAZIONE" ColumnName="TRKVAL_COSSTO_ACCETTAZIONE" />
+          <ScalarProperty Name="TRKVAL_COSSTO_ANALISI" ColumnName="TRKVAL_COSSTO_ANALISI" />
+          <ScalarProperty Name="TRKVAL_COSSTO_MATERIALI" ColumnName="TRKVAL_COSSTO_MATERIALI" />
+          <ScalarProperty Name="TRKVAL_COSSTO_PERSONALE" ColumnName="TRKVAL_COSSTO_PERSONALE" />
+          <ScalarProperty Name="TRKVAL_COSSTO_INDIRETTO" ColumnName="TRKVAL_COSSTO_INDIRETTO" />
+          <ScalarProperty Name="TRKVAL_COSSTO_DIRETTO" ColumnName="TRKVAL_COSSTO_DIRETTO" />
+          <ScalarProperty Name="TRKVAL_FLG_ASSEGN_AL_GRUPPO" ColumnName="TRKVAL_FLG_ASSEGN_AL_GRUPPO" />
+          <ScalarProperty Name="TRKVAL_COSTO_DIRETTO" ColumnName="TRKVAL_COSTO_DIRETTO" />
+          <ScalarProperty Name="TRKVAL_CODICE_DESC" ColumnName="TRKVAL_CODICE_DESC" />
+          <ScalarProperty Name="TRKVAL_FLAG_MODELLO" ColumnName="TRKVAL_FLAG_MODELLO" />
+          <ScalarProperty Name="TRKVAL_FLG_NON_PROGRAMMABILI" ColumnName="TRKVAL_FLG_NON_PROGRAMMABILI" />
+          <ScalarProperty Name="TRKVAL_FLG_INTERM" ColumnName="TRKVAL_FLG_INTERM" />
+          <ScalarProperty Name="TRKVAL_MATRICE" ColumnName="TRKVAL_MATRICE" />
+          <ScalarProperty Name="TRKVAL_TECNICA" ColumnName="TRKVAL_TECNICA" />
+          <ScalarProperty Name="TRKVAL_MP_REV" ColumnName="TRKVAL_MP_REV" />
+          <ScalarProperty Name="TRKVAL_VN" ColumnName="TRKVAL_VN" />
+          <ScalarProperty Name="TRKVAL_FLG_BLOCCATO" ColumnName="TRKVAL_FLG_BLOCCATO" />
+          <ScalarProperty Name="TRKVAL_FLG_INTERNO" ColumnName="TRKVAL_FLG_INTERNO" />
+          <ScalarProperty Name="TRKVAL_ALLEGATO2" ColumnName="TRKVAL_ALLEGATO2" />
+          <ScalarProperty Name="TRKVAL_ALLEGATO1" ColumnName="TRKVAL_ALLEGATO1" />
+          <ScalarProperty Name="TRKVAL_DOCUMENTO" ColumnName="TRKVAL_DOCUMENTO" />
+          <ScalarProperty Name="TRKVAL_COD_VN_MP_REV_SETTORE_V" ColumnName="TRKVAL_COD_VN_MP_REV_SETTORE_V" />
+          <ScalarProperty Name="TRKVAL_COD_VN_MP_REV_SETTORE_D" ColumnName="TRKVAL_COD_VN_MP_REV_SETTORE_D" />
+          <ScalarProperty Name="TRKVAL_COD_VN_MP_REV_SETTORE" ColumnName="TRKVAL_COD_VN_MP_REV_SETTORE" />
+          <ScalarProperty Name="TRKVAL_COSTO_TARIFFA_D_DELIBERATO" ColumnName="TRKVAL_COSTO_TARIFFA_D_DELIBERATO" />
+          <ScalarProperty Name="TRKVAL_DATA_MP_REV_SCADENZA" ColumnName="TRKVAL_DATA_MP_REV_SCADENZA" />
+          <ScalarProperty Name="TRKVAL_DATA_VN_A" ColumnName="TRKVAL_DATA_VN_A" />
+          <ScalarProperty Name="TRKVAL_DATA_VN_DA" ColumnName="TRKVAL_DATA_VN_DA" />
+          <ScalarProperty Name="TRKVAL_LEGGE" ColumnName="TRKVAL_LEGGE" />
+          <ScalarProperty Name="TRKVAL_REVISIONE" ColumnName="TRKVAL_REVISIONE" />
+          <ScalarProperty Name="TRKVAL_MP_REV_CODICE" ColumnName="TRKVAL_MP_REV_CODICE" />
+          <ScalarProperty Name="TRKVAL_VN_CODICE" ColumnName="TRKVAL_VN_CODICE" />
+          <ScalarProperty Name="TRKVAL_COSTO_TARIFFA_DELIBERATO" ColumnName="TRKVAL_COSTO_TARIFFA_DELIBERATO" />
+          <ScalarProperty Name="TRKVAL_COSTO_TARIFFA" ColumnName="TRKVAL_COSTO_TARIFFA" />
+          <ScalarProperty Name="TRKVAL_COSTO_TOT_DELIB" ColumnName="TRKVAL_COSTO_TOT_DELIB" />
+          <ScalarProperty Name="TRKVAL_REPARTO_GRUREP_ID" ColumnName="TRKVAL_REPARTO_GRUREP_ID" />
+          <ScalarProperty Name="TRKVAL_GRUPPO_GRUREP_ID" ColumnName="TRKVAL_GRUPPO_GRUREP_ID" />
+          <ScalarProperty Name="TRKVAL_DESC_INTERMEDIO" ColumnName="TRKVAL_DESC_INTERMEDIO" />
+          <ScalarProperty Name="TRKVAL_CODICE_INTERMEDIO" ColumnName="TRKVAL_CODICE_INTERMEDIO" />
+          <ScalarProperty Name="TRKVAL_T_STAVAL_ID" ColumnName="TRKVAL_T_STAVAL_ID" />
+          <ScalarProperty Name="TRKVAL_PESO_POSITIVO" ColumnName="TRKVAL_PESO_POSITIVO" />
+          <ScalarProperty Name="TRKVAL_FLG_PONDERAZIONE" ColumnName="TRKVAL_FLG_PONDERAZIONE" />
+          <ScalarProperty Name="TRKVAL_COSTO_TOT" ColumnName="TRKVAL_COSTO_TOT" />
+          <ScalarProperty Name="TRKVAL_NR_CAMP_QUALITA" ColumnName="TRKVAL_NR_CAMP_QUALITA" />
+          <ScalarProperty Name="TRKVAL_DIM_LOTTO" ColumnName="TRKVAL_DIM_LOTTO" />
+          <ScalarProperty Name="TRKVAL_VALORI_UTENTE_ID" ColumnName="TRKVAL_VALORI_UTENTE_ID" />
+          <ScalarProperty Name="TRKVAL_UTENTE_ID" ColumnName="TRKVAL_UTENTE_ID" />
+          <ScalarProperty Name="TRKVAL_DATA_INS" ColumnName="TRKVAL_DATA_INS" />
+          <ScalarProperty Name="TRKVAL_VALORI_ID" ColumnName="TRKVAL_VALORI_ID" />
+          <ScalarProperty Name="TRKVAL_ID" ColumnName="TRKVAL_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VALPOS_POSIZIONI">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.VALPOS_POSIZIONI">
+        <MappingFragment StoreEntitySet="VALPOS_POSIZIONI">
+          <ScalarProperty Name="VALPOS_COD_SETTORE" ColumnName="VALPOS_COD_SETTORE" />
+          <ScalarProperty Name="VALPOS_MACCHI_ID" ColumnName="VALPOS_MACCHI_ID" />
+          <ScalarProperty Name="VALPOS_SECONDARIE" ColumnName="VALPOS_SECONDARIE" />
+          <ScalarProperty Name="VALPOS_T_UNIMIS_ID" ColumnName="VALPOS_T_UNIMIS_ID" />
+          <ScalarProperty Name="VALPOS_COEFF_CONVERSIONE" ColumnName="VALPOS_COEFF_CONVERSIONE" />
+          <ScalarProperty Name="VALPOS_TOT" ColumnName="VALPOS_TOT" />
+          <ScalarProperty Name="VALPOS_COSTO_QTA" ColumnName="VALPOS_COSTO_QTA" />
+          <ScalarProperty Name="VALPOS_QTA" ColumnName="VALPOS_QTA" />
+          <ScalarProperty Name="VALPOS_DESC" ColumnName="VALPOS_DESC" />
+          <ScalarProperty Name="VALPOS_FIGPRO_ID" ColumnName="VALPOS_FIGPRO_ID" />
+          <ScalarProperty Name="VALPOS_FASE_ID" ColumnName="VALPOS_FASE_ID" />
+          <ScalarProperty Name="VALPOS_PRODOT_ID" ColumnName="VALPOS_PRODOT_ID" />
+          <ScalarProperty Name="VALPOS_INTERM_ID" ColumnName="VALPOS_INTERM_ID" />
+          <ScalarProperty Name="VALPOS_VALORI_ID" ColumnName="VALPOS_VALORI_ID" />
+          <ScalarProperty Name="VALPOS_ID" ColumnName="VALPOS_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TKPROP_PREZZI_PRODOTTI_TRK">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TKPROP_PREZZI_PRODOTTI_TRK">
+        <MappingFragment StoreEntitySet="TKPROP_PREZZI_PRODOTTI_TRK">
+          <ScalarProperty Name="TKPROP_FLG_BLOCCATO_MAGAZZINO" ColumnName="TKPROP_FLG_BLOCCATO_MAGAZZINO" />
+          <ScalarProperty Name="TKPROP_COSTO_DELIB" ColumnName="TKPROP_COSTO_DELIB" />
+          <ScalarProperty Name="TKPROP_TARIFFA" ColumnName="TKPROP_TARIFFA" />
+          <ScalarProperty Name="TKPROP_COSTO" ColumnName="TKPROP_COSTO" />
+          <ScalarProperty Name="TKPROP_DATA_INS" ColumnName="TKPROP_DATA_INS" />
+          <ScalarProperty Name="TKPROP_PRODOT_ID" ColumnName="TKPROP_PRODOT_ID" />
+          <ScalarProperty Name="TKPROP_ID" ColumnName="TKPROP_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TKVALP_PREZZI_VALORIZZAZIONI_TRK">
+      <EntityTypeMapping TypeName="IZSLER_CAP_Model.TKVALP_PREZZI_VALORIZZAZIONI_TRK">
+        <MappingFragment StoreEntitySet="TKVALP_PREZZI_VALORIZZAZIONI_TRK">
+          <ScalarProperty Name="TKVALP_FLG_BLOCCATO_MAGAZZINO" ColumnName="TKVALP_FLG_BLOCCATO_MAGAZZINO" />
+          <ScalarProperty Name="TKVALP_COSTO_DELIB" ColumnName="TKVALP_COSTO_DELIB" />
+          <ScalarProperty Name="TKVALP_TARIFFA" ColumnName="TKVALP_TARIFFA" />
+          <ScalarProperty Name="TKVALP_COSTO" ColumnName="TKVALP_COSTO" />
+          <ScalarProperty Name="TKVALP_DATA_INS" ColumnName="TKVALP_DATA_INS" />
+          <ScalarProperty Name="TKVALP_VALORI_ID" ColumnName="TKVALP_VALORI_ID" />
+          <ScalarProperty Name="TKVALP_ID" ColumnName="TKVALP_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="USPT_GET_CODICE_INTERMEDIO" FunctionName="IZSLER_CAP_Model.Store.USPT_GET_CODICE_INTERMEDIO" />
+    <FunctionImportMapping FunctionImportName="USPT_GET_TRACKING_VALORIZZAZIONI" FunctionName="IZSLER_CAP_Model.Store.USPT_GET_TRACKING_VALORIZZAZIONI">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="IZSLER_CAP_Model.TrackingValorizzazioni_Result">
+          <ScalarProperty Name="TKVALP_DATA_INS" ColumnName="TKVALP_DATA_INS" />
+          <ScalarProperty Name="TKVALP_COSTO" ColumnName="TKVALP_COSTO" />
+          <ScalarProperty Name="TKVALP_COSTO_DELIB" ColumnName="TKVALP_COSTO_DELIB" />
+          <ScalarProperty Name="TKVALP_FLG_BLOCCATO_MAGAZZINO" ColumnName="TKVALP_FLG_BLOCCATO_MAGAZZINO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="USPT_GET_TRACKING_PRODOTTI" FunctionName="IZSLER_CAP_Model.Store.USPT_GET_TRACKING_PRODOTTI">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="IZSLER_CAP_Model.TrackingProdotti_Result">
+          <ScalarProperty Name="TKPROP_DATA_INS" ColumnName="TKPROP_DATA_INS" />
+          <ScalarProperty Name="TKPROP_COSTO" ColumnName="TKPROP_COSTO" />
+          <ScalarProperty Name="TKPROP_COSTO_DELIB" ColumnName="TKPROP_COSTO_DELIB" />
+          <ScalarProperty Name="TKPROP_FLG_BLOCCATO_MAGAZZINO" ColumnName="TKPROP_FLG_BLOCCATO_MAGAZZINO" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IntermediEsplosiProdotto_stampa" FunctionName="IZSLER_CAP_Model.Store.USPT_REPORT_STAMPA_PRODOTTO_INTERMEDI_ESPLOSI">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="IZSLER_CAP_Model.IntermediEsplosiProdotto_stampa_Result">
+          <ScalarProperty Name="ORDINE" ColumnName="ORDINE" />
+          <ScalarProperty Name="LIVELLO" ColumnName="LIVELLO" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
+          <ScalarProperty Name="POSIZIONE" ColumnName="POSIZIONE" />
+          <ScalarProperty Name="VALORI_ID" ColumnName="VALORI_ID" />
+          <ScalarProperty Name="FASE_DESC" ColumnName="FASE_DESC" />
+          <ScalarProperty Name="PROPOS_QTA" ColumnName="PROPOS_QTA" />
+          <ScalarProperty Name="PROPOS_TOT" ColumnName="PROPOS_TOT" />
+          <ScalarProperty Name="CODICE" ColumnName="CODICE" />
+          <ScalarProperty Name="DESCRIZIONE" ColumnName="DESCRIZIONE" />
+          <ScalarProperty Name="T_UNIMIS_DESC" ColumnName="T_UNIMIS_DESC" />
+          <ScalarProperty Name="propos_desc" ColumnName="propos_desc" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IntermediEsplosiAnalisi_stampa" FunctionName="IZSLER_CAP_Model.Store.USPT_REPORT_STAMPA_ANALISI_INTERMEDI_ESPLOSI">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="IZSLER_CAP_Model.IntermediEsplosiAnalisi_stampa_Result">
+          <ScalarProperty Name="ORDINE" ColumnName="ORDINE" />
+          <ScalarProperty Name="LIVELLO" ColumnName="LIVELLO" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ID_PADRE" ColumnName="ID_PADRE" />
+          <ScalarProperty Name="POSIZIONE" ColumnName="POSIZIONE" />
+          <ScalarProperty Name="VALORI_ID" ColumnName="VALORI_ID" />
+          <ScalarProperty Name="FASE_DESC" ColumnName="FASE_DESC" />
+          <ScalarProperty Name="VALPOS_QTA" ColumnName="VALPOS_QTA" />
+          <ScalarProperty Name="VALPOS_TOT" ColumnName="VALPOS_TOT" />
+          <ScalarProperty Name="CODICE" ColumnName="CODICE" />
+          <ScalarProperty Name="DESCRIZIONE" ColumnName="DESCRIZIONE" />
+          <ScalarProperty Name="T_UNIMIS_DESC" ColumnName="T_UNIMIS_DESC" />
+          <ScalarProperty Name="valpos_desc" ColumnName="valpos_desc" />
+          <ScalarProperty Name="SECONDARIA" ColumnName="SECONDARIA" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="USPT_STORICIZZA_COSTI_ANALISI" FunctionName="IZSLER_CAP_Model.Store.USPT_STORICIZZA_COSTI_ANALISI" />
+    <FunctionImportMapping FunctionImportName="USPT_STORICIZZA_COSTI_PRODOTTI" FunctionName="IZSLER_CAP_Model.Store.USPT_STORICIZZA_COSTI_PRODOTTI" />
+  </EntityContainerMapping>
+</Mapping>

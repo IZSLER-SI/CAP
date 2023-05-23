@@ -1,0 +1,24 @@
+﻿@model IZSLER_CAP.Models.RichiestaModel
+@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+}
+
+
+
+@using IZSLER_CAP.Helpers
+<hgroup id="main-title" class="thin">
+			<h1>@ViewBag.Message</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+</hgroup>
+<div class="with-padding">
+	<div class="columns">
+		<div class="eight-columns six-columns-tablet twelve-columns-mobile">
+
+			<h2 class="relative thin">
+				Risorsa non trovata
+			</h2>
+        </div>
+	</div>
+</div>
+
+    

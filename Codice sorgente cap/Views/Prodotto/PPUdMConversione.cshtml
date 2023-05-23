@@ -1,0 +1,186 @@
+﻿@model IZSLER_CAP.Models.UdMConversionePModel
+@using IZSLER_CAP.Helpers
+@{
+    ViewBag.Title = "PPUdMConversione";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+
+@functions
+{
+    public string GetCoeffConversion()
+    {
+        string ret = Model.GetConversionRatio();
+        if(ret=="")
+            return "1,00";
+        else
+            return ret;
+    }
+
+    public string GetTestoUdmSelezionata()
+    {
+        if (@Model.UDMCorrenteSelect != null)
+            return @Model.UDMCorrenteSelect.Unimis_Desc;
+        return "";
+    }
+    public string DisableSave()
+    {
+        string info = GetTestoUdmSelezionata();
+        if (info == "") return "disabled";
+        return "";
+    }
+    
+}
+<div class="with-padding">
+
+    <details class="details margin-bottom" open>
+        <summary>Conversione unit&agrave; di misura</summary>
+        <div class="with-padding">
+        <table >
+           @* <tr style="height:40px;"><td colspan ="2">&nbsp;</td></tr> *@
+            <tr style="height:40px;">
+                <td colspan ="2">
+                <p class="button-height inline-label ">
+                    <label for="input-1" class="label">Prodotto selezionato</label>
+                        <!--<input class="input" id="txtProdotto" type="text" value="@Model.ProdottoPosCorrente.ProdottoPos_Prodotto_Desc" disabled/>-->
+                        <b>@Html.Raw(Model.ProdottoPosCorrente.ProdottoPos_Prodotto_Desc)</b>
+                        <input class="input" id="Prodotto_Pos_id" type="hidden" value="@Model.ProdottoPosCorrente.ProdottoPos_id" />
+                </p>
+                </td>
+
+                <td colspan ="1">
+                @*
+                <p class="button-height inline-label ">
+                <label for="input-1" class="label">Prezzo</label>
+                <input class="input" id="prezzoDesc" type="text" value="@Model.ProdottoCorrente.Prodot_CostoUnitario" disabled/>
+                </p>    *@
+                </td>
+            </tr>
+            <tr>
+            <td >
+              <p class="button-height inline-label ">
+                <label for="input-1" class="label">Prezzo / Tariffa DBE</label>
+                <input class="input" id="prezzoDesc" type="text" value="@Model.ProdottoCorrente.Prodot_CostoUnitario" disabled/>
+                </p>  
+            </td><td ></td></tr>
+            <tr style="height:40px;">
+                <td colspan ="1">
+                <p class="button-height inline-label ">
+                <label for="input-1" class="label">Unit&agrave di misura prodotto</label>
+                <input class="input" id="coeffConv1" type="text" value="1,00" maxlength ="10" />
+                <input class="input" id="udmDesc" type="text" value="@Model.UDMCorrenteProdotto.Unimis_Desc" disabled/>
+                </p>
+                </td>
+                
+                <td colspan ="1">
+                <p class="button-height inline-label ">
+                <label for="input-1" class="label">Unit&agrave di misura selezionata</label>
+                <input class="input" id="coeffConv2" type="text" value="@GetCoeffConversion()" maxlength ="10" />
+                <input class="input" id="udmDescSel2" type="text" value="@GetTestoUdmSelezionata()" disabled/>
+                </p>
+                </td>
+            </tr>
+            <tr><td colspan="2">&nbsp;</td></tr>
+            <tr  style="height:40px;">
+           
+                <td colspan ="1">
+                <p class="button-height inline-label ">
+                <label for="input-1" class="label">Rapporto di conversione UdM Prodotto / UdM Sel.</label>
+                <input class="input" id="udmRatio" type="text" value="" disabled/>
+                </p>
+                </td>
+                <td colspan ="1">
+                <p class="button-height inline-label ">
+                    <a href="javascript:saveUdMRatioP(@Model.ProdottoPosCorrente.ProdottoPos_id );" class="button green-gradient glossy @DisableSave()" id="saveUdmRatioID">Salva Conversione</a>@Html.Raw("&nbsp;")
+                </p>
+                </td>
+            </tr>
+             @if (@GetTestoUdmSelezionata() == "")
+            {
+            <tr>
+              <td colspan ="2">
+              <p class="button-height inline-label ">
+                <label for="input-1" class="label red" style="width:500px" >Selezionare un'unità di misura prima di inserire il coefficiente di conversione.</label>
+              </p> 
+              </td> 
+            </tr>
+            }
+         </table>
+        </div>
+    </details>
+</div>
+
+<script type ="text/javascript">
+    $(document).ready(function () {
+        $("#coeffConv1").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+        $("#coeffConv2").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+        $("#coeffConv2").change(
+            function () { setRatioValue(); }
+        );
+        $("#coeffConv1").change(
+            function () { setRatioValue(); }
+        );
+        setRatioValue();
+    });
+    function setRatioValue() {
+        
+        var strVal1 = "";
+        var strVal2 = "";
+        strVal1 = $("#coeffConv1").val();
+        strVal2 = $("#coeffConv2").val();
+        strVal1 = strVal1.replace(",", ".");
+        strVal2 = strVal2.replace(",", ".");
+        var iVal1 = parseFloat(strVal1);
+        var iVal2 = parseFloat(strVal2);
+        if (iVal1 > 0 && iVal2 > 0) {
+            var iVal3 = iVal1 / iVal2;
+            var strVal3 = "";
+            strVal3 = iVal3.toString();
+            strVal3 = strVal3.replace(".", ",");
+            $('#udmRatio').val(strVal3);
+            $('#saveUdmRatioID').show();
+        }
+        else 
+        {
+            $('#udmRatio').val("");
+            $('#saveUdmRatioID').hide();
+        }
+    }  
+</script>

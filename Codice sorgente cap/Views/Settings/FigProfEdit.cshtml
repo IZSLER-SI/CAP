@@ -1,0 +1,142 @@
+﻿@model IZSLER_CAP.Models.FigProfModel
+@{   ViewBag.Title = "Figura Professionale";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+    public string GetChecked_flg_principale(bool check)
+    {
+        if (check)
+            return "checked";
+        else
+            return null;
+    }
+    public string SetImporto(decimal val)
+    {
+        decimal? v = val;
+        return SetImporto(v);
+    }
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.00000}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.00000}", 0).Replace(".", ",");
+    }
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<hgroup id="main-title" class="thin">
+			<h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+            
+</hgroup>
+
+<div class="with-padding">
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+    <h3 class="thin underline">Dati della figura professionale</h3>
+    <p class="button-height">
+       <a href="javascript:saveFigProfEdit();" class="button green-gradient glossy">Salva</a>
+       &nbsp;&nbsp;
+       @Html.ActionLink("Torna alla lista", "FigProf", null, new { Class = "button green-gradient glossy" })
+       &nbsp;&nbsp;
+       <a href="javascript:deleteFigProfEdit();" class="button red-gradient glossy">Elimina</a>
+       &nbsp;&nbsp;
+       <a href="javascript:openFigProfWorkFlow('/Settings/FigProfWorkflow/@Model.CurrentFigProf.FigProf_ID.ToString()','@Model.CurrentFigProf.FigProf_Codice');" class="button orange-gradient glossy">Visualizza workflow</a>
+       &nbsp;&nbsp;
+       <a href="/Content/Help/Manuale utente CAP.htm#Modifica costo al minuto" target="_blank" class="button anthracite-gradient glossy">Help</a>
+    </p>
+    
+    </div>
+    
+    <br />
+     <dl class="accordion same-height" open>
+        <dt>Modifica Figura Professionale</dt>
+	    <dd>
+     
+               <div style="padding-top:20px;padding-left:20px;padding-right:20px;">
+             
+<table >
+
+
+    
+
+    <tr style="height:40px;">
+    <td colspan ="2">
+        <p class="button-height inline-label">
+    <label for="input-1" class="label">Codice</label>
+        <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtCodice" maxlength="6" name="txtCodice" title="Campo obbligatorio" type="text" value="@Model.CurrentFigProf.FigProf_Codice" />
+        <input type="hidden" id="FigProf_ID" value="@Model.CurrentFigProf.FigProf_ID"></input> </p>
+    </td>
+    </tr>
+    <tr style="height:40px;">
+
+    <td colspan ="2">
+    <p class="button-height inline-label " >
+    <label for="input-1" class="label">Descrizione</label>
+        <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtDescrizione" maxlength="50" name="txtDescrizione" title="Campo obbligatorio" type="text" value="@Model.CurrentFigProf.FigProf_Desc" style = "width:250px"/>
+    </p></td>
+    </tr>
+    <tr>
+
+    <td colspan ="2">
+    <p class="button-height inline-label " >
+    <label for="input-1" class="label">Costo unitario</label>
+        <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}'  id="txtCosto_ind" maxlength="50" name="txtCosto_ind" title="Campo obbligatorio" type="text" value="@SetImporto(@Model.CurrentFigProf.FigProf_Costo)" style = "width:250px"/>
+    </p></td>
+    </tr>
+    <tr style="height:20px;"><td colspan ="2">&nbsp;</td></tr> 
+   
+
+</table>
+</div>
+    </dd> 
+</dl>
+}
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#txtCosto_ind").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+    });
+    
+   
+</script>
+<script type ="text/jscript">    loadScriptRef("startFigProfEdit.js");</script>

@@ -1,0 +1,25 @@
+﻿@model IZSLER_CAP.Models.ListaAnalisiModel
+@{Layout = "~/Views/Shared/_LayoutClear.cshtml";}
+ <script type="text/javascript">
+     function callAjax(urlSave, emp) {
+         $.ajax
+        (
+            {
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify(emp),
+                datatype: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (retdata) {
+                    $("#myGridPopUpAnalisi").html(retdata.partial);
+                }
+            }
+        );
+     }
+    </script>
+
+ <div class="with-padding">
+
+  @Html.Partial("_PopUpAnalisi")
+    
+</div> 

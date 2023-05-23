@@ -1,0 +1,1487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IZSLER_CAP_Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="IZSLER_CAP_Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ATTIVI_ATTIVITA" EntityType="IZSLER_CAP_Model.ATTIVI_ATTIVITA" />
+    <EntitySet Name="EMAPAR_EMAIL_PARAMETRI" EntityType="IZSLER_CAP_Model.EMAPAR_EMAIL_PARAMETRI" />
+    <EntitySet Name="FASE" EntityType="IZSLER_CAP_Model.FASE" />
+    <EntitySet Name="GRUREP_GRUPPI_REPARTI" EntityType="IZSLER_CAP_Model.GRUREP_GRUPPI_REPARTI" />
+    <EntitySet Name="PROFIL_PROFILI" EntityType="IZSLER_CAP_Model.PROFIL_PROFILI" />
+    <EntitySet Name="SOLLEC_SOLLECITI" EntityType="IZSLER_CAP_Model.SOLLEC_SOLLECITI" />
+    <EntitySet Name="sysdiagrams" EntityType="IZSLER_CAP_Model.sysdiagrams" />
+    <EntitySet Name="T_RICHIE_TIPO_RICHIESTA" EntityType="IZSLER_CAP_Model.T_RICHIE_TIPO_RICHIESTA" />
+    <EntitySet Name="T_STARIC_STATO_RICHIESTA" EntityType="IZSLER_CAP_Model.T_STARIC_STATO_RICHIESTA" />
+    <EntitySet Name="T_STAVAL_STATO_VALORIZZAZIONE" EntityType="IZSLER_CAP_Model.T_STAVAL_STATO_VALORIZZAZIONE" />
+    <EntitySet Name="TRKRIC_RICHIESTE_TRACKING" EntityType="IZSLER_CAP_Model.TRKRIC_RICHIESTE_TRACKING" />
+    <EntitySet Name="UTENTE" EntityType="IZSLER_CAP_Model.UTENTE" />
+    <AssociationSet Name="FK_ATTIVI_ATTIVITA_FASE" Association="IZSLER_CAP_Model.FK_ATTIVI_ATTIVITA_FASE">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="ATTIVI_ATTIVITA" EntitySet="ATTIVI_ATTIVITA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOLLEC_SOLLECITI_UTENTE" Association="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="SOLLEC_SOLLECITI" EntitySet="SOLLEC_SOLLECITI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOLLEC_SOLLECITI_UTENTE1" Association="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_UTENTE1">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="SOLLEC_SOLLECITI" EntitySet="SOLLEC_SOLLECITI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKRIC_RICHIESTE_TRACKING_UTENTE" Association="IZSLER_CAP_Model.FK_TRKRIC_RICHIESTE_TRACKING_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="TRKRIC_RICHIESTE_TRACKING" EntitySet="TRKRIC_RICHIESTE_TRACKING" />
+    </AssociationSet>
+    <EntitySet Name="CTRACC_CONTROLLO_ACCESSI" EntityType="IZSLER_CAP_Model.CTRACC_CONTROLLO_ACCESSI" />
+    <EntitySet Name="INTERM_INTERMEDIO" EntityType="IZSLER_CAP_Model.INTERM_INTERMEDIO" />
+    <EntitySet Name="T_STAPRO_STATO_PRODOTTO" EntityType="IZSLER_CAP_Model.T_STAPRO_STATO_PRODOTTO" />
+    <EntitySet Name="TRKINT_INTERMEDIO_TRACKING" EntityType="IZSLER_CAP_Model.TRKINT_INTERMEDIO_TRACKING" />
+    <AssociationSet Name="FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI" Association="IZSLER_CAP_Model.FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI">
+      <End Role="PROFIL_PROFILI" EntitySet="PROFIL_PROFILI" />
+      <End Role="CTRACC_CONTROLLO_ACCESSI" EntitySet="CTRACC_CONTROLLO_ACCESSI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI" Association="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1" Association="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INTERM_INTERMEDIO_UTENTE" Association="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO" Association="IZSLER_CAP_Model.FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO">
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+      <End Role="TRKINT_INTERMEDIO_TRACKING" EntitySet="TRKINT_INTERMEDIO_TRACKING" />
+    </AssociationSet>
+    <EntitySet Name="TRKFIG_FIGPRO_TRACKING" EntityType="IZSLER_CAP_Model.TRKFIG_FIGPRO_TRACKING" />
+    <EntitySet Name="T_RICPRI_PRIORITA_RICHIESTA" EntityType="IZSLER_CAP_Model.T_RICPRI_PRIORITA_RICHIESTA" />
+    <EntitySet Name="RICHIE_RICHIESTE" EntityType="IZSLER_CAP_Model.RICHIE_RICHIESTE" />
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA" Association="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA">
+      <End Role="T_RICHIE_TIPO_RICHIESTA" EntitySet="T_RICHIE_TIPO_RICHIESTA" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA" Association="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA">
+      <End Role="T_RICPRI_PRIORITA_RICHIESTA" EntitySet="T_RICPRI_PRIORITA_RICHIESTA" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA" Association="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA">
+      <End Role="T_STARIC_STATO_RICHIESTA" EntitySet="T_STARIC_STATO_RICHIESTA" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_UTENTE" Association="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_UTENTE1" Association="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_UTENTE1">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE" Association="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE">
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+      <End Role="SOLLEC_SOLLECITI" EntitySet="SOLLEC_SOLLECITI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE" Association="IZSLER_CAP_Model.FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE">
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+      <End Role="TRKRIC_RICHIESTE_TRACKING" EntitySet="TRKRIC_RICHIESTE_TRACKING" />
+    </AssociationSet>
+    <EntitySet Name="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" EntityType="IZSLER_CAP_Model.T_GRUDMI_GRUPPI_UNITA_DI_MISURA" />
+    <EntitySet Name="T_UNIMIS_UNITA_MISURA" EntityType="IZSLER_CAP_Model.T_UNIMIS_UNITA_MISURA" />
+    <AssociationSet Name="FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA" Association="IZSLER_CAP_Model.FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+      <End Role="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" EntitySet="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" />
+      <End Role="T_UNIMIS_UNITA_MISURA" EntitySet="T_UNIMIS_UNITA_MISURA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FASE_FASE1" Association="IZSLER_CAP_Model.FK_FASE_FASE1">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="FASE1" EntitySet="FASE" />
+    </AssociationSet>
+    <EntitySet Name="T_SETTIN_SETTINGS" EntityType="IZSLER_CAP_Model.T_SETTIN_SETTINGS" />
+    <EntitySet Name="M_FIGATT_FIGURAPROF_ATTIVITA" EntityType="IZSLER_CAP_Model.M_FIGATT_FIGURAPROF_ATTIVITA" />
+    <AssociationSet Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE" Association="IZSLER_CAP_Model.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="M_FIGATT_FIGURAPROF_ATTIVITA" EntitySet="M_FIGATT_FIGURAPROF_ATTIVITA" />
+    </AssociationSet>
+    <EntitySet Name="CTRSTA_CONTROLLO_STATI" EntityType="IZSLER_CAP_Model.CTRSTA_CONTROLLO_STATI" />
+    <EntitySet Name="CTRSPR_CONTROLLO_STATI_PROFILI" EntityType="IZSLER_CAP_Model.CTRSPR_CONTROLLO_STATI_PROFILI" />
+    <EntitySet Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntityType="IZSLER_CAP_Model.M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    <AssociationSet Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI" Association="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntitySet="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI" Association="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI">
+      <End Role="PROFIL_PROFILI" EntitySet="PROFIL_PROFILI" />
+      <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntitySet="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE" Association="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntitySet="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    </AssociationSet>
+    <EntitySet Name="TRKPRO_PRODOTTO_TRACKING" EntityType="IZSLER_CAP_Model.TRKPRO_PRODOTTO_TRACKING" />
+    <EntitySet Name="VALORI_VALORIZZAZIONI" EntityType="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" />
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI" Association="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1" Association="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI" Association="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI">
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE" Association="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE">
+      <End Role="T_STAVAL_STATO_VALORIZZAZIONE" EntitySet="T_STAVAL_STATO_VALORIZZAZIONE" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_UTENTE" Association="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <EntitySet Name="FIGPRO_FIGURA_PROFESSIONALE" EntityType="IZSLER_CAP_Model.FIGPRO_FIGURA_PROFESSIONALE" />
+    <AssociationSet Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE" Association="IZSLER_CAP_Model.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE">
+      <End Role="FIGPRO_FIGURA_PROFESSIONALE" EntitySet="FIGPRO_FIGURA_PROFESSIONALE" />
+      <End Role="M_FIGATT_FIGURAPROF_ATTIVITA" EntitySet="M_FIGATT_FIGURAPROF_ATTIVITA" />
+    </AssociationSet>
+    <EntitySet Name="TRKPPS_PRODOTPOS_TRACKING" EntityType="IZSLER_CAP_Model.TRKPPS_PRODOTPOS_TRACKING" />
+    <EntitySet Name="TRKVPS_VALORIPOS_TRACKING" EntityType="IZSLER_CAP_Model.TRKVPS_VALORIPOS_TRACKING" />
+    <EntitySet Name="PROPOS_POSIZIONI" EntityType="IZSLER_CAP_Model.PROPOS_POSIZIONI" />
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_FASE" Association="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_FASE">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE" Association="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE">
+      <End Role="FIGPRO_FIGURA_PROFESSIONALE" EntitySet="FIGPRO_FIGURA_PROFESSIONALE" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA" Association="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA">
+      <End Role="T_UNIMIS_UNITA_MISURA" EntitySet="T_UNIMIS_UNITA_MISURA" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI" Association="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <EntitySet Name="MACCHI_MACCHINARIO" EntityType="IZSLER_CAP_Model.MACCHI_MACCHINARIO" />
+    <EntitySet Name="PRODOT_PRODOTTI" EntityType="IZSLER_CAP_Model.PRODOT_PRODOTTI" />
+    <EntitySet Name="TRKVAL_VALORIZZAZIONI_TRACKING" EntityType="IZSLER_CAP_Model.TRKVAL_VALORIZZAZIONI_TRACKING" />
+    <EntitySet Name="VALPOS_POSIZIONI" EntityType="IZSLER_CAP_Model.VALPOS_POSIZIONI" />
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO" Association="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO">
+      <End Role="MACCHI_MACCHINARIO" EntitySet="MACCHI_MACCHINARIO" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO" Association="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO">
+      <End Role="MACCHI_MACCHINARIO" EntitySet="MACCHI_MACCHINARIO" />
+      <End Role="VALPOS_POSIZIONI" EntitySet="VALPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO" Association="IZSLER_CAP_Model.FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO">
+      <End Role="T_STAPRO_STATO_PRODOTTO" EntitySet="T_STAPRO_STATO_PRODOTTO" />
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA" Association="IZSLER_CAP_Model.FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA">
+      <End Role="T_UNIMIS_UNITA_MISURA" EntitySet="T_UNIMIS_UNITA_MISURA" />
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI" Association="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI">
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC" Association="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC">
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE" Association="IZSLER_CAP_Model.FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE">
+      <End Role="T_STAVAL_STATO_VALORIZZAZIONE" EntitySet="T_STAVAL_STATO_VALORIZZAZIONE" />
+      <End Role="TRKVAL_VALORIZZAZIONI_TRACKING" EntitySet="TRKVAL_VALORIZZAZIONI_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE" Association="IZSLER_CAP_Model.FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="TRKVAL_VALORIZZAZIONI_TRACKING" EntitySet="TRKVAL_VALORIZZAZIONI_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI" Association="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+      <End Role="VALPOS_POSIZIONI" EntitySet="VALPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI" Association="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI">
+      <End Role="VALPOS_POSIZIONI" EntitySet="VALPOS_POSIZIONI" />
+      <End Role="VALPOS_POSIZIONI1" EntitySet="VALPOS_POSIZIONI" />
+    </AssociationSet>
+    <EntitySet Name="TKPROP_PREZZI_PRODOTTI_TRK" EntityType="IZSLER_CAP_Model.TKPROP_PREZZI_PRODOTTI_TRK" />
+    <EntitySet Name="TKVALP_PREZZI_VALORIZZAZIONI_TRK" EntityType="IZSLER_CAP_Model.TKVALP_PREZZI_VALORIZZAZIONI_TRK" />
+    <AssociationSet Name="FK_TRKFIG_FIGPRO_TRACKING_UTENTE" Association="IZSLER_CAP_Model.FK_TRKFIG_FIGPRO_TRACKING_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="TRKFIG_FIGPRO_TRACKING" EntitySet="TRKFIG_FIGPRO_TRACKING" />
+    </AssociationSet>
+    <FunctionImport Name="USPT_GET_CODICE_INTERMEDIO">
+      <Parameter Name="GRUREP_ID" Mode="In" Type="Int32" />
+      <Parameter Name="CODICE" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="USPT_GET_TRACKING_VALORIZZAZIONI" ReturnType="Collection(IZSLER_CAP_Model.TrackingValorizzazioni_Result)">
+      <Parameter Name="VALORI_ID" Mode="In" Type="Int32" />
+      <Parameter Name="DATA_DA" Mode="In" Type="DateTime" />
+      <Parameter Name="DATA_A" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="USPT_GET_TRACKING_PRODOTTI" ReturnType="Collection(IZSLER_CAP_Model.TrackingProdotti_Result)">
+      <Parameter Name="PRODOT_ID" Mode="In" Type="Int32" />
+      <Parameter Name="DATA_DA" Mode="In" Type="DateTime" />
+      <Parameter Name="DATA_A" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="IntermediEsplosiProdotto_stampa" ReturnType="Collection(IZSLER_CAP_Model.IntermediEsplosiProdotto_stampa_Result)">
+      <Parameter Name="PRODOT_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="IntermediEsplosiAnalisi_stampa" ReturnType="Collection(IZSLER_CAP_Model.IntermediEsplosiAnalisi_stampa_Result)">
+      <Parameter Name="VALORI_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="USPT_STORICIZZA_COSTI_ANALISI">
+      <Parameter Name="VALORI_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="USPT_STORICIZZA_COSTI_PRODOTTI">
+      <Parameter Name="PRODOT_ID" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <EntityType Name="ATTIVI_ATTIVITA">
+    <Key>
+      <PropertyRef Name="ATTIVI_ID" />
+    </Key>
+    <Property Type="Int32" Name="ATTIVI_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ATTIVI_CODICE" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ATTIVI_DESC" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ATTIVI_FASE_ID" Nullable="false" />
+    <Property Type="Boolean" Name="ATTIVI_FLG_OBBLIGATORIA" Nullable="false" />
+    <NavigationProperty Name="FASE" Relationship="IZSLER_CAP_Model.FK_ATTIVI_ATTIVITA_FASE" FromRole="ATTIVI_ATTIVITA" ToRole="FASE" />
+  </EntityType>
+  <EntityType Name="EMAPAR_EMAIL_PARAMETRI">
+    <Key>
+      <PropertyRef Name="EMAPAR_ID" />
+    </Key>
+    <Property Type="Int32" Name="EMAPAR_ID" Nullable="false" />
+    <Property Type="String" Name="EMAPAR_SERVER" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="EMAPAR_USER" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="EMAPAR_PASSWORD" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="EMAPAR_SSL" Nullable="false" />
+    <Property Type="Int32" Name="EMAPAR_PORT" />
+    <Property Type="Boolean" Name="EMAPAR_DEFAULT" Nullable="false" />
+    <Property Type="String" Name="EMAPAR_MAIL_FROM" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="EMAPAR_MAIL_ALIAS" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="FASE">
+    <Key>
+      <PropertyRef Name="FASE_ID" />
+    </Key>
+    <Property Type="Int32" Name="FASE_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="FASE_CODICE" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FASE_DESC" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ATTIVI_ATTIVITA" Relationship="IZSLER_CAP_Model.FK_ATTIVI_ATTIVITA_FASE" FromRole="FASE" ToRole="ATTIVI_ATTIVITA" />
+    <Property Type="Int32" Name="FASE_FASE_ID" />
+    <NavigationProperty Name="FASE1" Relationship="IZSLER_CAP_Model.FK_FASE_FASE1" FromRole="FASE" ToRole="FASE1" />
+    <NavigationProperty Name="FASE2" Relationship="IZSLER_CAP_Model.FK_FASE_FASE1" FromRole="FASE1" ToRole="FASE" />
+    <NavigationProperty Name="M_FIGATT_FIGURAPROF_ATTIVITA" Relationship="IZSLER_CAP_Model.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE" FromRole="FASE" ToRole="M_FIGATT_FIGURAPROF_ATTIVITA" />
+    <Property Type="Int32" Name="FASE_GRUREP_ID" />
+    <NavigationProperty Name="PROPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_FASE" FromRole="FASE" ToRole="PROPOS_POSIZIONI" />
+    <Property Type="Int32" Name="FASE_ORDINE" />
+  </EntityType>
+  <EntityType Name="GRUREP_GRUPPI_REPARTI">
+    <Key>
+      <PropertyRef Name="GRUREP_ID" />
+    </Key>
+    <Property Type="Int32" Name="GRUREP_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="GRUREP_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GRUREP_DESC" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="GRUREP_DESC_ESTESA" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="GRUREP_FLG_REPARTO" Nullable="false" />
+    <NavigationProperty Name="INTERM_INTERMEDIO" Relationship="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI" FromRole="GRUREP_GRUPPI_REPARTI" ToRole="INTERM_INTERMEDIO" />
+    <NavigationProperty Name="INTERM_INTERMEDIO1" Relationship="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1" FromRole="GRUREP_GRUPPI_REPARTI" ToRole="INTERM_INTERMEDIO" />
+    <Property Type="String" Name="GRUREP_COST_IND" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Relationship="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI" FromRole="GRUREP_GRUPPI_REPARTI" ToRole="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    <NavigationProperty Name="VALORI_VALORIZZAZIONI" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI" FromRole="GRUREP_GRUPPI_REPARTI" ToRole="VALORI_VALORIZZAZIONI" />
+    <NavigationProperty Name="VALORI_VALORIZZAZIONI1" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1" FromRole="GRUREP_GRUPPI_REPARTI" ToRole="VALORI_VALORIZZAZIONI" />
+    <Property Type="Decimal" Name="GRUREP_PREZZO_UNIT_ACCET" Precision="18" Scale="4" />
+  </EntityType>
+  <EntityType Name="PROFIL_PROFILI">
+    <Key>
+      <PropertyRef Name="PROFIL_ID" />
+    </Key>
+    <Property Type="Int32" Name="PROFIL_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="PROFIL_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PROFIL_DESC" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PROFIL_DESC_ESTESA" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CTRACC_CONTROLLO_ACCESSI" Relationship="IZSLER_CAP_Model.FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI" FromRole="PROFIL_PROFILI" ToRole="CTRACC_CONTROLLO_ACCESSI" />
+    <NavigationProperty Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Relationship="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI" FromRole="PROFIL_PROFILI" ToRole="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+  </EntityType>
+  <EntityType Name="SOLLEC_SOLLECITI">
+    <Key>
+      <PropertyRef Name="SOLLEC_ID" />
+    </Key>
+    <Property Type="Int32" Name="SOLLEC_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="SOLLEC_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="SOLLEC_RICHIE_ID" Nullable="false" />
+    <Property Type="Int32" Name="SOLLEC_SOLLECITANTE_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="SOLLEC_SOLLECITATO_UTENTE_ID" Nullable="false" />
+    <Property Type="String" Name="SOLLEC_MESSAGGIO" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="SOLLEC_DATA_SCADENZA" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_UTENTE" FromRole="SOLLEC_SOLLECITI" ToRole="UTENTE" />
+    <NavigationProperty Name="UTENTE1" Relationship="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_UTENTE1" FromRole="SOLLEC_SOLLECITI" ToRole="UTENTE" />
+    <Property Type="Boolean" Name="SOLLEC_ARCHIVIATO" />
+    <NavigationProperty Name="RICHIE_RICHIESTE" Relationship="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE" FromRole="SOLLEC_SOLLECITI" ToRole="RICHIE_RICHIESTE" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="principal_id" Nullable="false" />
+    <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="version" />
+    <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="T_RICHIE_TIPO_RICHIESTA">
+    <Key>
+      <PropertyRef Name="T_RICHIE_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_RICHIE_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_RICHIE_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_RICHIE_DESC" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_RICHIE_COLOR" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RICHIE_RICHIESTE" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA" FromRole="T_RICHIE_TIPO_RICHIESTA" ToRole="RICHIE_RICHIESTE" />
+  </EntityType>
+  <EntityType Name="T_STARIC_STATO_RICHIESTA">
+    <Key>
+      <PropertyRef Name="T_STARIC_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_STARIC_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_STARIC_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_STARIC_DESC" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RICHIE_RICHIESTE" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA" FromRole="T_STARIC_STATO_RICHIESTA" ToRole="RICHIE_RICHIESTE" />
+  </EntityType>
+  <EntityType Name="T_STAVAL_STATO_VALORIZZAZIONE">
+    <Key>
+      <PropertyRef Name="T_STAVAL_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_STAVAL_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_STAVAL_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_STAVAL_DESC" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="VALORI_VALORIZZAZIONI" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE" FromRole="T_STAVAL_STATO_VALORIZZAZIONE" ToRole="VALORI_VALORIZZAZIONI" />
+    <NavigationProperty Name="TRKVAL_VALORIZZAZIONI_TRACKING" Relationship="IZSLER_CAP_Model.FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE" FromRole="T_STAVAL_STATO_VALORIZZAZIONE" ToRole="TRKVAL_VALORIZZAZIONI_TRACKING" />
+  </EntityType>
+  <EntityType Name="TRKRIC_RICHIESTE_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKRIC_ID" />
+    </Key>
+    <Property Type="Int32" Name="TRKRIC_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="TRKRIC_RICHIE_ID" Nullable="false" />
+    <Property Type="DateTime" Name="TRKRIC_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="TRKRIC_UTENTE_ID" Nullable="false" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_TRKRIC_RICHIESTE_TRACKING_UTENTE" FromRole="TRKRIC_RICHIESTE_TRACKING" ToRole="UTENTE" />
+    <Property Type="Int32" Name="TRKRIC_T_STARIC_ID" />
+    <Property Type="String" Name="TRKRIC_CODICE" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKRIC_TITOLO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKRIC_TESTO" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="TRKRIC_T_RICPRI_ID" />
+    <NavigationProperty Name="RICHIE_RICHIESTE" Relationship="IZSLER_CAP_Model.FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE" FromRole="TRKRIC_RICHIESTE_TRACKING" ToRole="RICHIE_RICHIESTE" />
+  </EntityType>
+  <EntityType Name="UTENTE">
+    <Key>
+      <PropertyRef Name="UTENTE_ID" />
+    </Key>
+    <Property Type="Int32" Name="UTENTE_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="UTENTE_USER" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="UTENTE_EMAIL" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="UTENTE_NOME" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="UTENTE_COGNOME" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SOLLEC_SOLLECITI" Relationship="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_UTENTE" FromRole="UTENTE" ToRole="SOLLEC_SOLLECITI" />
+    <NavigationProperty Name="SOLLEC_SOLLECITI1" Relationship="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_UTENTE1" FromRole="UTENTE" ToRole="SOLLEC_SOLLECITI" />
+    <NavigationProperty Name="TRKRIC_RICHIESTE_TRACKING" Relationship="IZSLER_CAP_Model.FK_TRKRIC_RICHIESTE_TRACKING_UTENTE" FromRole="UTENTE" ToRole="TRKRIC_RICHIESTE_TRACKING" />
+    <Property Type="Boolean" Name="UTENTE_LOCK" Nullable="false" />
+    <NavigationProperty Name="INTERM_INTERMEDIO" Relationship="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_UTENTE" FromRole="UTENTE" ToRole="INTERM_INTERMEDIO" />
+    <NavigationProperty Name="RICHIE_RICHIESTE" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_UTENTE" FromRole="UTENTE" ToRole="RICHIE_RICHIESTE" />
+    <NavigationProperty Name="RICHIE_RICHIESTE1" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_UTENTE1" FromRole="UTENTE" ToRole="RICHIE_RICHIESTE" />
+    <NavigationProperty Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Relationship="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE" FromRole="UTENTE" ToRole="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    <NavigationProperty Name="VALORI_VALORIZZAZIONI" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_UTENTE" FromRole="UTENTE" ToRole="VALORI_VALORIZZAZIONI" />
+    <NavigationProperty Name="TRKVAL_VALORIZZAZIONI_TRACKING" Relationship="IZSLER_CAP_Model.FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE" FromRole="UTENTE" ToRole="TRKVAL_VALORIZZAZIONI_TRACKING" />
+    <NavigationProperty Name="TRKFIG_FIGPRO_TRACKING" Relationship="IZSLER_CAP_Model.FK_TRKFIG_FIGPRO_TRACKING_UTENTE" FromRole="UTENTE" ToRole="TRKFIG_FIGPRO_TRACKING" />
+  </EntityType>
+  <Association Name="FK_ATTIVI_ATTIVITA_FASE">
+    <End Type="IZSLER_CAP_Model.FASE" Role="FASE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.ATTIVI_ATTIVITA" Role="ATTIVI_ATTIVITA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="ATTIVI_ATTIVITA">
+        <PropertyRef Name="ATTIVI_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOLLEC_SOLLECITI_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.SOLLEC_SOLLECITI" Role="SOLLEC_SOLLECITI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="SOLLEC_SOLLECITI">
+        <PropertyRef Name="SOLLEC_SOLLECITANTE_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOLLEC_SOLLECITI_UTENTE1">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.SOLLEC_SOLLECITI" Role="SOLLEC_SOLLECITI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="SOLLEC_SOLLECITI">
+        <PropertyRef Name="SOLLEC_SOLLECITATO_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKRIC_RICHIESTE_TRACKING_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.TRKRIC_RICHIESTE_TRACKING" Role="TRKRIC_RICHIESTE_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="TRKRIC_RICHIESTE_TRACKING">
+        <PropertyRef Name="TRKRIC_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CTRACC_CONTROLLO_ACCESSI">
+    <Key>
+      <PropertyRef Name="CTRACC_ID" />
+    </Key>
+    <Property Type="Int32" Name="CTRACC_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="CTRACC_PROFIL_ID" Nullable="false" />
+    <Property Type="String" Name="CTRACC_VISIBLE" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PROFIL_PROFILI" Relationship="IZSLER_CAP_Model.FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI" FromRole="CTRACC_CONTROLLO_ACCESSI" ToRole="PROFIL_PROFILI" />
+  </EntityType>
+  <EntityType Name="INTERM_INTERMEDIO">
+    <Key>
+      <PropertyRef Name="INTERM_ID" />
+    </Key>
+    <Property Type="Int32" Name="INTERM_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="INTERM_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="INTERM_GRUPPO_GRUREP_ID" />
+    <Property Type="Int32" Name="INTERM_REPARTO_GRUREP_ID" />
+    <Property Type="String" Name="INTERM_VN" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="INTERM_MP_REV" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="INTERM_DESC" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="INTERM_TECNICA" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="INTERM_DIM_LOTTO" />
+    <Property Type="String" Name="INTERM_MATRICE" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="INTERM_COSTO_TOT" Precision="18" Scale="2" />
+    <Property Type="Boolean" Name="INTERM_FLG_PONDERAZIONE" Nullable="false" />
+    <Property Type="Int32" Name="INTERM_PESO_POSITIVO" Nullable="false" />
+    <NavigationProperty Name="GRUREP_GRUPPI_REPARTI" Relationship="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI" FromRole="INTERM_INTERMEDIO" ToRole="GRUREP_GRUPPI_REPARTI" />
+    <NavigationProperty Name="GRUREP_GRUPPI_REPARTI1" Relationship="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1" FromRole="INTERM_INTERMEDIO" ToRole="GRUREP_GRUPPI_REPARTI" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_INTERM_INTERMEDIO_UTENTE" FromRole="INTERM_INTERMEDIO" ToRole="UTENTE" />
+    <NavigationProperty Name="TRKINT_INTERMEDIO_TRACKING" Relationship="IZSLER_CAP_Model.FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO" FromRole="INTERM_INTERMEDIO" ToRole="TRKINT_INTERMEDIO_TRACKING" />
+  </EntityType>
+  <EntityType Name="T_STAPRO_STATO_PRODOTTO">
+    <Key>
+      <PropertyRef Name="T_STAPRO_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_STAPRO_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_STAPRO_CODICE" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_STAPRO_DESCRIZIONE" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_STAPRO_COLOR" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PRODOT_PRODOTTI" Relationship="IZSLER_CAP_Model.FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO" FromRole="T_STAPRO_STATO_PRODOTTO" ToRole="PRODOT_PRODOTTI" />
+  </EntityType>
+  <EntityType Name="TRKINT_INTERMEDIO_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKINT_ID" />
+    </Key>
+    <Property Type="Int32" Name="TRKINT_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="TRKINT_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="TRKINT_INTERM_ID" Nullable="false" />
+    <Property Type="Decimal" Name="TRKINT_INTERM_INTERM_COSTO_TOT" Nullable="false" Precision="18" Scale="2" />
+    <NavigationProperty Name="INTERM_INTERMEDIO" Relationship="IZSLER_CAP_Model.FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO" FromRole="TRKINT_INTERMEDIO_TRACKING" ToRole="INTERM_INTERMEDIO" />
+    <Property Type="String" Name="TRKINT_INTER_CODICE" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKINT_INTER_DESCRIZIONE" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI">
+    <End Type="IZSLER_CAP_Model.PROFIL_PROFILI" Role="PROFIL_PROFILI" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.CTRACC_CONTROLLO_ACCESSI" Role="CTRACC_CONTROLLO_ACCESSI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PROFIL_PROFILI">
+        <PropertyRef Name="PROFIL_ID" />
+      </Principal>
+      <Dependent Role="CTRACC_CONTROLLO_ACCESSI">
+        <PropertyRef Name="CTRACC_PROFIL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI">
+    <End Type="IZSLER_CAP_Model.GRUREP_GRUPPI_REPARTI" Role="GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.INTERM_INTERMEDIO" Role="INTERM_INTERMEDIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_GRUPPO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1">
+    <End Type="IZSLER_CAP_Model.GRUREP_GRUPPI_REPARTI" Role="GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.INTERM_INTERMEDIO" Role="INTERM_INTERMEDIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_REPARTO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INTERM_INTERMEDIO_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.INTERM_INTERMEDIO" Role="INTERM_INTERMEDIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO">
+    <End Type="IZSLER_CAP_Model.INTERM_INTERMEDIO" Role="INTERM_INTERMEDIO" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.TRKINT_INTERMEDIO_TRACKING" Role="TRKINT_INTERMEDIO_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_ID" />
+      </Principal>
+      <Dependent Role="TRKINT_INTERMEDIO_TRACKING">
+        <PropertyRef Name="TRKINT_INTERM_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TRKFIG_FIGPRO_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKFIG_ID" />
+    </Key>
+    <Property Type="Int32" Name="TRKFIG_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="TRKFIG_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="TRKFIG_FIGPRO_ID" Nullable="false" />
+    <Property Type="Decimal" Name="TRKFIG_FIGPRO_COSTO" Nullable="false" Precision="18" Scale="2" />
+    <Property Type="Int32" Name="TRKFIG_UTENTE_ID" Nullable="false" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_TRKFIG_FIGPRO_TRACKING_UTENTE" FromRole="TRKFIG_FIGPRO_TRACKING" ToRole="UTENTE" />
+  </EntityType>
+  <EntityType Name="T_RICPRI_PRIORITA_RICHIESTA">
+    <Key>
+      <PropertyRef Name="T_RICPRI_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_RICPRI_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_RICPRI_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_RICPRI_DESC" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_RICPRI_COLOR" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="RICHIE_RICHIESTE" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA" FromRole="T_RICPRI_PRIORITA_RICHIESTA" ToRole="RICHIE_RICHIESTE" />
+  </EntityType>
+  <EntityType Name="RICHIE_RICHIESTE">
+    <Key>
+      <PropertyRef Name="RICHIE_ID" />
+    </Key>
+    <Property Type="Int32" Name="RICHIE_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="RICHIE_CODICE" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RICHIE_TITOLO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="RICHIE_DATA_RICHIESTA" Nullable="false" />
+    <Property Type="Int32" Name="RICHIE_T_RICHIE_ID" Nullable="false" />
+    <Property Type="Int32" Name="RICHIE_RICHIEDENTE_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="RICHIE_DESTINATARIO_UTENTE_ID" />
+    <Property Type="String" Name="RICHIE_TESTO" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="RICHIE_T_STARIC_ID" Nullable="false" />
+    <Property Type="Int32" Name="RICHIE_VALORI_ID" />
+    <Property Type="Int32" Name="RICHIE_T_RICPRI_ID" Nullable="false" />
+    <Property Type="Int32" Name="RICHIE_PRODOT_ID" />
+    <NavigationProperty Name="T_RICHIE_TIPO_RICHIESTA" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA" FromRole="RICHIE_RICHIESTE" ToRole="T_RICHIE_TIPO_RICHIESTA" />
+    <NavigationProperty Name="T_RICPRI_PRIORITA_RICHIESTA" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA" FromRole="RICHIE_RICHIESTE" ToRole="T_RICPRI_PRIORITA_RICHIESTA" />
+    <NavigationProperty Name="T_STARIC_STATO_RICHIESTA" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA" FromRole="RICHIE_RICHIESTE" ToRole="T_STARIC_STATO_RICHIESTA" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_UTENTE" FromRole="RICHIE_RICHIESTE" ToRole="UTENTE" />
+    <NavigationProperty Name="UTENTE1" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_UTENTE1" FromRole="RICHIE_RICHIESTE" ToRole="UTENTE" />
+    <NavigationProperty Name="SOLLEC_SOLLECITI" Relationship="IZSLER_CAP_Model.FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE" FromRole="RICHIE_RICHIESTE" ToRole="SOLLEC_SOLLECITI" />
+    <NavigationProperty Name="TRKRIC_RICHIESTE_TRACKING" Relationship="IZSLER_CAP_Model.FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE" FromRole="RICHIE_RICHIESTE" ToRole="TRKRIC_RICHIESTE_TRACKING" />
+    <NavigationProperty Name="VALORI_VALORIZZAZIONI" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI" FromRole="RICHIE_RICHIESTE" ToRole="VALORI_VALORIZZAZIONI" />
+    <Property Type="Boolean" Name="RICHIE_FLG_ASSEGN_AL_GRUPPO" />
+  </EntityType>
+  <Association Name="FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA">
+    <End Type="IZSLER_CAP_Model.T_RICHIE_TIPO_RICHIESTA" Role="T_RICHIE_TIPO_RICHIESTA" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_RICHIE_TIPO_RICHIESTA">
+        <PropertyRef Name="T_RICHIE_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_T_RICHIE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA">
+    <End Type="IZSLER_CAP_Model.T_RICPRI_PRIORITA_RICHIESTA" Role="T_RICPRI_PRIORITA_RICHIESTA" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_RICPRI_PRIORITA_RICHIESTA">
+        <PropertyRef Name="T_RICPRI_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_T_RICPRI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA">
+    <End Type="IZSLER_CAP_Model.T_STARIC_STATO_RICHIESTA" Role="T_STARIC_STATO_RICHIESTA" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STARIC_STATO_RICHIESTA">
+        <PropertyRef Name="T_STARIC_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_T_STARIC_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_RICHIEDENTE_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_UTENTE1">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_DESTINATARIO_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE">
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.SOLLEC_SOLLECITI" Role="SOLLEC_SOLLECITI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_ID" />
+      </Principal>
+      <Dependent Role="SOLLEC_SOLLECITI">
+        <PropertyRef Name="SOLLEC_RICHIE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE">
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.TRKRIC_RICHIESTE_TRACKING" Role="TRKRIC_RICHIESTE_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_ID" />
+      </Principal>
+      <Dependent Role="TRKRIC_RICHIESTE_TRACKING">
+        <PropertyRef Name="TRKRIC_RICHIE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+    <Key>
+      <PropertyRef Name="T_GRUDMI_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_GRUDMI_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_GRUDMI_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_GRUDMI_DESC" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="T_UNIMIS_UNITA_MISURA" Relationship="IZSLER_CAP_Model.FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA" FromRole="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" ToRole="T_UNIMIS_UNITA_MISURA" />
+  </EntityType>
+  <EntityType Name="T_UNIMIS_UNITA_MISURA">
+    <Key>
+      <PropertyRef Name="T_UNIMIS_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_UNIMIS_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_UNIMIS_CODICE" Nullable="false" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_UNIMIS_DESC" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="T_UNIMIS_GRUDMI_ID" Nullable="false" />
+    <Property Type="Decimal" Name="T_UNIMIS_CONVERSIONE" Nullable="false" Precision="18" Scale="8" />
+    <Property Type="Boolean" Name="T_UNIDMI_DEFAULT" Nullable="false" />
+    <NavigationProperty Name="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" Relationship="IZSLER_CAP_Model.FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA" FromRole="T_UNIMIS_UNITA_MISURA" ToRole="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" />
+    <NavigationProperty Name="PROPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA" FromRole="T_UNIMIS_UNITA_MISURA" ToRole="PROPOS_POSIZIONI" />
+    <NavigationProperty Name="PRODOT_PRODOTTI" Relationship="IZSLER_CAP_Model.FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA" FromRole="T_UNIMIS_UNITA_MISURA" ToRole="PRODOT_PRODOTTI" />
+    <Property Type="Boolean" Name="T_UNIDMI_VISIBLE" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+    <End Type="IZSLER_CAP_Model.T_GRUDMI_GRUPPI_UNITA_DI_MISURA" Role="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.T_UNIMIS_UNITA_MISURA" Role="T_UNIMIS_UNITA_MISURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+        <PropertyRef Name="T_GRUDMI_ID" />
+      </Principal>
+      <Dependent Role="T_UNIMIS_UNITA_MISURA">
+        <PropertyRef Name="T_UNIMIS_GRUDMI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FASE_FASE1">
+    <End Type="IZSLER_CAP_Model.FASE" Role="FASE" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.FASE" Role="FASE1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="FASE1">
+        <PropertyRef Name="FASE_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="T_SETTIN_SETTINGS">
+    <Key>
+      <PropertyRef Name="T_SETTIN_ID" />
+    </Key>
+    <Property Type="Int32" Name="T_SETTIN_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="T_SETTIN_CODICE" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="T_SETTIN_VALUE" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="M_FIGATT_FIGURAPROF_ATTIVITA">
+    <Key>
+      <PropertyRef Name="M_FIGATT_ID" />
+    </Key>
+    <Property Type="Int32" Name="M_FIGATT_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="M_FIGATT_FASE_ID" Nullable="false" />
+    <Property Type="Int32" Name="M_FIGATT_FIGPRO_ID" Nullable="false" />
+    <NavigationProperty Name="FASE" Relationship="IZSLER_CAP_Model.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE" FromRole="M_FIGATT_FIGURAPROF_ATTIVITA" ToRole="FASE" />
+    <NavigationProperty Name="FIGPRO_FIGURA_PROFESSIONALE" Relationship="IZSLER_CAP_Model.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE" FromRole="M_FIGATT_FIGURAPROF_ATTIVITA" ToRole="FIGPRO_FIGURA_PROFESSIONALE" />
+  </EntityType>
+  <Association Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE">
+    <End Type="IZSLER_CAP_Model.FASE" Role="FASE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.M_FIGATT_FIGURAPROF_ATTIVITA" Role="M_FIGATT_FIGURAPROF_ATTIVITA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="M_FIGATT_FIGURAPROF_ATTIVITA">
+        <PropertyRef Name="M_FIGATT_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CTRSTA_CONTROLLO_STATI">
+    <Key>
+      <PropertyRef Name="CTRSTA_ID" />
+    </Key>
+    <Property Type="Int32" Name="CTRSTA_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CTRSTA_CODICE" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="CTRSTA_T_STATO_ID" Nullable="false" />
+    <Property Type="String" Name="CTRSTA_VISIBILE" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CTRSPR_CONTROLLO_STATI_PROFILI">
+    <Key>
+      <PropertyRef Name="CTRSPR_ID" />
+    </Key>
+    <Property Type="Int32" Name="CTRSPR_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CTRSPR_CODICE" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="CTRSPR_T_STATO_ID" Nullable="false" />
+    <Property Type="Int32" Name="CTRSPR_PROFILO_ID" Nullable="false" />
+  </EntityType>
+  <EntityType Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+    <Key>
+      <PropertyRef Name="M_UTPRGR_ID" />
+    </Key>
+    <Property Type="Int32" Name="M_UTPRGR_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="M_UTPRGR_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="M_UTPRGR_PROFIL_ID" />
+    <Property Type="Int32" Name="M_UTPRGR_GRUREP_ID" />
+    <Property Type="Boolean" Name="M_UTPRGR_FLG_PRINCIPALE" Nullable="false" />
+    <NavigationProperty Name="GRUREP_GRUPPI_REPARTI" Relationship="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI" FromRole="M_UTPRGR_UTENTI_PROFILI_GRUPPI" ToRole="GRUREP_GRUPPI_REPARTI" />
+    <NavigationProperty Name="PROFIL_PROFILI" Relationship="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI" FromRole="M_UTPRGR_UTENTI_PROFILI_GRUPPI" ToRole="PROFIL_PROFILI" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE" FromRole="M_UTPRGR_UTENTI_PROFILI_GRUPPI" ToRole="UTENTE" />
+  </EntityType>
+  <Association Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI">
+    <End Type="IZSLER_CAP_Model.GRUREP_GRUPPI_REPARTI" Role="GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.M_UTPRGR_UTENTI_PROFILI_GRUPPI" Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+        <PropertyRef Name="M_UTPRGR_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI">
+    <End Type="IZSLER_CAP_Model.PROFIL_PROFILI" Role="PROFIL_PROFILI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.M_UTPRGR_UTENTI_PROFILI_GRUPPI" Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PROFIL_PROFILI">
+        <PropertyRef Name="PROFIL_ID" />
+      </Principal>
+      <Dependent Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+        <PropertyRef Name="M_UTPRGR_PROFIL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.M_UTPRGR_UTENTI_PROFILI_GRUPPI" Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+        <PropertyRef Name="M_UTPRGR_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TRKPRO_PRODOTTO_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKPRO_ID" />
+    </Key>
+    <Property Type="Int32" Name="TRKPRO_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="TRKPRO_PRODOT_ID" Nullable="false" />
+    <Property Type="DateTime" Name="TRKPRO_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="TRKPRO_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKPRO_PRODOT_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKPRO_T_STAPRO_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKPRO_DIM_LOTTO" Nullable="false" />
+    <Property Type="Decimal" Name="TRKPRO_COSTOUNITARIO" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TRKPRO_COSTOUNITARIO_DELIBE" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="TRKPRO_T_UNIMIS_ID" />
+    <Property Type="Int32" Name="TRKPRO_NR_CAMP_QUALITA" />
+    <Property Type="Int32" Name="TRKPRO_REPARTO_GRUREP_ID" />
+    <Property Type="Boolean" Name="TRKPRO_FLG_INTERNO" />
+    <Property Type="String" Name="TRKPRO_DESC" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKPRO_CODICE" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="TRKPRO_FLG_BLOCCATO_MAGAZZINO" Nullable="false" />
+    <Property Type="String" Name="TRKPRO_DOCUMENTO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKPRO_DESC_ESTESA" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="TRKPRO_FLG_BLOCCATO" />
+    <Property Type="String" Name="TRKPRO_CODICE_DESC" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Double" Name="TRKPRO_COEFF_CONVERSIONE" />
+    <Property Type="Int32" Name="TRKPRO_STIMA_PROD_ANNO" />
+    <Property Type="Double" Name="TRKPRO_PERC_SCARTO" />
+    <Property Type="Decimal" Name="TRKPRO_TARIFFA" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKPRO_TARIFFA_PROPOSTA" Precision="18" Scale="5" />
+    <Property Type="String" Name="TRKPRO_HASHKEY" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="TRKPRO_T_UNIMIS_ID_SEC" />
+    <Property Type="Boolean" Name="TRKPRO_FLG_ASSEGN_AL_GRUPPO" />
+    <Property Type="Decimal" Name="TRKPRO_COSSTO_DIRETTO" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKPRO_COSSTO_INDIRETTO" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKPRO_COSSTO_PERSONALE" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKPRO_COSSTO_MATERIALI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKPRO_COSSTO_ANALISI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKPRO_COSSTO_APP_DED" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKPRO_COSSTO_PRODUZ_INT" Precision="18" Scale="5" />
+    <Property Type="DateTime" Name="TRKPRO_TS_AGGIORNAMENTO_POSIZIONI" />
+  </EntityType>
+  <EntityType Name="VALORI_VALORIZZAZIONI">
+    <Key>
+      <PropertyRef Name="VALORI_ID" />
+    </Key>
+    <Property Type="Int32" Name="VALORI_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="VALORI_UTENTE_ID" />
+    <Property Type="Boolean" Name="VALORI_FLG_INTERNO" Nullable="false" />
+    <Property Type="Boolean" Name="VALORI_FLG_BLOCCATO" Nullable="false" />
+    <Property Type="Int32" Name="VALORI_GRUPPO_GRUREP_ID" />
+    <Property Type="Int32" Name="VALORI_REPARTO_GRUREP_ID" />
+    <Property Type="String" Name="VALORI_VN" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="VALORI_MP_REV" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="VALORI_DESC" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="VALORI_TECNICA" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="VALORI_DIM_LOTTO" />
+    <Property Type="Int32" Name="VALORI_NR_CAMP_QUALITA" />
+    <Property Type="String" Name="VALORI_MATRICE" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="VALORI_COSTO_TOT" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="VALORI_COSTO_TOT_DELIB" Precision="18" Scale="4" />
+    <Property Type="Boolean" Name="VALORI_FLG_PONDERAZIONE" Nullable="false" />
+    <Property Type="Int32" Name="VALORI_PESO_POSITIVO" />
+    <Property Type="Int32" Name="VALORI_T_STAVAL_ID" Nullable="false" />
+    <Property Type="Boolean" Name="VALORI_FLG_INTERM" Nullable="false" />
+    <Property Type="Decimal" Name="VALORI_COSTO_TARIFFA" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="VALORI_COSTO_TARIFFA_DELIBERATO" Precision="18" Scale="4" />
+    <Property Type="String" Name="VALORI_CODICE_INTERMEDIO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="VALORI_FLG_NON_PROGRAMMABILI" Nullable="false" />
+    <Property Type="DateTime" Name="VALORI_DATA_VN_DA" />
+    <Property Type="DateTime" Name="VALORI_DATA_VN_A" />
+    <Property Type="DateTime" Name="VALORI_DATA_MP_REV_SCADENZA" />
+    <Property Type="Boolean" Name="VALORI_FLAG_MODELLO" Nullable="false" />
+    <Property Type="String" Name="VALORI_CODICE_DESC" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="VALORI_VN_CODICE" />
+    <Property Type="Int32" Name="VALORI_MP_REV_CODICE" />
+    <Property Type="String" Name="VALORI_REVISIONE" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="VALORI_LEGGE" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="GRUREP_GRUPPI_REPARTI" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI" FromRole="VALORI_VALORIZZAZIONI" ToRole="GRUREP_GRUPPI_REPARTI" />
+    <NavigationProperty Name="GRUREP_GRUPPI_REPARTI1" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1" FromRole="VALORI_VALORIZZAZIONI" ToRole="GRUREP_GRUPPI_REPARTI" />
+    <NavigationProperty Name="RICHIE_RICHIESTE" Relationship="IZSLER_CAP_Model.FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI" FromRole="VALORI_VALORIZZAZIONI" ToRole="RICHIE_RICHIESTE" />
+    <NavigationProperty Name="T_STAVAL_STATO_VALORIZZAZIONE" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE" FromRole="VALORI_VALORIZZAZIONI" ToRole="T_STAVAL_STATO_VALORIZZAZIONE" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_VALORI_VALORIZZAZIONI_UTENTE" FromRole="VALORI_VALORIZZAZIONI" ToRole="UTENTE" />
+    <NavigationProperty Name="PROPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI" FromRole="VALORI_VALORIZZAZIONI" ToRole="PROPOS_POSIZIONI" />
+    <NavigationProperty Name="VALPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI" FromRole="VALORI_VALORIZZAZIONI" ToRole="VALPOS_POSIZIONI" />
+    <Property Type="Decimal" Name="VALORI_COSTO_TARIFFA_D_DELIBERATO" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="VALORI_COSTO_DIRETTO" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="VALORI_COD_VN_MP_REV_SETTORE" />
+    <Property Type="Int32" Name="VALORI_COD_VN_MP_REV_SETTORE_D" />
+    <Property Type="Int32" Name="VALORI_COD_VN_MP_REV_SETTORE_V" />
+    <Property Type="String" Name="VALORI_DOCUMENTO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="VALORI_ALLEGATO1" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="VALORI_ALLEGATO2" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="VALORI_FLG_ASSEGN_AL_GRUPPO" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_DIRETTO" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_INDIRETTO" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_PERSONALE" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_MATERIALI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_ANALISI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_ACCETTAZIONE" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_APP_DED" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="VALORI_COSSTO_PRODUZ_INT" Precision="18" Scale="5" />
+    <Property Type="DateTime" Name="VALORI_TS_AGGIORNAMENTO_POSIZIONI" />
+  </EntityType>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI">
+    <End Type="IZSLER_CAP_Model.GRUREP_GRUPPI_REPARTI" Role="GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" Role="VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_GRUPPO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1">
+    <End Type="IZSLER_CAP_Model.GRUREP_GRUPPI_REPARTI" Role="GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" Role="VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_REPARTO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI">
+    <End Type="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" Role="VALORI_VALORIZZAZIONI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.RICHIE_RICHIESTE" Role="RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_VALORI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE">
+    <End Type="IZSLER_CAP_Model.T_STAVAL_STATO_VALORIZZAZIONE" Role="T_STAVAL_STATO_VALORIZZAZIONE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" Role="VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STAVAL_STATO_VALORIZZAZIONE">
+        <PropertyRef Name="T_STAVAL_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_T_STAVAL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" Role="VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="FIGPRO_FIGURA_PROFESSIONALE">
+    <Key>
+      <PropertyRef Name="FIGPRO_ID" />
+    </Key>
+    <Property Type="Int32" Name="FIGPRO_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="FIGPRO_CODICE" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FIGPRO_DESC" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="FIGPRO_COSTO" Nullable="false" Precision="18" Scale="4" />
+    <NavigationProperty Name="M_FIGATT_FIGURAPROF_ATTIVITA" Relationship="IZSLER_CAP_Model.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE" FromRole="FIGPRO_FIGURA_PROFESSIONALE" ToRole="M_FIGATT_FIGURAPROF_ATTIVITA" />
+    <NavigationProperty Name="PROPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE" FromRole="FIGPRO_FIGURA_PROFESSIONALE" ToRole="PROPOS_POSIZIONI" />
+  </EntityType>
+  <Association Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE">
+    <End Type="IZSLER_CAP_Model.FIGPRO_FIGURA_PROFESSIONALE" Role="FIGPRO_FIGURA_PROFESSIONALE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.M_FIGATT_FIGURAPROF_ATTIVITA" Role="M_FIGATT_FIGURAPROF_ATTIVITA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FIGPRO_FIGURA_PROFESSIONALE">
+        <PropertyRef Name="FIGPRO_ID" />
+      </Principal>
+      <Dependent Role="M_FIGATT_FIGURAPROF_ATTIVITA">
+        <PropertyRef Name="M_FIGATT_FIGPRO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TRKPPS_PRODOTPOS_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKPPS_ID" />
+    </Key>
+    <Property Type="Int32" Name="TRKPPS_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="TRKPPS_PROPOS_ID" Nullable="false" />
+    <Property Type="DateTime" Name="TRKVAL_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="TRKVAL_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKPPS_PROPOS_PRODOT_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKPPS_PROPOS_INTERM_ID" />
+    <Property Type="Int32" Name="TRKPPS_PROPOS_PRODOT_ID_SEC" />
+    <Property Type="Int32" Name="TRKPPS_PROPOS_FASE_ID" />
+    <Property Type="Int32" Name="TRKPPS_PROPOS_FIGPRO_ID" />
+    <Property Type="String" Name="TRKPPS_PROPOS_DESC" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="TRKPPS_PROPOS_QTA" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TRKPPS_PROPOS_COSTO_QTA" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TRKPPS_PROPOS_TOT" Precision="18" Scale="4" />
+    <Property Type="Double" Name="TRKPPS_PROPOS_COEFF_CONVERSIONE" />
+    <Property Type="Int32" Name="TRKPPS_PROPOS_T_UNIMIS_ID" />
+    <Property Type="String" Name="TRKPPS_PROPOS_COD_SETTORE" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="TRKVPS_PROPOS_MACCHI_ID" />
+  </EntityType>
+  <EntityType Name="TRKVPS_VALORIPOS_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKVPS_ID" />
+    </Key>
+    <Property Type="Int32" Name="TRKVPS_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_ID" Nullable="false" />
+    <Property Type="DateTime" Name="TRKVAL_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="TRKVAL_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_VALORI_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_INTERM_ID" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_PRODOT_ID" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_FASE_ID" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_FIGPRO_ID" />
+    <Property Type="String" Name="TRKVPS_VALPOS_DESC" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="TRKVPS_VALPOS_QTA" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TRKVPS_VALPOS_COSTO_QTA" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TRKVPS_VALPOS_TOT" Precision="18" Scale="4" />
+    <Property Type="Double" Name="TRKVPS_VALPOS_COEFF_CONVERSIONE" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_T_UNIMIS_ID" />
+    <Property Type="Boolean" Name="TRKVPS_VALPOS_SECONDARIE" Nullable="false" />
+    <Property Type="String" Name="TRKVPS_VALPOS_COD_SETTORE" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="TRKVPS_VALPOS_MACCHI_ID" />
+  </EntityType>
+  <EntityType Name="PROPOS_POSIZIONI">
+    <Key>
+      <PropertyRef Name="PROPOS_ID" />
+    </Key>
+    <Property Type="Int32" Name="PROPOS_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="PROPOS_PRODOT_ID" Nullable="false" />
+    <Property Type="Int32" Name="PROPOS_INTERM_ID" />
+    <Property Type="Int32" Name="PROPOS_PRODOT_ID_SEC" />
+    <Property Type="Int32" Name="PROPOS_FASE_ID" />
+    <Property Type="Int32" Name="PROPOS_FIGPRO_ID" />
+    <Property Type="String" Name="PROPOS_DESC" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="PROPOS_QTA" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="PROPOS_COSTO_QTA" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="PROPOS_TOT" Precision="18" Scale="4" />
+    <Property Type="Double" Name="PROPOS_COEFF_CONVERSIONE" />
+    <Property Type="Int32" Name="PROPOS_T_UNIMIS_ID" />
+    <Property Type="Int32" Name="PROPOS_MACCHI_ID" />
+    <NavigationProperty Name="FASE" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_FASE" FromRole="PROPOS_POSIZIONI" ToRole="FASE" />
+    <NavigationProperty Name="FIGPRO_FIGURA_PROFESSIONALE" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE" FromRole="PROPOS_POSIZIONI" ToRole="FIGPRO_FIGURA_PROFESSIONALE" />
+    <NavigationProperty Name="T_UNIMIS_UNITA_MISURA" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA" FromRole="PROPOS_POSIZIONI" ToRole="T_UNIMIS_UNITA_MISURA" />
+    <NavigationProperty Name="VALORI_VALORIZZAZIONI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI" FromRole="PROPOS_POSIZIONI" ToRole="VALORI_VALORIZZAZIONI" />
+    <NavigationProperty Name="MACCHI_MACCHINARIO" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO" FromRole="PROPOS_POSIZIONI" ToRole="MACCHI_MACCHINARIO" />
+    <NavigationProperty Name="PRODOT_PRODOTTI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI" FromRole="PROPOS_POSIZIONI" ToRole="PRODOT_PRODOTTI" />
+    <NavigationProperty Name="PRODOT_PRODOTTI1" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC" FromRole="PROPOS_POSIZIONI" ToRole="PRODOT_PRODOTTI" />
+    <Property Type="String" Name="PROPOS_COD_SETTORE" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_PROPOS_POSIZIONI_FASE">
+    <End Type="IZSLER_CAP_Model.FASE" Role="FASE" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PROPOS_POSIZIONI" Role="PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE">
+    <End Type="IZSLER_CAP_Model.FIGPRO_FIGURA_PROFESSIONALE" Role="FIGPRO_FIGURA_PROFESSIONALE" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PROPOS_POSIZIONI" Role="PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FIGPRO_FIGURA_PROFESSIONALE">
+        <PropertyRef Name="FIGPRO_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_FIGPRO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA">
+    <End Type="IZSLER_CAP_Model.T_UNIMIS_UNITA_MISURA" Role="T_UNIMIS_UNITA_MISURA" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PROPOS_POSIZIONI" Role="PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_UNIMIS_UNITA_MISURA">
+        <PropertyRef Name="T_UNIMIS_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_T_UNIMIS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+    <End Type="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" Role="VALORI_VALORIZZAZIONI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PROPOS_POSIZIONI" Role="PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_INTERM_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="MACCHI_MACCHINARIO">
+    <Key>
+      <PropertyRef Name="MACCHI_ID" />
+    </Key>
+    <Property Type="Int32" Name="MACCHI_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="MACCHI_CODICE" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="MACCHI_DESC" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="MACCHI_PREZZO_UNITARIO" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="MACCHI_GRUREP_ID" />
+    <NavigationProperty Name="PROPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO" FromRole="MACCHI_MACCHINARIO" ToRole="PROPOS_POSIZIONI" />
+    <NavigationProperty Name="VALPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO" FromRole="MACCHI_MACCHINARIO" ToRole="VALPOS_POSIZIONI" />
+    <Property Type="Decimal" Name="MACCHI_VALORE_STRUMENTAZIONE" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="MACCHI_COSTO_MANUTENZIONE_ANNUALE" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="MACCHI_VITA_UTILE_ANNI" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="MACCHI_MINUTI_ANNO" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="PRODOT_PRODOTTI">
+    <Key>
+      <PropertyRef Name="PRODOT_ID" />
+    </Key>
+    <Property Type="Int32" Name="PRODOT_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="PRODOT_CODICE" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PRODOT_DESC" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PRODOT_DESC_ESTESA" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="PRODOT_FLG_BLOCCATO" Nullable="false" />
+    <Property Type="Decimal" Name="PRODOT_COSTOUNITARIO" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="PRODOT_T_UNIMIS_ID" />
+    <Property Type="Int32" Name="PRODOT_UTENTE_ID" />
+    <Property Type="Int32" Name="PRODOT_T_STAPRO_ID" />
+    <Property Type="Int32" Name="PRODOT_DIM_LOTTO" />
+    <Property Type="Int32" Name="PRODOT_NR_CAMP_QUALITA" />
+    <Property Type="Decimal" Name="PRODOT_COSTOUNITARIO_DELIBE" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="PRODOT_REPARTO_GRUREP_ID" />
+    <Property Type="Boolean" Name="PRODOT_FLG_INTERNO" Nullable="false" />
+    <Property Type="Boolean" Name="PRODOT_FLG_BLOCCATO_MAGAZZINO" Nullable="false" />
+    <Property Type="String" Name="PRODOT_CODICE_DESC" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Double" Name="PRODOT_COEFF_CONVERSIONE" />
+    <Property Type="Int32" Name="PRODOT_STIMA_PROD_ANNO" />
+    <Property Type="Double" Name="PRODOT_PERC_SCARTO" />
+    <Property Type="Decimal" Name="PRODOT_TARIFFA" Precision="18" Scale="4" />
+    <NavigationProperty Name="T_STAPRO_STATO_PRODOTTO" Relationship="IZSLER_CAP_Model.FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO" FromRole="PRODOT_PRODOTTI" ToRole="T_STAPRO_STATO_PRODOTTO" />
+    <NavigationProperty Name="T_UNIMIS_UNITA_MISURA" Relationship="IZSLER_CAP_Model.FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA" FromRole="PRODOT_PRODOTTI" ToRole="T_UNIMIS_UNITA_MISURA" />
+    <NavigationProperty Name="PROPOS_POSIZIONI" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI" FromRole="PRODOT_PRODOTTI" ToRole="PROPOS_POSIZIONI" />
+    <NavigationProperty Name="PROPOS_POSIZIONI1" Relationship="IZSLER_CAP_Model.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC" FromRole="PRODOT_PRODOTTI" ToRole="PROPOS_POSIZIONI" />
+    <Property Type="Decimal" Name="PRODOT_TARIFFA_PROPOSTA" Precision="18" Scale="4" />
+    <Property Type="String" Name="PRODOT_HASHKEY" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="PRODOT_T_UNIMIS_ID_SEC" />
+    <Property Type="String" Name="PRODOT_DOCUMENTO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="PRODOT_FLG_ASSEGN_AL_GRUPPO" />
+    <Property Type="Decimal" Name="PRODOT_COSSTO_DIRETTO" Precision="18" Scale="2" />
+    <Property Type="Decimal" Name="PRODOT_COSSTO_INDIRETTO" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="PRODOT_COSSTO_PERSONALE" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="PRODOT_COSSTO_MATERIALI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="PRODOT_COSSTO_ANALISI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="PRODOT_COSSTO_APP_DED" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="PRODOT_COSSTO_PRODUZ_INT" Precision="18" Scale="5" />
+    <Property Type="DateTime" Name="PRODOT_TS_AGGIORNAMENTO_POSIZIONI" />
+  </EntityType>
+  <EntityType Name="TRKVAL_VALORIZZAZIONI_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKVAL_ID" />
+    </Key>
+    <Property Type="Int32" Name="TRKVAL_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="TRKVAL_VALORI_ID" Nullable="false" />
+    <Property Type="DateTime" Name="TRKVAL_DATA_INS" Nullable="false" />
+    <Property Type="Int32" Name="TRKVAL_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKVAL_VALORI_UTENTE_ID" Nullable="false" />
+    <Property Type="Int32" Name="TRKVAL_DIM_LOTTO" />
+    <Property Type="Int32" Name="TRKVAL_NR_CAMP_QUALITA" />
+    <Property Type="Decimal" Name="TRKVAL_COSTO_TOT" Precision="18" Scale="4" />
+    <Property Type="Boolean" Name="TRKVAL_FLG_PONDERAZIONE" Nullable="false" />
+    <Property Type="Int32" Name="TRKVAL_PESO_POSITIVO" />
+    <Property Type="Int32" Name="TRKVAL_T_STAVAL_ID" Nullable="false" />
+    <Property Type="String" Name="TRKVAL_CODICE_INTERMEDIO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKVAL_DESC_INTERMEDIO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="TRKVAL_GRUPPO_GRUREP_ID" />
+    <Property Type="Int32" Name="TRKVAL_REPARTO_GRUREP_ID" />
+    <Property Type="Decimal" Name="TRKVAL_COSTO_TOT_DELIB" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TRKVAL_COSTO_TARIFFA" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TRKVAL_COSTO_TARIFFA_DELIBERATO" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="TRKVAL_VN_CODICE" />
+    <Property Type="Int32" Name="TRKVAL_MP_REV_CODICE" />
+    <Property Type="String" Name="TRKVAL_REVISIONE" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKVAL_LEGGE" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="TRKVAL_DATA_VN_DA" />
+    <Property Type="DateTime" Name="TRKVAL_DATA_VN_A" />
+    <Property Type="DateTime" Name="TRKVAL_DATA_MP_REV_SCADENZA" />
+    <NavigationProperty Name="T_STAVAL_STATO_VALORIZZAZIONE" Relationship="IZSLER_CAP_Model.FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE" FromRole="TRKVAL_VALORIZZAZIONI_TRACKING" ToRole="T_STAVAL_STATO_VALORIZZAZIONE" />
+    <NavigationProperty Name="UTENTE" Relationship="IZSLER_CAP_Model.FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE" FromRole="TRKVAL_VALORIZZAZIONI_TRACKING" ToRole="UTENTE" />
+    <Property Type="Decimal" Name="TRKVAL_COSTO_TARIFFA_D_DELIBERATO" Precision="18" Scale="4" />
+    <Property Type="Int32" Name="TRKVAL_COD_VN_MP_REV_SETTORE" />
+    <Property Type="Int32" Name="TRKVAL_COD_VN_MP_REV_SETTORE_D" />
+    <Property Type="Int32" Name="TRKVAL_COD_VN_MP_REV_SETTORE_V" />
+    <Property Type="String" Name="TRKVAL_DOCUMENTO" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKVAL_ALLEGATO1" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKVAL_ALLEGATO2" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="TRKVAL_FLG_INTERNO" />
+    <Property Type="Boolean" Name="TRKVAL_FLG_BLOCCATO" />
+    <Property Type="String" Name="TRKVAL_VN" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKVAL_MP_REV" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKVAL_TECNICA" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TRKVAL_MATRICE" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Type="Boolean" Name="TRKVAL_FLG_INTERM" />
+    <Property Type="Boolean" Name="TRKVAL_FLG_NON_PROGRAMMABILI" />
+    <Property Type="Boolean" Name="TRKVAL_FLAG_MODELLO" />
+    <Property Type="String" Name="TRKVAL_CODICE_DESC" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="TRKVAL_COSTO_DIRETTO" Precision="18" Scale="2" />
+    <Property Type="Boolean" Name="TRKVAL_FLG_ASSEGN_AL_GRUPPO" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_DIRETTO" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_INDIRETTO" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_PERSONALE" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_MATERIALI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_ANALISI" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_ACCETTAZIONE" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_APP_DED" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TRKVAL_COSSTO_PRODUZ_INT" Precision="18" Scale="5" />
+    <Property Type="DateTime" Name="TRKVAL_TS_AGGIORNAMENTO_POSIZIONI" />
+  </EntityType>
+  <EntityType Name="VALPOS_POSIZIONI">
+    <Key>
+      <PropertyRef Name="VALPOS_ID" />
+    </Key>
+    <Property Type="Int32" Name="VALPOS_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="VALPOS_VALORI_ID" Nullable="false" />
+    <Property Type="Int32" Name="VALPOS_INTERM_ID" />
+    <Property Type="Int32" Name="VALPOS_PRODOT_ID" />
+    <Property Type="Int32" Name="VALPOS_FASE_ID" />
+    <Property Type="Int32" Name="VALPOS_FIGPRO_ID" />
+    <Property Type="String" Name="VALPOS_DESC" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="VALPOS_QTA" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="VALPOS_COSTO_QTA" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="VALPOS_TOT" Precision="18" Scale="4" />
+    <Property Type="Double" Name="VALPOS_COEFF_CONVERSIONE" />
+    <Property Type="Int32" Name="VALPOS_T_UNIMIS_ID" />
+    <Property Type="Boolean" Name="VALPOS_SECONDARIE" Nullable="false" />
+    <Property Type="Int32" Name="VALPOS_MACCHI_ID" />
+    <NavigationProperty Name="MACCHI_MACCHINARIO" Relationship="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO" FromRole="VALPOS_POSIZIONI" ToRole="MACCHI_MACCHINARIO" />
+    <NavigationProperty Name="VALORI_VALORIZZAZIONI" Relationship="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI" FromRole="VALPOS_POSIZIONI" ToRole="VALORI_VALORIZZAZIONI" />
+    <NavigationProperty Name="VALPOS_POSIZIONI1" Relationship="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI" FromRole="VALPOS_POSIZIONI" ToRole="VALPOS_POSIZIONI1" />
+    <NavigationProperty Name="VALPOS_POSIZIONI2" Relationship="IZSLER_CAP_Model.FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI" FromRole="VALPOS_POSIZIONI1" ToRole="VALPOS_POSIZIONI" />
+    <Property Type="String" Name="VALPOS_COD_SETTORE" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO">
+    <End Type="IZSLER_CAP_Model.MACCHI_MACCHINARIO" Role="MACCHI_MACCHINARIO" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PROPOS_POSIZIONI" Role="PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MACCHI_MACCHINARIO">
+        <PropertyRef Name="MACCHI_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_MACCHI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO">
+    <End Type="IZSLER_CAP_Model.MACCHI_MACCHINARIO" Role="MACCHI_MACCHINARIO" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.VALPOS_POSIZIONI" Role="VALPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MACCHI_MACCHINARIO">
+        <PropertyRef Name="MACCHI_ID" />
+      </Principal>
+      <Dependent Role="VALPOS_POSIZIONI">
+        <PropertyRef Name="VALPOS_MACCHI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO">
+    <End Type="IZSLER_CAP_Model.T_STAPRO_STATO_PRODOTTO" Role="T_STAPRO_STATO_PRODOTTO" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PRODOT_PRODOTTI" Role="PRODOT_PRODOTTI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STAPRO_STATO_PRODOTTO">
+        <PropertyRef Name="T_STAPRO_ID" />
+      </Principal>
+      <Dependent Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_T_STAPRO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA">
+    <End Type="IZSLER_CAP_Model.T_UNIMIS_UNITA_MISURA" Role="T_UNIMIS_UNITA_MISURA" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PRODOT_PRODOTTI" Role="PRODOT_PRODOTTI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_UNIMIS_UNITA_MISURA">
+        <PropertyRef Name="T_UNIMIS_ID" />
+      </Principal>
+      <Dependent Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_T_UNIMIS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI">
+    <End Type="IZSLER_CAP_Model.PRODOT_PRODOTTI" Role="PRODOT_PRODOTTI" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.PROPOS_POSIZIONI" Role="PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_PRODOT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC">
+    <End Type="IZSLER_CAP_Model.PRODOT_PRODOTTI" Role="PRODOT_PRODOTTI" Multiplicity="0..1" />
+    <End Type="IZSLER_CAP_Model.PROPOS_POSIZIONI" Role="PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_PRODOT_ID_SEC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE">
+    <End Type="IZSLER_CAP_Model.T_STAVAL_STATO_VALORIZZAZIONE" Role="T_STAVAL_STATO_VALORIZZAZIONE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.TRKVAL_VALORIZZAZIONI_TRACKING" Role="TRKVAL_VALORIZZAZIONI_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STAVAL_STATO_VALORIZZAZIONE">
+        <PropertyRef Name="T_STAVAL_ID" />
+      </Principal>
+      <Dependent Role="TRKVAL_VALORIZZAZIONI_TRACKING">
+        <PropertyRef Name="TRKVAL_T_STAVAL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.TRKVAL_VALORIZZAZIONI_TRACKING" Role="TRKVAL_VALORIZZAZIONI_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="TRKVAL_VALORIZZAZIONI_TRACKING">
+        <PropertyRef Name="TRKVAL_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+    <End Type="IZSLER_CAP_Model.VALORI_VALORIZZAZIONI" Role="VALORI_VALORIZZAZIONI" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.VALPOS_POSIZIONI" Role="VALPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_ID" />
+      </Principal>
+      <Dependent Role="VALPOS_POSIZIONI">
+        <PropertyRef Name="VALPOS_VALORI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI">
+    <End Type="IZSLER_CAP_Model.VALPOS_POSIZIONI" Role="VALPOS_POSIZIONI" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.VALPOS_POSIZIONI" Role="VALPOS_POSIZIONI1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="VALPOS_POSIZIONI">
+        <PropertyRef Name="VALPOS_ID" />
+      </Principal>
+      <Dependent Role="VALPOS_POSIZIONI1">
+        <PropertyRef Name="VALPOS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TKPROP_PREZZI_PRODOTTI_TRK">
+    <Key>
+      <PropertyRef Name="TKPROP_ID" />
+    </Key>
+    <Property Type="Int32" Name="TKPROP_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="TKPROP_PRODOT_ID" Nullable="false" />
+    <Property Type="DateTime" Name="TKPROP_DATA_INS" Nullable="false" />
+    <Property Type="Decimal" Name="TKPROP_COSTO" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TKPROP_TARIFFA" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TKPROP_COSTO_DELIB" Precision="18" Scale="4" />
+    <Property Type="Boolean" Name="TKPROP_FLG_BLOCCATO_MAGAZZINO" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TKVALP_PREZZI_VALORIZZAZIONI_TRK">
+    <Key>
+      <PropertyRef Name="TKVALP_ID" />
+    </Key>
+    <Property Type="Int32" Name="TKVALP_ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="TKVALP_VALORI_ID" Nullable="false" />
+    <Property Type="DateTime" Name="TKVALP_DATA_INS" Nullable="false" />
+    <Property Type="Decimal" Name="TKVALP_COSTO" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TKVALP_TARIFFA" Nullable="false" Precision="18" Scale="4" />
+    <Property Type="Decimal" Name="TKVALP_COSTO_DELIB" Precision="18" Scale="4" />
+    <Property Type="Boolean" Name="TKVALP_FLG_BLOCCATO_MAGAZZINO" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_TRKFIG_FIGPRO_TRACKING_UTENTE">
+    <End Type="IZSLER_CAP_Model.UTENTE" Role="UTENTE" Multiplicity="1" />
+    <End Type="IZSLER_CAP_Model.TRKFIG_FIGPRO_TRACKING" Role="TRKFIG_FIGPRO_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="TRKFIG_FIGPRO_TRACKING">
+        <PropertyRef Name="TRKFIG_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="TrackingValorizzazioni_Result">
+    <Property Type="DateTime" Name="TKVALP_DATA_INS" Nullable="false" Precision="23" />
+    <Property Type="Decimal" Name="TKVALP_COSTO" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TKVALP_COSTO_DELIB" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="Boolean" Name="TKVALP_FLG_BLOCCATO_MAGAZZINO" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="TrackingProdotti_Result">
+    <Property Type="DateTime" Name="TKPROP_DATA_INS" Nullable="false" Precision="23" />
+    <Property Type="Decimal" Name="TKPROP_COSTO" Nullable="false" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="TKPROP_COSTO_DELIB" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="Boolean" Name="TKPROP_FLG_BLOCCATO_MAGAZZINO" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="IntermediEsplosiProdotto_stampa_Result">
+    <Property Type="Int32" Name="ORDINE" Nullable="true" />
+    <Property Type="Int32" Name="LIVELLO" Nullable="true" />
+    <Property Type="String" Name="ID" Nullable="true" />
+    <Property Type="String" Name="ID_PADRE" Nullable="true" />
+    <Property Type="String" Name="POSIZIONE" Nullable="true" />
+    <Property Type="Int32" Name="VALORI_ID" Nullable="true" />
+    <Property Type="String" Name="FASE_DESC" Nullable="true" />
+    <Property Type="Decimal" Name="PROPOS_QTA" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="PROPOS_TOT" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="String" Name="CODICE" Nullable="true" />
+    <Property Type="String" Name="DESCRIZIONE" Nullable="true" />
+    <Property Type="String" Name="T_UNIMIS_DESC" Nullable="true" />
+    <Property Type="String" Name="propos_desc" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="IntermediEsplosiAnalisi_stampa_Result">
+    <Property Type="Int32" Name="ORDINE" Nullable="true" />
+    <Property Type="Int32" Name="LIVELLO" Nullable="true" />
+    <Property Type="String" Name="ID" Nullable="true" />
+    <Property Type="String" Name="ID_PADRE" Nullable="true" />
+    <Property Type="String" Name="POSIZIONE" Nullable="true" />
+    <Property Type="Int32" Name="VALORI_ID" Nullable="true" />
+    <Property Type="String" Name="FASE_DESC" Nullable="true" />
+    <Property Type="Decimal" Name="VALPOS_QTA" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="Decimal" Name="VALPOS_TOT" Nullable="true" Precision="18" Scale="5" />
+    <Property Type="String" Name="CODICE" Nullable="true" />
+    <Property Type="String" Name="DESCRIZIONE" Nullable="true" />
+    <Property Type="String" Name="T_UNIMIS_DESC" Nullable="true" />
+    <Property Type="String" Name="valpos_desc" Nullable="true" />
+    <Property Type="Boolean" Name="SECONDARIA" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="ComplexType1" />
+  <ComplexType Name="ComplexType2" />
+</Schema>

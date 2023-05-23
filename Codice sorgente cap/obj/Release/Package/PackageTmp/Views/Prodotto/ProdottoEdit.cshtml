@@ -1,0 +1,1118 @@
+﻿@model IZSLER_CAP.Models.ProdottoModel
+@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+    Layout = "~/Views/Shared/_LayoutOpen.cshtml";
+    
+}
+@using IZSLER_CAP.Helpers
+
+@*
+
+Codice	|	Data richiesta |	Autore	|	Descrizione		
+-----------------------------------------------------------------------------------------------------------------
+Ric#3	|	11/06/2014	   |	Simone	|	Richiesta #3 Possenti: Permettere di scegliere se far modificare una 
+        |                  |            |   Valorizzazione solo alla persona a cui è stata assegnata o a tutto 
+        |                  |            |   il “gruppo”.
+
+
+*@
+
+@functions
+{
+    //Ric#3
+    int profilo_id;
+    //Ric#3
+    public int profil_id()
+    {
+        profilo_id = @Html.GetUserProfileID();
+        return profilo_id;
+    }
+    //Ric#3
+    int utente;
+    //Ric#3
+    public int utente_id()
+    {
+        utente = @Html.GetUserID();
+        return utente;
+    }
+
+    public string IsNotValorizzatore()
+    {
+        string lret = "visibility: hidden";
+        //int profilo_id = @Html.GetUserProfileID();
+        if (profilo_id == 1) return lret;
+        return "";
+
+    }
+    public string SetImportoFloat(double? val)
+    {
+        if (val.HasValue) return SetImporto((decimal?)val);
+        else return SetImporto(decimal.Zero);
+    }
+    public string SetImporto(decimal val)
+    {
+        decimal? v = val;
+        return SetImporto(v);
+    }
+    public string SetImporto3(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.000}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.000}", 0).Replace(".", ",");
+    }
+
+   
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.00}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.00}", 0).Replace(".", ",");
+    }
+   
+   
+    public string denominazione(string nome, string cognome)
+    {
+        return nome + " " + cognome;
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    
+    //Ric#3
+    bool IsEditable;
+    
+    public bool IsEditable_function()
+    {
+        //return true;
+        if (!Model.Prodotto.Prodot_Flg_Bloccato)
+        {
+            
+            if (Html.IsEditableStato(Model.Prodotto))
+            {
+                IsEditable = true;
+                return true;
+            }
+        }
+        IsEditable = false;
+        return false;
+        
+    }
+   
+    public string IsEditableString()
+    {
+        if (IsEditable) return "";
+        return "disabled";
+    }
+    public bool IsGruppo()
+    {
+        if (Model.Prodotto.Prodot_Reparto_ID == null)
+            return false;
+        return true;  
+    }
+    public string SetNumElementi (int? val)
+    {
+        if(val.HasValue)
+        return val.Value.ToString();
+        return "0";
+    }
+    public string GetProdottoPerVendita()
+    {
+        if (!Model.Prodotto.Prodot_Flg_Interno) return "checked";
+        return "";
+    }
+    private decimal getImportoCostoIndiretto()
+    {
+        try
+        {
+            decimal cind = decimal.Parse(@Model.CostoIndiretto, System.Globalization.CultureInfo.InvariantCulture);
+            if (@Model.Prodotto.Prodot_CostoUnitario.HasValue)
+                return @Model.Prodotto.Prodot_CostoUnitario.Value * cind;
+        }
+        catch { }
+        return 0;
+    }
+    private decimal getImportoCostoIndustriale()
+    {
+        try
+        {
+            decimal cind = decimal.Parse(@Model.CostoIndiretto, System.Globalization.CultureInfo.InvariantCulture);
+            if (@Model.Prodotto.Prodot_CostoUnitario.HasValue)
+                return @Model.Prodotto.Prodot_CostoUnitario.Value *(1+ cind);
+        }
+        catch { }
+        return 0;
+    }
+    private decimal getTariffaTeorica()
+    {
+        try
+        {
+            decimal coeffTariffa = decimal.Parse(@Model.CoeffTariffa, System.Globalization.CultureInfo.InvariantCulture); 
+            coeffTariffa  = 1+coeffTariffa ;
+            return getImportoCostoIndustriale() * coeffTariffa;
+        }
+        catch {}
+        return 0;
+    }
+    public string SetImportoCostoIndustriale()
+    {
+        decimal val = getImportoCostoIndustriale();
+        return SetImporto(val);
+    }
+    public string SetImportoCostoIndriretto()
+    {
+        decimal val = getImportoCostoIndiretto();
+        return SetImporto(val);
+    }
+    public string SetImportoTariffaTeorica()
+    {
+        decimal val = getTariffaTeorica();
+        return SetImporto(val);
+    }
+    public string SetPercMedia()
+    {
+        decimal valPS = Model.CostoMedioProdSimili;
+        decimal valC = 0;
+        if(Model.Prodotto.Prodot_CostoUnitario.HasValue )
+        { valC = Model.Prodotto.Prodot_CostoUnitario.Value; }
+        decimal res = 0;
+        if (valC > 0) 
+            res = decimal.Round((((valC - valPS) / valC)*100), 2, MidpointRounding.AwayFromZero);
+        return SetImporto(res);
+        
+    }
+
+    public string GetAnchor(string documento)
+    {
+        string ret = "";
+        //string href = GetAttach(fileName);
+        string href = GetAttachDocumento(documento);
+        if (href.Length > 0 && !string.IsNullOrEmpty(documento))
+        {
+            ret = "<a target=\"_blank\" href=" + href + "><img style=\"padding-top:8px\" src=\"../../Content/img/fineFiles/16/pdf.png\"/>&nbsp;" + documento + "</a>";
+        }
+        else
+        {
+            ret = documento;
+        }
+        return ret;
+
+    }
+
+    public string GetAttachDocumento(string documento)
+    {
+        string ret = "";
+        ret = this.Request.Url.AbsoluteUri.Replace(this.Request.Url.AbsolutePath, "") + "/";
+        ret += Model.PathAttach + "/" + Server.UrlEncode(documento);
+        return ret;
+    }
+
+    //Ric#3
+    public string GetChecked(bool? Prodotto_flg_assegn_al_gruppo)
+    {
+        if (Prodotto_flg_assegn_al_gruppo == true)
+            return "checked";
+        else
+            return null;
+    }
+    //Ric#3
+    public bool IsAssociato(int? Utente_id, bool? Prodotto_flg_assegn_al_gruppo)
+    {
+        if (Prodotto_flg_assegn_al_gruppo == true)
+        {
+            return true;
+        }
+        if (Utente_id == utente)
+        {
+            return true;
+        }
+        //int profilo_id = @Html.GetUserProfileID();
+        if (profilo_id == 3 || profilo_id == 4 || profilo_id == 7)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
+    //Ric#3
+    List<MyUtenti_Profili_Gruppi> lst_gruppi = new List<MyUtenti_Profili_Gruppi>();
+    //Ric#3
+    public string GruppiAssociati()
+    {
+        //int utente = @Html.GetUserID();
+        LoadEntities m_le = new LoadEntities();
+        //int profilo_id = @Html.GetUserProfileID();
+
+        lst_gruppi = m_le.GetUtenti_Profili_Gruppi().Where(z => z.M_Utprgr_Utente_Id == utente && z.M_Utprgr_Profil_Id == profilo_id).ToList<MyUtenti_Profili_Gruppi>();
+
+        return "";
+    }
+    
+    //Ric#3
+    public string isRiassociaDisabled()
+    {
+        //int profilo_id = @Html.GetUserProfileID();
+
+        if (@Model.Prodotto.Prodot_T_Stapro_codice == "INVAL")
+        {
+            if (profilo_id == 7)
+            {
+                return "";
+            }
+            if ((profilo_id == 3 || profilo_id == 4) & lst_gruppi.Where(z => z.M_Utprgr_Grurep_Id == @Model.Prodotto.Prodot_Reparto_ID).Count() > 0)
+            {
+                return "";
+            }
+        }
+
+        return "disabled";
+    }
+    
+    //Ric#3
+    bool IsVisible_BT_PROD_SALVA;
+    
+    
+    
+    public string IsVisible_BT_PROD_SALVA_popola()
+    {
+        IsVisible_BT_PROD_SALVA = @Html.IsVisible(CAProdotti.BT_PROD_SALVA);
+
+        return "";    
+    }
+    
+    bool IsVisibleStato_BT_PROD_SALVA;
+    
+    public string IsVisibleStato_BT_PROD_SALVA_popola()
+    {
+        IsVisibleStato_BT_PROD_SALVA = @Html.IsVisibleStato(CAProdotti.BT_PROD_SALVA, @Model.Prodotto);
+        return "";
+        
+    }
+    
+    bool IsVisible_BT_PROD_INV_VAL;
+    
+    public string IsVisible_BT_PROD_INV_VAL_popola()
+    {
+        IsVisible_BT_PROD_INV_VAL = @Html.IsVisible(CAProdotti.BT_PROD_INV_VAL);
+        return "";
+    
+    }
+    
+    bool IsVisibleStato_BT_PROD_INV_VAL;
+    
+    public string IsVisibleStato_BT_PROD_INV_VAL_popola()
+    {
+        IsVisibleStato_BT_PROD_INV_VAL=@Html.IsVisibleStato(CAProdotti.BT_PROD_INV_VAL, @Model.Prodotto);
+        return "";
+    }
+    
+    bool IsVisible_BT_PROD_VALIDA;
+    
+    public string IsVisible_BT_PROD_VALIDA_popola()
+    {
+        IsVisible_BT_PROD_VALIDA = @Html.IsVisible(CAProdotti.BT_PROD_VALIDA);
+        return "";
+    }
+    
+    bool IsVisibleStato_BT_PROD_VALIDA;
+    
+    public string IsVisibleStato_BT_PROD_VALIDA_popola()
+    {
+        IsVisibleStato_BT_PROD_VALIDA = @Html.IsVisibleStato(CAProdotti.BT_PROD_VALIDA, @Model.Prodotto);
+        return "";
+    }
+    
+    //Ric#3
+    public string PopolaVariabili()
+    {
+        IsVisibleStato_BT_PROD_VALIDA_popola();
+        IsVisible_BT_PROD_VALIDA_popola();
+        IsVisibleStato_BT_PROD_INV_VAL_popola();
+        IsVisible_BT_PROD_INV_VAL_popola();
+        IsVisibleStato_BT_PROD_SALVA_popola();
+        IsVisible_BT_PROD_SALVA_popola();
+        IsEditable_function();
+        utente_id();
+        profil_id();
+        GruppiAssociati();
+        return "";   
+    }
+    
+    //Ric#9
+    public string MsgCoeff()
+    {
+        string msg = "";
+        if (Model.Prodotto.Prodotto_CoeffConversione.ToString() == "" 
+         || Model.Prodotto.Prodot_UnitaMisura_ID_Sec.ToString() == ""
+         || Model.Prodotto.Prodotto_CoeffConversione.ToString() == "0"
+         || Model.Prodotto.Prodot_UnitaMisura_ID_Sec.ToString() == "0")
+        {
+            msg = "Da moltiplicare all'unità di misura di magazzino per ottenere l'unità di misura del lotto di produzione";
+        }
+        else
+        {
+            msg = "1 " + Model.Prodotto.Prodot_UnitaMisura_descrizione + " = " + Model.Prodotto.Prodotto_CoeffConversione.ToString() + " " + Model.Prodotto.Prodot_UnitaMisura_descrizione_Sec;  
+        }
+        return msg;      
+        
+    }
+    
+}
+<script type ="text/javascript" src="http://www.google.com/jsapi"></script>  
+<script type="text/javascript">
+
+    //Ric#8
+    function udmCoeffConvIn(s) {
+
+        var text = "";
+        var descCoeff = $('#Prodotto_Coeff_Conversione').val();
+        var descUdmConv = $('#Prodotto_UdM_ID_SEC_desc').val();
+        var descUdm = $('#Prodotto_UdM_ID option:selected').text();
+
+        var coeffDB = parseFloat(descCoeff.replace(",", "."));
+
+        text = "1 " + descUdm + " = " + descCoeff + " " + descUdmConv  ;    
+
+        if (descUdmConv == "" || descCoeff == "")
+            text = "Da moltiplicare all'unità di misura di magazzino per ottenere l'unità di misura del lotto di produzione";
+         
+        $(s).tooltip(text);
+    }
+
+    //Rc#8
+    function udmCoeffConvOut(s) {
+        $(s).removeTooltip();
+    }
+
+    function roundNumber(num, dec) {
+        var result = Math.round(num * Math.pow(10, dec)) / Math.pow(10, dec);
+        return result;
+    }
+    
+    function calcolaTotaleCorrente() {
+        var posPR = new Array();
+        var posSEC = new Array();
+
+
+
+        $('input[id^="ProdottoPos_Quantita_"]').each(function () {
+            var pos = $(this)[0].id.replace("ProdottoPos_Quantita_", "");
+            var val_CU = $("#Costo_Unitario_" + pos).val();
+            var val_QTA = $(this).val();
+            val_CU = parseFloat(val_CU.replace(',', '.'));
+            val_QTA = parseFloat(val_QTA.replace(',', '.'));
+
+            var UdMCoeff = '#UdMCoeff_' + pos;
+            var UdMCoeffVal = $(UdMCoeff).val();
+            if (UdMCoeffVal == "") {
+                UdMCoeffVal = "0"
+            }
+            UdMCoeffVal = parseFloat(UdMCoeffVal.replace(',', '.'));
+
+
+            var val_Tot = 0;
+            val_Tot = roundNumber(val_CU, 2) * roundNumber(val_QTA, 2) * UdMCoeffVal;
+            val_Tot = roundNumber(val_Tot, 2);
+            posPR.push(val_Tot);
+        });
+
+      
+        var valTot_posP = 0;
+        for (i = 0; i < posPR.length; i++) {
+            valTot_posP = roundNumber(valTot_posP, 2) + roundNumber(posPR[i], 2);
+        }
+
+         //vecchia maniera (DIm Lotto + nr Campioni)
+//        var val_Dim_Lotto   = $("#Prodotto_Dim_Lotto").val();
+//        var val_Nr_Campioni = $("#Prodotto_nr_Campioni").val();
+//        var val_Dim_Lotto_int = 0;   
+//        var val_Nr_Campioni_int = 0;
+//        if (val_Dim_Lotto != null && val_Dim_Lotto != "") 
+//        {
+//            val_Dim_Lotto_int = parseInt(val_Dim_Lotto);
+//        }
+//        if (val_Nr_Campioni != null && val_Nr_Campioni != "") 
+//        {
+//            val_Nr_Campioni_int = parseInt(val_Nr_Campioni);
+//        }
+
+//        var coeffUnitario = parseFloat("0");
+//        coeffUnitario = ( val_Nr_Campioni_int/val_Dim_Lotto_int ) +1;
+        //Nuova maniera (1/(1-s%))*(1/DIm Lotto)
+        var val_Dim_Lotto = $("#Prodotto_Dim_Lotto").val();
+        var val_Dim_Lotto_int = 0;
+        var val_Perc_Scarto_float = parseFloat("0");
+        var val_Perc_Scarto = $("#Prodotto_perc_Scarto").val();
+        
+        if (val_Dim_Lotto != null && val_Dim_Lotto != "")
+        {
+            val_Dim_Lotto_int = parseInt(val_Dim_Lotto);
+        }
+        if (val_Perc_Scarto != null && val_Perc_Scarto != "") {
+            val_Perc_Scarto_float = parseFloat(val_Perc_Scarto);
+        }
+        var coeffUnitario = parseFloat("0");
+        if (val_Dim_Lotto_int > 0) 
+        {
+            coeffUnitario = 1 / (((100 - val_Perc_Scarto_float) / 100) * val_Dim_Lotto_int);
+        }
+        
+        var valTot_Fine = 0;
+        valTot_Fine = roundNumber((valTot_posP * coeffUnitario) , 3);
+        valTot_Fine = roundNumber(valTot_Fine, 3);
+        var strTot = "";
+        strTot = valTot_Fine.toFixed(3).toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",000";
+        //alert(strTot);
+        $('#Prodotto_CostoTotaleCalc').text(strTot);
+        calcolaCostoIndiretto(valTot_Fine);
+        calcolaCostoTariffa(valTot_Fine);
+        calcolaCostoIndustriale(valTot_Fine);
+
+        //calcolaPercMedia(valTot_Fine);
+    }
+
+    function calcolaPercMedia(costoDiretto) {
+        var cMedioS = $('#CostoMedioProdSimili').val();
+        var cMedioSVal = parseFloat(cMedioS);
+        var res = parseFloat("0");
+        if (costoDiretto > 0)
+            res = ((costoDiretto - cMedioSVal) / costoDiretto) * 100;
+        res = roundNumber(res, 2);
+        var strTot = "";
+        strTot = res.toFixed(2).toString();
+        strTot = strTot.replace('.', ',');
+        $('#Prodotto_PercMedia').text(strTot + "%");
+    }
+
+    function calcolaCostoTariffa(costoDiretto) {
+        var ct = getCostoTariffa(costoDiretto);
+        var strTot = "";
+        strTot = ct.toFixed(2).toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Prodotto_CostoTariffaCalc').text(strTot);
+    }
+    function getCostoTariffa(costoDiretto) {
+        var ci = getCostoIndustriale(costoDiretto);
+        return getTariffa(ci);
+    }
+    function getTariffa(ci) {
+        var costCT = $('#CoeffTariffa').val();
+        if (costCT != null && costCT != "") {
+            var t = (parseFloat(costCT) + 1)*ci;
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+
+
+    function calcolaCostoIndustriale(costoDiretto) {
+        var ci = getCostoIndustriale(costoDiretto);
+        var strTot = "";
+        strTot = ci.toFixed(2).toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Prodotto_CostoIndustrialeCalc').text(strTot);
+    }
+    function getCostoIndustriale(costoDiretto) {
+        var costCD = $('#CoeffCostoIndiretto').val();
+        if (costCD != null && costCD != "") {
+            var t =  (parseFloat(costCD) +1)* costoDiretto;
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+    function getCostoIndiretto(costoDiretto) {
+        var costCD = $('#CoeffCostoIndiretto').val();
+        if (costCD != null && costCD != "") {
+            var t = parseFloat(costCD) * costoDiretto;
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+    function calcolaCostoIndiretto(costoDiretto) {
+        var ci = getCostoIndiretto(costoDiretto);
+        var strTot = "";
+        strTot = ci.toFixed(2).toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Prodotto_CostoIndirettoCalc').text(strTot);
+    }
+
+    function toggleTariffaProposta() 
+    {
+        var check = $('#prod_FlagInterno').attr('checked') ? true : false;
+        var a = $('#pTariffaProposta');
+        if (check)
+            a.show();
+        else 
+        a.hide();
+    }
+
+
+
+
+    var optionsChart = null;
+    var jsonDataChar = null;
+    function loadOptionsChart() {
+        var div = $('#demo-chart'),
+	    divWidth = div.width(), divheight = div.height();
+        optionsChart =
+	    {
+	        title: 'Peso percentuale delle fasi rispetto alla media per gruppo prodotto',
+	        titleTextStyle: { color: 'white', fontName: 'Arial', fontSize: '12px' },
+	        backgroundColor: $.template.ie7 ? '#494C50' : 'transparent',
+	        vAxis: { title: 'Fasi',
+	            textStyle: { color: '#FFFFFF' },
+	            baselineColor: '#666666'
+	        },
+	        hAxis: {
+	            textStyle: { color: 'white' },
+	            baselineColor: '#666666'
+	        },
+	        legend: {
+	            textStyle: { color: 'white' },
+	            baselineColor: '#666666',
+	            position: 'bottom'
+	        },
+	        height: '400',
+	        width: divWidth + 100
+	    };
+	    return optionsChart;
+    }
+
+    $(document).ready(function () {
+        $("#Prodotto_Coeff_Conversione").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+        $("#Prodotto_Tariffa_Proposta").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+        });
+
+        $("#Prodotto_perc_Scarto").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+        });
+
+        toggleTariffaProposta();
+        /*gestione chart*/
+        optionsChart=loadOptionsChart();
+       // google.setOnLoadCallback(drawChart);
+        /*Fine gestione chart*/
+
+    });
+</script>
+
+@PopolaVariabili()
+  <hgroup id="main-title" class="thin">
+    <h1>@ViewBag.Message</h1>
+    <h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+    </hgroup>
+
+  <div class="with-padding">
+        <form method="post" action="" class="columns" >
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dati del prodotto</h3>
+             <p class="button-height">
+                    @*@if (@Html.IsVisible(CAProdotti.BT_PROD_SALVA) && !@Model.Prodotto.Prodot_Flg_Bloccato && @Html.IsVisibleStato(CAProdotti.BT_PROD_SALVA, @Model.Prodotto) && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))*@
+                    @if (@IsVisible_BT_PROD_SALVA && !@Model.Prodotto.Prodot_Flg_Bloccato && IsVisibleStato_BT_PROD_SALVA && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))
+                    {<a href="javascript:saveProdotto();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+                    
+                    @*Ric#3 aggiungo pulsante salva per gestore magazzino che modifichi solo l'utente assegnato e il flag assegna gruppo *@
+                                   
+                    @if (string.IsNullOrEmpty(@isRiassociaDisabled()) && @Html.GetUserProfileID() == 4)
+                    {<a href="javascript:changeProdottoUtenteAss();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+                    
+                    @if (@Html.IsVisible(CAProdotti.BT_PROD_RIC_SBLOCCO)
+                            && @Model.Prodotto.Prodot_Flg_Bloccato
+                            && @Html.IsVisibleStato(CAProdotti.BT_PROD_RIC_SBLOCCO, @Model.Prodotto))
+                    {
+                        //@Html.ActionLink("Richiesta di sblocco", "../Home/RichiesteInsert", new { origine = "analisi_edit", chiave = @Model.Analisi.Analisi_id }, new { Class = "button green-gradient glossy" })@Html.Raw("&nbsp;")
+                     <a href="javascript:RichiediSblocco(@Model.Prodotto.Prodot_ID);" class="button green-gradient glossy">Richiesta di sblocco</a>@Html.Raw("&nbsp;")
+                    }
+                    
+                    @*@if (@Html.IsVisible(CAProdotti.BT_PROD_INV_VAL) && !@Model.Prodotto.Prodot_Flg_Bloccato && @Html.IsVisibleStato(CAProdotti.BT_PROD_INV_VAL, @Model.Prodotto) && !Model.Prodotto.Prodot_Codice.StartsWith("T_") && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))*@
+                    @if (@IsVisible_BT_PROD_INV_VAL && !@Model.Prodotto.Prodot_Flg_Bloccato && @IsVisibleStato_BT_PROD_INV_VAL && !Model.Prodotto.Prodot_Codice.StartsWith("T_") && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))
+                    {<a href="javascript:InvValProdotto();" class="button green-gradient glossy">Invia a Validatore</a>@Html.Raw("&nbsp;")}
+                            
+                    @*@if (@Html.IsVisible(CAProdotti.BT_PROD_VALIDA) && @Html.IsVisibleStato(CAProdotti.BT_PROD_VALIDA, @Model.Prodotto) && !Model.Prodotto.Prodot_Flg_Interno)*@
+                    @if (@IsVisible_BT_PROD_VALIDA && @IsVisibleStato_BT_PROD_VALIDA && !Model.Prodotto.Prodot_Flg_Interno)
+                    {<a href="javascript:ApprovaEdInviaCdGProdotto();" class="button green-gradient glossy">Approva ed invia al CDG</a>@Html.Raw("&nbsp;")}
+                    @*@if (@Html.IsVisible(CAProdotti.BT_PROD_VALIDA) && @Html.IsVisibleStato(CAProdotti.BT_PROD_VALIDA, @Model.Prodotto) && Model.Prodotto.Prodot_Flg_Interno)*@
+                    @if (@IsVisible_BT_PROD_VALIDA && @IsVisibleStato_BT_PROD_VALIDA && Model.Prodotto.Prodot_Flg_Interno)
+                    {<a href="javascript:ApprovaEdInviaMagazzinoProdotto();" class="button green-gradient glossy">Approva ed invia al Magazzino</a>@Html.Raw("&nbsp;")}
+                    
+                    @if (@Html.IsVisible(CAProdotti.BT_PROD_RESPINGI) && @Html.IsVisibleStato(CAProdotti.BT_PROD_RESPINGI, @Model.Prodotto))
+                    {<a href="javascript:RespingiProdotto(@Model.Prodotto.Prodot_ID);" class="button red-gradient glossy">Respingi</a>@Html.Raw("&nbsp;")}
+                                                                                                                                     
+                    @*@if (@Html.IsVisible(CAAnalisi.BT_ANAL_REGDEL)&& @IsInDelibera())*@
+                    @if (@Html.IsVisible(CAProdotti.BT_PROD_REGDEL) && @Html.IsVisibleStato(CAProdotti.BT_PROD_REGDEL, @Model.Prodotto))
+                    {<a href="javascript:DeliberaAnalisi();" class="button green-gradient glossy">Registra delibera</a>@Html.Raw("&nbsp;")}
+                                                                                                                                      
+                    @if (@Html.IsVisible(CAProdotti.BT_PROD_SBLOCCA) && @Html.IsVisibleStato(CAProdotti.BT_PROD_SBLOCCA, @Model.Prodotto)
+                        && @Model.Prodotto.Prodot_Flg_Bloccato
+                        )
+                    {<a href="javascript:SbloccaProdotto();" class="button green-gradient glossy">Sblocca</a>@Html.Raw("&nbsp;")}
+                    
+                    @*@if (@Html.IsVisible(CAProdotti.BT_PROD_INV_VAL) && !@Model.Prodotto.Prodot_Flg_Bloccato && @Html.IsVisibleStato(CAProdotti.BT_PROD_INV_VAL, @Model.Prodotto) && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))*@
+                    @if (@IsVisible_BT_PROD_INV_VAL && !@Model.Prodotto.Prodot_Flg_Bloccato && @IsVisibleStato_BT_PROD_INV_VAL && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))
+                    {<a href="javascript:CheckPosizioniProdotto();" class="button blue-gradient glossy">Verifica valorizzazione</a>@Html.Raw("&nbsp;")}
+
+                    @*@if (@Html.IsVisible(CAProdotti.BT_PROD_INV_VAL) && !@Model.Prodotto.Prodot_Flg_Bloccato && @Html.IsVisibleStato(CAProdotti.BT_PROD_INV_VAL, @Model.Prodotto) && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))*@
+                    @if (@IsVisible_BT_PROD_INV_VAL && !@Model.Prodotto.Prodot_Flg_Bloccato && @IsVisibleStato_BT_PROD_INV_VAL && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))
+                    {<a href="javascript:AttualizzaPosizioni();" class="button blue-gradient glossy">Aggiorna Posizioni</a>@Html.Raw("&nbsp;")}
+                                                                                                                                                      
+                    @*@if (@Html.IsVisible(CAProdotti.BT_PROD_SALVA) && !@Model.Prodotto.Prodot_Flg_Bloccato && @Html.IsVisibleStato(CAProdotti.BT_PROD_SALVA, @Model.Prodotto) && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))*@
+                    @if (@IsVisible_BT_PROD_SALVA && !@Model.Prodotto.Prodot_Flg_Bloccato && @IsVisibleStato_BT_PROD_SALVA && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))
+                    {<a href="javascript:openRicercaPPProdotti('/Prodotto/PPCopiaDaProdotti/@Model.Prodotto.Prodot_ID',this);" class="button orange-gradient glossy">Copia da prodotto</a>@Html.Raw("&nbsp;")}
+
+                    @if (@Html.IsVisible(CAProdotti.BT_PROD_WORKFLOW))
+                    {<a href="javascript:openProdottoWorkFlow('/Prodotto/ProdottoWorkflow/@Model.Prodotto.Prodot_ID.ToString()','@Model.Prodotto.Prodot_Codice');" class="button orange-gradient glossy">Visualizza workflow</a>@Html.Raw("&nbsp;")}
+                                                                                                                                                                                                                                
+                    @Html.ActionLink("Stampa", "Report", "Prodotto", new { info = Html.GetReportPath() + "/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaProdotti&rs:Command=Render&rs:Format=pdf&PRODOT_ID=" + @Model.Prodotto.Prodot_ID }, new { target = "_blank", Class = "button anthracite-gradient glossy" })@Html.Raw("&nbsp;")
+                    @*<a href="/ReportServer_SQLSERVER/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaProdotti&rs:Command=Render&PRODOT_ID=@Model.Prodotto.Prodot_ID" target="_blank" class="button anthracite-gradient glossy">Stampa</a>@Html.Raw("&nbsp;")*@
+                    @*<a href="http://b16-q001/ReportServer_SQL2008R2/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaProdotti&rs:Command=Render&rs:Format=pdf&PRODOT_ID=@Model.Prodotto.Prodot_ID" target="_blank" class="button anthracite-gradient glossy">Stampa Collaudo</a>@Html.Raw("&nbsp;")*@
+                    <a href="/Content/Help/Manuale utente CAP.htm#Inserimento e modifica della valorizzazione - Prodotto" target="_blank" class="button anthracite-gradient glossy">Help</a>
+
+                    @Html.ActionLink("Stampa Intermedi", "PopUpIntermediEsplosi_new", new { id = @Model.Prodotto.Prodot_ID.ToString() }, new { target = "_blank", Class = "button anthracite-gradient glossy" })@Html.Raw("&nbsp;")
+
+               </p> 
+               <details class="details margin-bottom" open>
+               <summary>Testata</summary>
+                    
+                    <input type="hidden" id="prodotto_id" value="@Model.Prodotto.Prodot_ID" />
+                    <input type="hidden" id="CoeffCostoIndiretto" value="@Model.CostoIndiretto" />
+                    <input type="hidden" id="CoeffTariffa" value="@Model.CoeffTariffa" />
+                    <input type="hidden" id="CostoMedioProdSimili" value="@Model.CostoMedioProdSimili" />
+                    	<div class="with-padding">
+                        <table>
+                        @*
+                        <tr class="button-height" style="height:40px;">
+                                <td colspan="3">
+                                 <p class="button-height inline-label">
+                                    <label for="special-input-2" class="label">Nome</label>
+                                    <span class="input margin-right" >
+                                        <input type="text" maxlength="10" name="special-input-2" id="Prodot_Codice_Desc" value="@Model.Prodotto.Prodot_Codice_Desc" class="input-unstyled" @IsEditableString()/>
+                                    </span> 
+                                 </p> 
+                                </td>
+                           </tr>*@
+
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="3">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice</label>
+							        <input type="text" name="input-1" id="input-2" class="input" value="@Model.Prodotto.Prodot_Codice" disabled />&nbsp;
+                                    @*<a href="javascript:void(0)" class="button compact">Cerca</a>*@
+                                </p>
+                                </td>
+                            </tr> 
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="3">
+                                <p class="button-height inline-label">
+                                    <label for="input-1" class="label">Prodotto</label>
+                                    <textarea id="Analisi_Matrice" 
+                                    class="input full-width  autoexpanding" 
+                                     disabled/>@Model.Prodotto.Prodot_Desc</textarea >
+                                </p>
+                                </td>
+                            </tr> 
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan="3">
+                                <p class="button-height inline-label">
+                                    <label for="input-1" class="label">Descrizione estesa</label>
+                                    <textarea id="Analisi_Matrice" 
+                                    class="input full-width  autoexpanding" 
+                                     disabled/>@Model.Prodotto.Prodot_Desc_Estesa</textarea >
+                                @*<input type="text" name="input-4" id="Text5" class="input" value="@Model.Prodotto.Prodot_Desc" disabled/>*@
+                                </p>
+                                </td>
+                                </tr>
+                            <tr class="button-height" style="height:40px;">                                
+                                <td colspan="3">
+                                <p class="button-height inline-label"><label for="input-1" class="label">Gruppo prodotto</label><input type="text" name="input-4" id="Text6" class="input" value="@Model.Prodotto.Prodot_Reparto_Desc" style="width:300px" disabled/></p>
+                                </td>
+                                </tr>
+
+                             @*gestione dei campi utente associato e associa a gruppo Ric#3*@
+                            <tr style="height:40px;">
+                                <td colspan ="1" style="width:48%">
+                                <p class="button-height inline-label">
+							        @*<label for="input-2" class="label">Utente associato</label>*@
+                                    <label for="label margin-right" class="label">Utente associato</label>
+							        <input  disabled type="text" name="input-2" id="ric_utente_desc" class="input" value="@Model.Prodotto.Prodot_utente_denominazione"  style="float:left;"/>
+                                   
+                                    @if (string.IsNullOrEmpty(@isRiassociaDisabled()))
+                                    {
+                                    <a href="javascript:openRicercaUtenti('/Home/PopUpIndirizziUtenti')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>
+                                         @Html.Raw("&nbsp;")<a href="javascript:void(0);" id="closepopup" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearData();" ></a>
+                                    }
+                                    <input type ="hidden" id="ric_utente_id" value="@Model.Prodotto.Prodot_utente_id" />
+                                </p>
+                                </td>
+                                <td colspan="1">
+                                <p class="button-height inline-label">
+							        <label for="input-2" class="label" style="width:120px">Assegna a gruppo</label>
+							        <input @isRiassociaDisabled() type="checkbox" name="Prodotto_flag_assegna_gruppo" id="Prodotto_flag_assegna_gruppo" value="" @GetChecked(@Model.Prodotto.Prodot_flg_assegn_al_gruppo) />
+                                </p>
+                                </td>
+                            </tr>
+
+                            <tr class="button-height" style="height:40px;">                                
+                                <td colspan="3">
+                                    <p class="button-height inline-label"><label for="input-1" class="label">Istruzioni operative</label>
+                                    @Html.Raw(@GetAnchor(@Model.Prodotto.Prodot_Documento))</p>
+                                </td>
+                            </tr>
+                            <tr class="button-height" style="height:40px;">                                
+                                <td colspan="3">
+                            	    <p class="button-height inline-label">
+                                    <label for="special-input-2" class="label">Prodotto per la vendita esterna</label>
+                                    <input type="checkbox"  id="prod_FlagInterno"  @GetProdottoPerVendita() @IsEditableString() onclick="toggleTariffaProposta();"/>
+                                    </p>
+                                    
+                                    </td>
+                            </tr>
+                       
+
+                            
+
+                            <tr style="height:40px;">
+                                <td colspan="1">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Dimensione Lotto</label>
+						                <span class="number input margin-right" >
+							                @*<button type="button" class="button number-down" @IsEditableString()>-</button>*@
+							                <input type="text" name="special-input-2" id="Prodotto_Dim_Lotto" value="@SetNumElementi(@Model.Prodotto.Prodot_Dim_Lotto)" class="input-unstyled" data-number-options='{"min":1,"increment":1,"precision":1}'  @IsEditableString() onblur="calcolaTotaleCorrente();"  />
+							                @*<button type="button" class="button number-up" @IsEditableString()>+</button>*@
+						                </span>
+					                </p>
+                                </td>
+                                 <td colspan="2">
+                                   <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Percentuale di scarto</label>
+						                <span class="input margin-right" >
+							                <input type="text" name="special-input-2" maxlength="7" id="Prodotto_perc_Scarto" value="@SetImportoFloat(@Model.Prodotto.Prodot_Perc_Scarto)" class="input-unstyled"  @IsEditableString() onblur="calcolaTotaleCorrente();"/>
+						                </span>
+					                </p>
+                            	    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Stima Produzione Annuale</label>
+						                <span class="number input margin-right" >
+							                @*<button type="button" class="button number-down" @IsEditableString()>-</button>*@
+							                <input type="text" name="special-input-2" id="Prodotto_Stima_Prod_Anno" value="@SetNumElementi(@Model.Prodotto.Prodot_Stima_Prod_Anno)" class="input-unstyled" data-number-options='{"min":1,"increment":1,"precision":1}'  @IsEditableString()  />
+							               @* <button type="button" class="button number-up" @IsEditableString()>+</button>*@
+						                </span>
+					                </p>
+                                </td>
+                                <td colspan="2">
+                            	    @*Ric#8 <p class="button-height inline-label" id="pTariffaProposta">
+                                        <label for="special-input-2" class="label">Tariffa Proposta</label>
+						                <span class="input margin-right" >
+							                <input type="text" maxlength="10" name="special-input-2" id="Prodotto_Tariffa_Proposta" value="@SetImporto(@Model.Prodotto.Prodot_Tariffa_Proposta)" class="input-unstyled" @IsEditableString()/>
+						                </span>
+					                </p>*@
+                                </td>
+                                
+                            </tr>
+                            <tr style="height:40px;">
+                                <td colspan="1">
+                                    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Unit&agrave; di Misura Lotto Produz.</label>
+							            @*<input type="text" name="special-input-2" id="Prodotto_UDM_ID" value="@Model.Prodotto.Prodot_UnitaMisura_ID" class="input-unstyled" data-number-options='{"min":1,"increment":1,"precision":1}'  @IsEditableString()"  />*@
+                                        @if (@IsEditable == true)
+                                        { @Html.DropDownList("UdM", Model.ListaUdMSL, null, new { style = "width:150px", Class = "select", id = "Prodotto_UdM_ID"})}
+                                                                                                                                                                   
+                                        @if (@IsEditable == false)
+                                        { <span class="input margin-right" ><input type="hidden" id="Prodotto_UdM_ID" value="@Model.Prodotto.Prodot_UnitaMisura_ID" />
+                                         <input type="text" maxlength="10" name="special-input-2" id="Prodotto_UdM_ID_desc" value="@Model.Prodotto.Prodot_UnitaMisura_descrizione" class="input-unstyled" disabled />
+                                         </span> }
+
+					                </p>
+                                </td>
+                                <td colspan="1">
+                                 <p class="button-height inline-label">
+                                    <label for="special-input-2" class="label">Coeff. di Conversione</label>
+                                    <span class="input margin-right" >
+                                        <input type="text" maxlength="10" name="special-input-2" id="Prodotto_Coeff_Conversione" value="@Model.Prodotto.Prodotto_CoeffConversione" class="input-unstyled" @IsEditableString() onmouseover = "udmCoeffConvIn(this);", onmouseout = "udmCoeffConvOut(this);" />
+                                    </span> 
+                                 </p> 
+                                </td>
+                                @*<td class="button-height inline-label">*@
+                                <td>
+                                @*<p class="button-height inline-label">*@
+                                <p>
+                                  @if (@Html.IsVisible(CAProdotti.BT_PROD_SALVA) && !@Model.Prodotto.Prodot_Flg_Bloccato && @Html.IsVisibleStato(CAProdotti.BT_PROD_SALVA, @Model.Prodotto) && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))
+                                  {<a href="javascript:saveProdotto();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+                                  @*Ric#3 aggiungo pulsante salva per gestore magazzino che modifichi solo l'utente assegnato e il flag assegna gruppo *@
+                                   
+                                  @if (string.IsNullOrEmpty(@isRiassociaDisabled()) && @Html.GetUserProfileID() == 4)
+                                  {<a href="javascript:changeProdottoUtenteAss();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}                                                                                                                                         
+                                  
+                                  @if (@IsEditable==false)
+                                  {<label for="input-2" class="align-left hide-on-mobile-portrait"> @MsgCoeff()</label> }                                                                       
+                                </p>
+                                </td>
+                            </tr> 
+                             <tr style="height:40px;">
+                               @*<td colspan="1" onmouseover = "udmCoeffConvIn(this);", onmouseout = "udmCoeffConvOut(this);">*@
+                               <td colspan="1">
+                                    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Unit&agrave; di Misura di magazzino</label>
+							            @*<input type="text" name="special-input-2" id="Prodotto_UDM_ID" value="@Model.Prodotto.Prodot_UnitaMisura_ID" class="input-unstyled" data-number-options='{"min":1,"increment":1,"precision":1}'  @IsEditableString()"  />*@
+                                        
+                                        @*ric#10
+                                         @Html.DropDownList("UdM", Model.ListaUdMSLSec, null, new { style = "width:150px", Class = "select", id = "Prodotto_UdM_ID_SEC"})*@
+                                         <span class="input margin-right" ><input type="hidden" id="Prodotto_UdM_ID_SEC" value="@Model.Prodotto.Prodot_UnitaMisura_ID_Sec" />
+                                         <input type="text" maxlength="10" name="special-input-2" id="Prodotto_UdM_ID_SEC_desc" value="@Model.Prodotto.Prodot_UnitaMisura_descrizione_Sec" class="input-unstyled" disabled />
+                                         </span>
+					                </p>
+                                </td>
+                             <td>                                
+                             </td>
+                             </tr>
+                        </table>
+                        
+                       </div>
+		                
+                </details>
+				<a name="pos"></a>
+               <dl class="accordion same-height" open>
+	            <dt>Posizioni</dt>
+	            <dd>
+				     <div class="with-padding" id="myGridPosProdotto" >
+                         @Html.Partial("_PosizioniProdotto")
+                       </div>  
+                       </dd>
+
+                  </dl>
+                   
+                
+            </div> 
+              
+        </form> 
+          <div class="dashboard">
+            <div class="columns">
+
+                
+                <div class="eight-columns twelve-columns-mobile" id="demo-chart">
+                
+					<!-- This div will hold the chart generated in the footer -->
+				</div>
+
+				<div class="two-columns twelve-columns-mobile new-row-mobile">
+					<ul class="stats split-on-mobile">
+						<li rowspan="2"><a href="#">
+							<strong><label id="Prodotto_CostoTotaleCalc">
+                            @SetImporto3(@Model.Prodotto.Prodot_CostoUnitario)</label></strong> Valorizzazione<br/>corrente&nbsp;-&nbsp;<br />costo primo
+						</a></li>
+						<!--<li  @IsNotValorizzatore()><a href="#">
+							@*<strong><label id="Prodotto_CostoTariffaCalc">@SetImportoTariffaTeorica()</label></strong><br>Tariffa&nbsp;teorica<br/>*@
+                            <strong>&nbsp;</strong><br/>&nbsp;<br/>
+						</a>&nbsp;
+                        </li>-->
+						<!--<li>
+							<strong><label id="Prodotto_PercMedia">@SetPercMedia()%</label></strong>Rispetto alla media<br/>per reparto
+						</li>-->
+						<li @IsNotValorizzatore()>
+							<strong><label id="Prodotto_CostoIndirettoCalc">@SetImportoCostoIndriretto()</label></strong>Costo&nbsp;indiretto corrente
+						</li>
+					</ul>
+				</div>
+				<div class="two-columns twelve-columns-mobile new-row-mobile">
+					<ul class="stats split-on-mobile">
+						<li><a href="#">
+							<strong>@SetImporto(@Model.Prodotto.Prodot_CostoUnitario_Deliberato)</strong> Valorizzazione
+						</a></li>
+						<li @IsNotValorizzatore()><a href="#">
+							<strong>@SetImporto(@Model.Prodotto.Prodot_Costo_Tariffa)</strong><br/>Tariffa&nbsp;deliberata<br/>
+						</a></li>
+						<!--<li>
+							<strong><label id="Prodotto_ScostamentoFase">@SetImporto(0)%</label></strong>Scostamento max fase@*<br>esecuzione*@
+						</li>-->
+						<li>
+							<strong><label id="Prodotto_CostoIndustrialeCalc">@SetImportoCostoIndustriale()</label></strong>Costo&nbsp;industriale corrente
+						</li>
+					</ul>
+				</div>
+                <div class="ten-columns twelve-columns-mobile" >
+	                <button onclick="Ricarica();" type ="button" value ="Ricarica" class="button green-gradient glossy">Ricarica</button >&nbsp;
+                    @if (@Html.IsVisible(CAProdotti.BT_PROD_INV_VAL) && !@Model.Prodotto.Prodot_Flg_Bloccato && @Html.IsVisibleStato(CAProdotti.BT_PROD_INV_VAL, @Model.Prodotto) && @IsAssociato(@Model.Prodotto.Prodot_utente_id, @Model.Prodotto.Prodot_flg_assegn_al_gruppo))
+                    {<a href="javascript:CheckPosizioniProdotto();" class="button blue-gradient glossy">Verifica valorizzazione</a>@Html.Raw("&nbsp;")}
+
+                </div>
+            </div> 
+          </div>    
+       </div>
+   
+   <script  type ="text/javascript">       loadScriptRef("startPopUpRichiediSbloccoProdotto.js");</script> 
+   <script  type ="text/javascript">       loadScriptRef("startPopUpRespingiProdotto.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPopUpAnalisiDettROProd.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPPIntermProdotto.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPPCopiaModelloAnalisi.js");</script>
+   @*<script  type ="text/javascript">       loadScriptRef("startPopUpProdottiDettRO.js");</script>*@
+   <script  type ="text/javascript">       loadScriptRef("startPPProdottiP.js");</script>
+   <script  type ="text/javascript">          loadScriptRef("startPPMacchinariP.js");</script>
+   <script  type ="text/javascript">        loadScriptRef("startPopupProdottoWF.js");</script>
+   <script  type ="text/javascript">        loadScriptRef("startProdottoEdit.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPopUpCopiaDaProdotto.js");</script>
+   @*Ric#3*@
+   <script  type ="text/javascript">        loadScriptRef("startPopup.js");</script>
+    
+    <script type="text/javascript">
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(jsonDataChar);
+            optionsChart = loadOptionsChart();
+            var chart = new google.visualization.ColumnChart(document.getElementById('demo-chart'));
+            chart.draw(data, optionsChart);
+        };
+        google.load("visualization", "1", { packages: ["corechart"] });
+
+        </script>
+@*
+      @this.ScriptBlock(
+        @<script  type='text/javascript'>
+         
+             google.load("visualization", "1", { packages: ["corechart"] });
+//             google.setOnLoadCallback(drawChart);
+//             var optionsChart =null;
+//             var jsonDataChar = null;
+             var prodotto_idVal = $('#prodotto_id').val();
+              $.getJSON
+                    (
+                        "/Prodotto/GetElencoChart",
+                          { prodotto_id: prodotto_idVal},
+                           function(data) 
+                           {
+                            var len = data.length;
+                            var multiArray= new Array(len);
+                            var pos=0;
+                            var faseTitolo= 0;
+                            var faseRossa = 0;
+                            var faseBlu = 0;
+                            var maxDelta = 0;
+                            $.each(data,function (index, itemData) 
+                            {
+                                multiArray[pos]  = new Array(3);
+                                if(pos==0){
+                                  multiArray[pos][0]=  itemData.Titolo;
+                                  multiArray[pos][1]=  itemData.Val1;
+                                  multiArray[pos][2]=  itemData.Val2;
+                                }
+                                else 
+                                {
+                                 multiArray[pos][0]=itemData.Titolo;
+                                 multiArray[pos][1]=parseFloat(itemData.Val1);
+                                 multiArray[pos][2]=parseFloat(itemData.Val2);
+                                 if(Math.abs(maxDelta) < Math.abs(parseFloat(itemData.Val2)-parseFloat(itemData.Val1)))
+                                 {
+                                    maxDelta = parseFloat(itemData.Val2)-parseFloat(itemData.Val1);
+                                    faseTitolo = itemData.Titolo;
+                                    faseRossa = parseFloat(itemData.Val2);
+                                    faseBlu = parseFloat(itemData.Val1);
+                                 }
+
+                                }
+                                pos=pos+1;
+                            });
+
+                            jsonDataChar = multiArray;
+                            var res = 0;
+                            if (faseRossa > 0) 
+                            {
+                                res = (faseRossa - faseBlu) * 100 / faseRossa; 
+                            }
+                            res = roundNumber(res, 2);
+                            var strTot = "";
+                            strTot = res.toFixed(2).toString();
+                            strTot = strTot.replace('.', ',');
+                            $('#Prodotto_ScostamentoFase').text(strTot + "%");
+                          }
+                    );
+                    function drawChart() {
+                        var data = google.visualization.arrayToDataTable(jsonDataChar);
+                        optionsChart = loadOptionsChart();
+                        var chart = new google.visualization.ColumnChart(document.getElementById('demo-chart'));
+                        chart.draw(data, optionsChart);
+                    };
+         
+
+         </script>
+         )
+
+      @this.WriteScriptBlocks()*@
+  

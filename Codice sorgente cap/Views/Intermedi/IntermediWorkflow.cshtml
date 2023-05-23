@@ -1,0 +1,46 @@
+﻿@model IZSLER_CAP.Models.AnalisiWorkflowMdodel 
+@{
+    ViewBag.Title = "AnalisiWorkflow";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@using IZSLER_CAP.Helpers  
+<table  class="table responsive-table" id="sorting-trackingIntermedi">
+ <thead>
+            <tr>
+                <th scope="col" width="10%" class="align-center" >Data</th>
+                <th scope="col" width="15%" class="align-center">Utente</th>
+		        <th scope="col" width="15%" class="align-center">Codice</th>
+                
+                
+               @* <th scope="col" width="5%" class="align-center">Priorit&agrave;</th>
+                <th scope="col" width="5%" class="align-center">Tipo</th>*@
+		        <th scope="col" width="50%" class="align-center">Descrizione</th>
+                <th scope="col" width="10%" class="align-center">Stato</th>
+            </tr>
+        </thead>
+        <tfoot>
+		    <tr>
+			    <td colspan="5">
+				    @Model.ElencoTrkAnalisi.Count().ToString() Tracking presenti
+			    </td>
+		    </tr>
+	    </tfoot>
+        <tbody>
+        @foreach (var item in Model.ElencoTrkAnalisi.OrderByDescending(z => z.Trkana_id))
+        { 
+            <tr>
+            
+            <td class="align-center">@Html.GetDateTimeFormat(item.Trkana_DataIns) &nbsp; @Html.GetDateTimeHourFormat(item.Trkana_DataIns)</td>
+            <td >@Html.DisplayFor(modelItem => item.Trkana_Utente_Cognome)&nbsp;@Html.DisplayFor(modelItem => item.Trkana_Utente_Nome)  </td>
+            <td class="with-tooltip" >@Html.DisplayFor(modelItem => item.Trkana_Codice_Intermedio)</td>
+            
+            @*<td class="align-center hide-on-tablet"><small class="tag @item.Trkric_t_ricpri_color-bg"><label for="@item.Trkric_t_ricpri_color">@item.Trkana_T_Staval_desc</label></small></td>
+            <td class="align-center hide-on-tablet"><small class="tag @item.Trkric_t_richie_color-bg"><label for="@item.Trkric_t_richie_color">@item.Trkric_t_richie_desc</label></small></td>  *@
+            <td class="align-center">@Html.DisplayFor(modelItem => item.Trkana_Desc_Intermedio)</td>
+            <td class="align-center">@Html.DisplayFor(modelItem => item.Trkana_T_Staval_desc)</td>
+            
+            </tr>
+        }
+        </tbody>
+</table> 
+<script  type ="text/javascript">        loadScriptRef("startPopupIntermediWF.js");</script>

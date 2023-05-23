@@ -1,0 +1,126 @@
+﻿@model IZSLER_CAP.Models.FigProfModel
+@{   ViewBag.Title = "Figura Professionale";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+
+
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<hgroup id="main-title" class="thin">
+			<h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+            
+</hgroup>
+
+<div class="with-padding">
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+     <dl class="accordion same-height" open>
+        <dt>Inserisci Figura Professionale</dt>
+	    <dd>
+    
+               <div class="with-padding">
+<table >
+
+
+    @*<input style ="visibility:hidden" id="Grurep_ID" value="@Model.CurrentGruppo.Grurep_ID"></input>*@
+
+    <tr style="height:40px;">
+    <td colspan ="2">
+        <p class="button-height inline-label">
+    <label for="input-1" class="label">Codice</label>
+        <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtCodice" maxlength="6" name="txtCodice" title="Campo obbligatorio" type="text" value="" />
+        </p>
+    </td>
+    </tr>
+    <tr style="height:40px;">
+
+    <td colspan ="2">
+    <p class="button-height inline-label " >
+    <label for="input-1" class="label">Descrizione</label>
+        <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtDescrizione" maxlength="50" name="txtDescrizione" title="Campo obbligatorio" type="text" value="" style = "width:250px"/>
+    </p></td>
+    </tr>
+    <tr>
+
+    <td colspan ="2">
+    <p class="button-height inline-label " >
+    <label for="input-1" class="label">Costo Unitario</label>
+        <input class="input"  id="txtCosto_ind" maxlength="50" name="txtCosto_ind" title="Campo obbligatorio" type="text" value="" style = "width:250px"/>
+    </p></td>
+    </tr>
+    <tr style="height:40px;">
+    <td colspan ="4">&nbsp;
+    </td>
+    </tr> 
+        <tr style="height:40px;">
+        <td colspan ="2">
+        <p class="button-height">
+         
+        <a href="javascript:saveFigProfEdit();" class="button green-gradient glossy">Salva</a>
+        &nbsp;&nbsp;
+        @Html.ActionLink("Torna alla lista", "FigProf", null, new { Class = "button green-gradient glossy" })
+        &nbsp;&nbsp;
+        <a href="/Content/Help/Manuale utente CAP.htm#Creazione nuova figura professionale" target="_blank" class="button anthracite-gradient glossy">Help</a>
+
+        </p>
+        </td>
+
+    </tr>
+
+</table>
+</div>
+  
+  </dd> 
+  </dl> 
+
+}
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#txtCosto_ind").keypress(function (e) {
+            //do something here
+            var theEvent = e.originalEvent || window.event;
+            var idText = "#" + theEvent.currentTarget.id;
+            var valIdText = $(idText).val();
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            if (key == "," && valIdText.indexOf(',') !== -1) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+                return;
+            }
+
+            var regex = /[0-9]|\,/;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+
+        });
+    });
+    
+   
+</script>
+<script type ="text/javascript">    loadScriptRef("startFigProfEdit.js");</script>

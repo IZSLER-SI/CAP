@@ -1,0 +1,44 @@
+﻿@model IZSLER_CAP.Models.StampaIntermediModel
+@{
+    //ViewBag.Title = "PopUpIntermediEsplosi_new.cshtml";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+
+@using IZSLER_CAP.Helpers
+@functions{
+}
+<h2>@Model.Prodotto.Prodot_Codice - @Model.Prodotto.Prodot_Desc</h2>
+
+ <table class="table responsive-table" id="idTable">
+    <thead>
+        <tr>
+            <th scope="col" width="10px" class="align-center">&nbsp;</th>
+            <th scope="col" class="align-center">Fase</th>
+            <th scope="col" class="align-center">Descrizione</th>
+            <th scope="col" class="align-center">Quantità</th>
+            <th scope="col" class="align-center">UDM</th>
+        </tr>
+    </thead>
+     <tbody>
+        @Model.StampaIntermediHtml()
+     </tbody>
+     </table>
+<script type="text/javascript">
+function toggleEsplosi(field,id)
+{
+    //var idFiglio = 'child_' + id.toString();
+    //$('#' + idFiglio).toggle();
+
+    var idFiglio = id;
+    $('#' + idFiglio).toggle();
+
+    var idFather = 'expandable_open_button' + id.toString();
+    var val = $('#' + idFather).html();
+   // alert(val);
+    if(val=="+")
+        $('#' + idFather).html("-");
+    else
+        $('#' + idFather).html("+");
+    
+}
+</script>

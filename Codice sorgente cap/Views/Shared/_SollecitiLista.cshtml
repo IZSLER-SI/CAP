@@ -1,0 +1,117 @@
+﻿@model IZSLER_CAP.Models.B16ModelMgr
+@using IZSLER_CAP.Helpers 
+@functions
+{
+    
+    
+    
+    public List<MySollecito> getSollecitiOdierni()
+    {
+
+        List<MySollecito> lst = new List<MySollecito>();
+        lst = Model.ElencoSolleciti.Where(z => z.Sollec_sollecitato_utente_id == @Html.GetUserID()
+             && z.Sollec_data_scadenza != null
+             && z.Sollec_data_scadenza.Value.DayOfYear == DateTime.Now.DayOfYear
+             && z.Sollec_archiviato != true
+             ).ToList<MySollecito>();
+
+        return lst;
+    }
+    public List<MySollecito> getSolleciti()
+    {
+
+        List<MySollecito> lst = new List<MySollecito>();
+        lst = Model.ElencoSolleciti.Where(z => z.Sollec_sollecitato_utente_id == @Html.GetUserID()
+            && (
+                (z.Sollec_data_scadenza != null && z.Sollec_data_scadenza.Value.DayOfYear != DateTime.Now.DayOfYear)
+                || (z.Sollec_data_scadenza == null)
+               )
+            && z.Sollec_archiviato != true
+
+             ).ToList<MySollecito>();
+
+        return lst;
+    }
+    
+    public string testominus (string mes)
+    {
+        string ts = mes;
+        
+        if (ts == null)
+        { 
+           ts = "";
+        }
+        
+        if (ts.Length > 50)
+        {
+            ts = ts.Substring(0,50) + "..";
+        }
+
+        return ts;
+      
+    }
+}
+
+@if(getSollecitiOdierni().Count()>0)
+{
+<table  class="table responsive-table" id="tbl_sollecitiodierni" style ="border :0px;">
+        <thead>
+            <tr>
+		        <th scope="col" style="padding:0;border:0px;"><li class="title-menu">In scadenza oggi</li></th>
+            </tr>
+        </thead>
+    
+        <tbody>
+        @foreach (var item in getSollecitiOdierni())
+        { 
+            <tr>
+       
+            <td class="calendar-menu" style="padding:0"><li>
+								<a href="javascript:openSollecito('/Shared/_SollecitiEdit/@item.Sollec_id.ToString()');" title="Guarda">
+                                <time datetime=@item.Sollec_data_scadenza.Value.ToShortDateString()><b>@Html.GetDateDayFormat(item.Sollec_data_scadenza.Value)</b>@item.Sollec_data_scadenza.Value.ToString("MMM")</time>
+							    <small class="green">@item.Sollec_data_scadenza.Value.ToShortTimeString()</small>
+							    @testominus(@item.Sollec_messaggio)
+							</a>
+                            </li>
+                            </td>
+            </tr>
+        }
+        </tbody>
+
+</table>
+}
+@if (getSolleciti().Count() > 0)
+{
+<table  class="table responsive-table" id="tbl_solleciti" style="border:0px;">
+        <thead>
+            <tr>
+		        <th scope="col" style="padding:0;border:0px;"><li class="title-menu">Solleciti</li></th>
+            </tr>
+        </thead>
+    
+        <tbody>
+        @foreach (var item in getSolleciti())
+        { 
+            <tr>
+                <td class="message-menu" style="padding:0">
+                <li>
+                <span class="message-status"><a href="#" class="starred" title="Starred">Starred</a></span>
+                <span class="message-info">
+		            @if (@item.Sollec_data_scadenza != null)
+              {
+                        <span class="blue">@item.Sollec_data_scadenza.Value.ToShortTimeString()</span>
+              }
+	            </span>
+	            <a href="javascript:openSollecito('/Shared/_SollecitiEdit/@item.Sollec_id.ToString()');" title="Guarda">
+		            da <strong class="blue">@item.Sollec_sollecitante_cognome @item.Sollec_sollecitante_nome</strong><br>
+		                @testominus(@item.Sollec_messaggio)
+	                </a>
+               </li>
+               </td>
+          </tr>
+
+        }
+        </tbody>
+</table>
+}
+<script  type ="text/javascript">    loadScriptRef("startPopupSolleciti.js");</script>

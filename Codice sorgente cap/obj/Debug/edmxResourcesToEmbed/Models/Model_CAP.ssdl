@@ -1,0 +1,1358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IZSLER_CAP_Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="IZSLER_CAP_ModelStoreContainer">
+    <EntitySet Name="ATTIVI_ATTIVITA" EntityType="IZSLER_CAP_Model.Store.ATTIVI_ATTIVITA" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CTRACC_CONTROLLO_ACCESSI" EntityType="IZSLER_CAP_Model.Store.CTRACC_CONTROLLO_ACCESSI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CTRSPR_CONTROLLO_STATI_PROFILI" EntityType="IZSLER_CAP_Model.Store.CTRSPR_CONTROLLO_STATI_PROFILI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CTRSTA_CONTROLLO_STATI" EntityType="IZSLER_CAP_Model.Store.CTRSTA_CONTROLLO_STATI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EMAPAR_EMAIL_PARAMETRI" EntityType="IZSLER_CAP_Model.Store.EMAPAR_EMAIL_PARAMETRI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FASE" EntityType="IZSLER_CAP_Model.Store.FASE" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FIGPRO_FIGURA_PROFESSIONALE" EntityType="IZSLER_CAP_Model.Store.FIGPRO_FIGURA_PROFESSIONALE" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GRUREP_GRUPPI_REPARTI" EntityType="IZSLER_CAP_Model.Store.GRUREP_GRUPPI_REPARTI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="INTERM_INTERMEDIO" EntityType="IZSLER_CAP_Model.Store.INTERM_INTERMEDIO" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="M_FIGATT_FIGURAPROF_ATTIVITA" EntityType="IZSLER_CAP_Model.Store.M_FIGATT_FIGURAPROF_ATTIVITA" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntityType="IZSLER_CAP_Model.Store.M_UTPRGR_UTENTI_PROFILI_GRUPPI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MACCHI_MACCHINARIO" EntityType="IZSLER_CAP_Model.Store.MACCHI_MACCHINARIO" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PRODOT_PRODOTTI" EntityType="IZSLER_CAP_Model.Store.PRODOT_PRODOTTI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PROFIL_PROFILI" EntityType="IZSLER_CAP_Model.Store.PROFIL_PROFILI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PROPOS_POSIZIONI" EntityType="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RICHIE_RICHIESTE" EntityType="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SOLLEC_SOLLECITI" EntityType="IZSLER_CAP_Model.Store.SOLLEC_SOLLECITI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="IZSLER_CAP_Model.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" EntityType="IZSLER_CAP_Model.Store.T_GRUDMI_GRUPPI_UNITA_DI_MISURA" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_RICHIE_TIPO_RICHIESTA" EntityType="IZSLER_CAP_Model.Store.T_RICHIE_TIPO_RICHIESTA" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_RICPRI_PRIORITA_RICHIESTA" EntityType="IZSLER_CAP_Model.Store.T_RICPRI_PRIORITA_RICHIESTA" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_SETTIN_SETTINGS" EntityType="IZSLER_CAP_Model.Store.T_SETTIN_SETTINGS" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_STAPRO_STATO_PRODOTTO" EntityType="IZSLER_CAP_Model.Store.T_STAPRO_STATO_PRODOTTO" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_STARIC_STATO_RICHIESTA" EntityType="IZSLER_CAP_Model.Store.T_STARIC_STATO_RICHIESTA" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_STAVAL_STATO_VALORIZZAZIONE" EntityType="IZSLER_CAP_Model.Store.T_STAVAL_STATO_VALORIZZAZIONE" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="T_UNIMIS_UNITA_MISURA" EntityType="IZSLER_CAP_Model.Store.T_UNIMIS_UNITA_MISURA" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TKPROP_PREZZI_PRODOTTI_TRK" EntityType="IZSLER_CAP_Model.Store.TKPROP_PREZZI_PRODOTTI_TRK" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TKVALP_PREZZI_VALORIZZAZIONI_TRK" EntityType="IZSLER_CAP_Model.Store.TKVALP_PREZZI_VALORIZZAZIONI_TRK" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TRKFIG_FIGPRO_TRACKING" EntityType="IZSLER_CAP_Model.Store.TRKFIG_FIGPRO_TRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TRKINT_INTERMEDIO_TRACKING" EntityType="IZSLER_CAP_Model.Store.TRKINT_INTERMEDIO_TRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TRKPPS_PRODOTPOS_TRACKING" EntityType="IZSLER_CAP_Model.Store.TRKPPS_PRODOTPOS_TRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TRKPRO_PRODOTTO_TRACKING" EntityType="IZSLER_CAP_Model.Store.TRKPRO_PRODOTTO_TRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TRKRIC_RICHIESTE_TRACKING" EntityType="IZSLER_CAP_Model.Store.TRKRIC_RICHIESTE_TRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TRKVAL_VALORIZZAZIONI_TRACKING" EntityType="IZSLER_CAP_Model.Store.TRKVAL_VALORIZZAZIONI_TRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TRKVPS_VALORIPOS_TRACKING" EntityType="IZSLER_CAP_Model.Store.TRKVPS_VALORIPOS_TRACKING" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UTENTE" EntityType="IZSLER_CAP_Model.Store.UTENTE" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VALORI_VALORIZZAZIONI" EntityType="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VALPOS_POSIZIONI" EntityType="IZSLER_CAP_Model.Store.VALPOS_POSIZIONI" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ATTIVI_ATTIVITA_FASE" Association="IZSLER_CAP_Model.Store.FK_ATTIVI_ATTIVITA_FASE">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="ATTIVI_ATTIVITA" EntitySet="ATTIVI_ATTIVITA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI" Association="IZSLER_CAP_Model.Store.FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI">
+      <End Role="PROFIL_PROFILI" EntitySet="PROFIL_PROFILI" />
+      <End Role="CTRACC_CONTROLLO_ACCESSI" EntitySet="CTRACC_CONTROLLO_ACCESSI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FASE_FASE1" Association="IZSLER_CAP_Model.Store.FK_FASE_FASE1">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="FASE1" EntitySet="FASE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI" Association="IZSLER_CAP_Model.Store.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1" Association="IZSLER_CAP_Model.Store.FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_INTERM_INTERMEDIO_UTENTE" Association="IZSLER_CAP_Model.Store.FK_INTERM_INTERMEDIO_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+    </AssociationSet>
+    <AssociationSet Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE" Association="IZSLER_CAP_Model.Store.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="M_FIGATT_FIGURAPROF_ATTIVITA" EntitySet="M_FIGATT_FIGURAPROF_ATTIVITA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE" Association="IZSLER_CAP_Model.Store.FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE">
+      <End Role="FIGPRO_FIGURA_PROFESSIONALE" EntitySet="FIGPRO_FIGURA_PROFESSIONALE" />
+      <End Role="M_FIGATT_FIGURAPROF_ATTIVITA" EntitySet="M_FIGATT_FIGURAPROF_ATTIVITA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI" Association="IZSLER_CAP_Model.Store.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntitySet="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI" Association="IZSLER_CAP_Model.Store.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI">
+      <End Role="PROFIL_PROFILI" EntitySet="PROFIL_PROFILI" />
+      <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntitySet="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE" Association="IZSLER_CAP_Model.Store.FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" EntitySet="M_UTPRGR_UTENTI_PROFILI_GRUPPI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO" Association="IZSLER_CAP_Model.Store.FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO">
+      <End Role="T_STAPRO_STATO_PRODOTTO" EntitySet="T_STAPRO_STATO_PRODOTTO" />
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA" Association="IZSLER_CAP_Model.Store.FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA">
+      <End Role="T_UNIMIS_UNITA_MISURA" EntitySet="T_UNIMIS_UNITA_MISURA" />
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_FASE" Association="IZSLER_CAP_Model.Store.FK_PROPOS_POSIZIONI_FASE">
+      <End Role="FASE" EntitySet="FASE" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE" Association="IZSLER_CAP_Model.Store.FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE">
+      <End Role="FIGPRO_FIGURA_PROFESSIONALE" EntitySet="FIGPRO_FIGURA_PROFESSIONALE" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO" Association="IZSLER_CAP_Model.Store.FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO">
+      <End Role="MACCHI_MACCHINARIO" EntitySet="MACCHI_MACCHINARIO" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI" Association="IZSLER_CAP_Model.Store.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI">
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC" Association="IZSLER_CAP_Model.Store.FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC">
+      <End Role="PRODOT_PRODOTTI" EntitySet="PRODOT_PRODOTTI" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA" Association="IZSLER_CAP_Model.Store.FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA">
+      <End Role="T_UNIMIS_UNITA_MISURA" EntitySet="T_UNIMIS_UNITA_MISURA" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI" Association="IZSLER_CAP_Model.Store.FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+      <End Role="PROPOS_POSIZIONI" EntitySet="PROPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA" Association="IZSLER_CAP_Model.Store.FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA">
+      <End Role="T_RICHIE_TIPO_RICHIESTA" EntitySet="T_RICHIE_TIPO_RICHIESTA" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA" Association="IZSLER_CAP_Model.Store.FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA">
+      <End Role="T_RICPRI_PRIORITA_RICHIESTA" EntitySet="T_RICPRI_PRIORITA_RICHIESTA" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA" Association="IZSLER_CAP_Model.Store.FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA">
+      <End Role="T_STARIC_STATO_RICHIESTA" EntitySet="T_STARIC_STATO_RICHIESTA" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_UTENTE" Association="IZSLER_CAP_Model.Store.FK_RICHIE_RICHIESTE_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_UTENTE1" Association="IZSLER_CAP_Model.Store.FK_RICHIE_RICHIESTE_UTENTE1">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI" Association="IZSLER_CAP_Model.Store.FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI">
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE" Association="IZSLER_CAP_Model.Store.FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE">
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+      <End Role="SOLLEC_SOLLECITI" EntitySet="SOLLEC_SOLLECITI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOLLEC_SOLLECITI_UTENTE" Association="IZSLER_CAP_Model.Store.FK_SOLLEC_SOLLECITI_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="SOLLEC_SOLLECITI" EntitySet="SOLLEC_SOLLECITI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SOLLEC_SOLLECITI_UTENTE1" Association="IZSLER_CAP_Model.Store.FK_SOLLEC_SOLLECITI_UTENTE1">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="SOLLEC_SOLLECITI" EntitySet="SOLLEC_SOLLECITI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA" Association="IZSLER_CAP_Model.Store.FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+      <End Role="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" EntitySet="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" />
+      <End Role="T_UNIMIS_UNITA_MISURA" EntitySet="T_UNIMIS_UNITA_MISURA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKFIG_FIGPRO_TRACKING_UTENTE" Association="IZSLER_CAP_Model.Store.FK_TRKFIG_FIGPRO_TRACKING_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="TRKFIG_FIGPRO_TRACKING" EntitySet="TRKFIG_FIGPRO_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO" Association="IZSLER_CAP_Model.Store.FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO">
+      <End Role="INTERM_INTERMEDIO" EntitySet="INTERM_INTERMEDIO" />
+      <End Role="TRKINT_INTERMEDIO_TRACKING" EntitySet="TRKINT_INTERMEDIO_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE" Association="IZSLER_CAP_Model.Store.FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE">
+      <End Role="RICHIE_RICHIESTE" EntitySet="RICHIE_RICHIESTE" />
+      <End Role="TRKRIC_RICHIESTE_TRACKING" EntitySet="TRKRIC_RICHIESTE_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKRIC_RICHIESTE_TRACKING_UTENTE" Association="IZSLER_CAP_Model.Store.FK_TRKRIC_RICHIESTE_TRACKING_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="TRKRIC_RICHIESTE_TRACKING" EntitySet="TRKRIC_RICHIESTE_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE" Association="IZSLER_CAP_Model.Store.FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE">
+      <End Role="T_STAVAL_STATO_VALORIZZAZIONE" EntitySet="T_STAVAL_STATO_VALORIZZAZIONE" />
+      <End Role="TRKVAL_VALORIZZAZIONI_TRACKING" EntitySet="TRKVAL_VALORIZZAZIONI_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE" Association="IZSLER_CAP_Model.Store.FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="TRKVAL_VALORIZZAZIONI_TRACKING" EntitySet="TRKVAL_VALORIZZAZIONI_TRACKING" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI" Association="IZSLER_CAP_Model.Store.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1" Association="IZSLER_CAP_Model.Store.FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1">
+      <End Role="GRUREP_GRUPPI_REPARTI" EntitySet="GRUREP_GRUPPI_REPARTI" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE" Association="IZSLER_CAP_Model.Store.FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE">
+      <End Role="T_STAVAL_STATO_VALORIZZAZIONE" EntitySet="T_STAVAL_STATO_VALORIZZAZIONE" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALORI_VALORIZZAZIONI_UTENTE" Association="IZSLER_CAP_Model.Store.FK_VALORI_VALORIZZAZIONI_UTENTE">
+      <End Role="UTENTE" EntitySet="UTENTE" />
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO" Association="IZSLER_CAP_Model.Store.FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO">
+      <End Role="MACCHI_MACCHINARIO" EntitySet="MACCHI_MACCHINARIO" />
+      <End Role="VALPOS_POSIZIONI" EntitySet="VALPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI" Association="IZSLER_CAP_Model.Store.FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+      <End Role="VALORI_VALORIZZAZIONI" EntitySet="VALORI_VALORIZZAZIONI" />
+      <End Role="VALPOS_POSIZIONI" EntitySet="VALPOS_POSIZIONI" />
+    </AssociationSet>
+    <AssociationSet Name="FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI" Association="IZSLER_CAP_Model.Store.FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI">
+      <End Role="VALPOS_POSIZIONI" EntitySet="VALPOS_POSIZIONI" />
+      <End Role="VALPOS_POSIZIONI1" EntitySet="VALPOS_POSIZIONI" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ATTIVI_ATTIVITA">
+    <Key>
+      <PropertyRef Name="ATTIVI_ID" />
+    </Key>
+    <Property Name="ATTIVI_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ATTIVI_CODICE" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="ATTIVI_DESC" Type="varchar" MaxLength="50" />
+    <Property Name="ATTIVI_FASE_ID" Type="int" Nullable="false" />
+    <Property Name="ATTIVI_FLG_OBBLIGATORIA" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CTRACC_CONTROLLO_ACCESSI">
+    <Key>
+      <PropertyRef Name="CTRACC_ID" />
+    </Key>
+    <Property Name="CTRACC_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CTRACC_PROFIL_ID" Type="int" Nullable="false" />
+    <Property Name="CTRACC_VISIBLE" Type="varchar" Nullable="false" MaxLength="4000" />
+  </EntityType>
+  <EntityType Name="CTRSPR_CONTROLLO_STATI_PROFILI">
+    <Key>
+      <PropertyRef Name="CTRSPR_ID" />
+    </Key>
+    <Property Name="CTRSPR_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CTRSPR_CODICE" Type="varchar" Nullable="false" MaxLength="3" />
+    <Property Name="CTRSPR_T_STATO_ID" Type="int" Nullable="false" />
+    <Property Name="CTRSPR_PROFILO_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CTRSTA_CONTROLLO_STATI">
+    <Key>
+      <PropertyRef Name="CTRSTA_ID" />
+    </Key>
+    <Property Name="CTRSTA_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="CTRSTA_CODICE" Type="varchar" Nullable="false" MaxLength="3" />
+    <Property Name="CTRSTA_T_STATO_ID" Type="int" Nullable="false" />
+    <Property Name="CTRSTA_VISIBILE" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EMAPAR_EMAIL_PARAMETRI">
+    <Key>
+      <PropertyRef Name="EMAPAR_ID" />
+    </Key>
+    <Property Name="EMAPAR_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="EMAPAR_SERVER" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="EMAPAR_USER" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="EMAPAR_PASSWORD" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="EMAPAR_SSL" Type="bit" Nullable="false" />
+    <Property Name="EMAPAR_PORT" Type="int" />
+    <Property Name="EMAPAR_DEFAULT" Type="bit" Nullable="false" />
+    <Property Name="EMAPAR_MAIL_FROM" Type="varchar" MaxLength="50" />
+    <Property Name="EMAPAR_MAIL_ALIAS" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="FASE">
+    <Key>
+      <PropertyRef Name="FASE_ID" />
+    </Key>
+    <Property Name="FASE_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FASE_CODICE" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="FASE_DESC" Type="varchar(max)" />
+    <Property Name="FASE_FASE_ID" Type="int" />
+    <Property Name="FASE_GRUREP_ID" Type="int" />
+    <Property Name="FASE_ORDINE" Type="int" />
+  </EntityType>
+  <EntityType Name="FIGPRO_FIGURA_PROFESSIONALE">
+    <Key>
+      <PropertyRef Name="FIGPRO_ID" />
+    </Key>
+    <Property Name="FIGPRO_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="FIGPRO_CODICE" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="FIGPRO_DESC" Type="varchar" MaxLength="50" />
+    <Property Name="FIGPRO_COSTO" Type="decimal" Nullable="false" Scale="5" />
+  </EntityType>
+  <EntityType Name="GRUREP_GRUPPI_REPARTI">
+    <Key>
+      <PropertyRef Name="GRUREP_ID" />
+    </Key>
+    <Property Name="GRUREP_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="GRUREP_CODICE" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="GRUREP_DESC" Type="varchar" MaxLength="50" />
+    <Property Name="GRUREP_DESC_ESTESA" Type="varchar(max)" />
+    <Property Name="GRUREP_FLG_REPARTO" Type="bit" Nullable="false" />
+    <Property Name="GRUREP_COST_IND" Type="varchar" MaxLength="50" />
+    <Property Name="GRUREP_PREZZO_UNIT_ACCET" Type="decimal" Scale="5" />
+  </EntityType>
+  <EntityType Name="INTERM_INTERMEDIO">
+    <Key>
+      <PropertyRef Name="INTERM_ID" />
+    </Key>
+    <Property Name="INTERM_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="INTERM_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="INTERM_GRUPPO_GRUREP_ID" Type="int" />
+    <Property Name="INTERM_REPARTO_GRUREP_ID" Type="int" />
+    <Property Name="INTERM_VN" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="INTERM_MP_REV" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="INTERM_DESC" Type="varchar" MaxLength="50" />
+    <Property Name="INTERM_TECNICA" Type="varchar" MaxLength="50" />
+    <Property Name="INTERM_DIM_LOTTO" Type="int" />
+    <Property Name="INTERM_MATRICE" Type="varchar" MaxLength="50" />
+    <Property Name="INTERM_COSTO_TOT" Type="decimal" Scale="2" />
+    <Property Name="INTERM_FLG_PONDERAZIONE" Type="bit" Nullable="false" />
+    <Property Name="INTERM_PESO_POSITIVO" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="M_FIGATT_FIGURAPROF_ATTIVITA">
+    <Key>
+      <PropertyRef Name="M_FIGATT_ID" />
+    </Key>
+    <Property Name="M_FIGATT_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="M_FIGATT_FASE_ID" Type="int" Nullable="false" />
+    <Property Name="M_FIGATT_FIGPRO_ID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+    <Key>
+      <PropertyRef Name="M_UTPRGR_ID" />
+    </Key>
+    <Property Name="M_UTPRGR_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="M_UTPRGR_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="M_UTPRGR_PROFIL_ID" Type="int" />
+    <Property Name="M_UTPRGR_GRUREP_ID" Type="int" />
+    <Property Name="M_UTPRGR_FLG_PRINCIPALE" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MACCHI_MACCHINARIO">
+    <Key>
+      <PropertyRef Name="MACCHI_ID" />
+    </Key>
+    <Property Name="MACCHI_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="MACCHI_CODICE" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="MACCHI_DESC" Type="varchar" MaxLength="150" />
+    <Property Name="MACCHI_PREZZO_UNITARIO" Type="decimal" Scale="5" />
+    <Property Name="MACCHI_GRUREP_ID" Type="int" />
+    <Property Name="MACCHI_VALORE_STRUMENTAZIONE" Type="decimal" Scale="5" />
+    <Property Name="MACCHI_COSTO_MANUTENZIONE_ANNUALE" Type="decimal" Scale="5" />
+    <Property Name="MACCHI_VITA_UTILE_ANNI" Type="decimal" Scale="5" />
+    <Property Name="MACCHI_MINUTI_ANNO" Type="decimal" />
+  </EntityType>
+  <EntityType Name="PRODOT_PRODOTTI">
+    <Key>
+      <PropertyRef Name="PRODOT_ID" />
+    </Key>
+    <Property Name="PRODOT_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PRODOT_CODICE" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="PRODOT_DESC" Type="varchar" MaxLength="100" />
+    <Property Name="PRODOT_DESC_ESTESA" Type="varchar(max)" />
+    <Property Name="PRODOT_FLG_BLOCCATO" Type="bit" Nullable="false" />
+    <Property Name="PRODOT_COSTOUNITARIO" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_T_UNIMIS_ID" Type="int" />
+    <Property Name="PRODOT_UTENTE_ID" Type="int" />
+    <Property Name="PRODOT_T_STAPRO_ID" Type="int" />
+    <Property Name="PRODOT_DIM_LOTTO" Type="int" />
+    <Property Name="PRODOT_NR_CAMP_QUALITA" Type="int" />
+    <Property Name="PRODOT_COSTOUNITARIO_DELIBE" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_REPARTO_GRUREP_ID" Type="int" />
+    <Property Name="PRODOT_FLG_INTERNO" Type="bit" Nullable="false" />
+    <Property Name="PRODOT_FLG_BLOCCATO_MAGAZZINO" Type="bit" Nullable="false" />
+    <Property Name="PRODOT_CODICE_DESC" Type="varchar" MaxLength="100" />
+    <Property Name="PRODOT_COEFF_CONVERSIONE" Type="float" />
+    <Property Name="PRODOT_STIMA_PROD_ANNO" Type="int" />
+    <Property Name="PRODOT_PERC_SCARTO" Type="float" />
+    <Property Name="PRODOT_TARIFFA" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_TARIFFA_PROPOSTA" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_HASHKEY" Type="varchar(max)" />
+    <Property Name="PRODOT_T_UNIMIS_ID_SEC" Type="int" />
+    <Property Name="PRODOT_DOCUMENTO" Type="varchar" MaxLength="100" />
+    <Property Name="PRODOT_FLG_ASSEGN_AL_GRUPPO" Type="bit" />
+    <Property Name="PRODOT_COSSTO_DIRETTO" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_COSSTO_INDIRETTO" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_COSSTO_PERSONALE" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_COSSTO_MATERIALI" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_COSSTO_ANALISI" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_COSSTO_APP_DED" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_COSSTO_PRODUZ_INT" Type="decimal" Scale="5" />
+    <Property Name="PRODOT_TS_AGGIORNAMENTO_POSIZIONI" Type="datetime" />
+  </EntityType>
+  <EntityType Name="PROFIL_PROFILI">
+    <Key>
+      <PropertyRef Name="PROFIL_ID" />
+    </Key>
+    <Property Name="PROFIL_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PROFIL_CODICE" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="PROFIL_DESC" Type="varchar" MaxLength="50" />
+    <Property Name="PROFIL_DESC_ESTESA" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="PROPOS_POSIZIONI">
+    <Key>
+      <PropertyRef Name="PROPOS_ID" />
+    </Key>
+    <Property Name="PROPOS_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PROPOS_PRODOT_ID" Type="int" Nullable="false" />
+    <Property Name="PROPOS_INTERM_ID" Type="int" />
+    <Property Name="PROPOS_PRODOT_ID_SEC" Type="int" />
+    <Property Name="PROPOS_FASE_ID" Type="int" />
+    <Property Name="PROPOS_FIGPRO_ID" Type="int" />
+    <Property Name="PROPOS_DESC" Type="varchar" MaxLength="500" />
+    <Property Name="PROPOS_QTA" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="PROPOS_COSTO_QTA" Type="decimal" Scale="5" />
+    <Property Name="PROPOS_TOT" Type="decimal" Scale="5" />
+    <Property Name="PROPOS_COEFF_CONVERSIONE" Type="float" />
+    <Property Name="PROPOS_T_UNIMIS_ID" Type="int" />
+    <Property Name="PROPOS_MACCHI_ID" Type="int" />
+    <Property Name="PROPOS_COD_SETTORE" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="RICHIE_RICHIESTE">
+    <Key>
+      <PropertyRef Name="RICHIE_ID" />
+    </Key>
+    <Property Name="RICHIE_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RICHIE_CODICE" Type="varchar" MaxLength="10" />
+    <Property Name="RICHIE_TITOLO" Type="varchar" MaxLength="100" />
+    <Property Name="RICHIE_DATA_RICHIESTA" Type="datetime" Nullable="false" />
+    <Property Name="RICHIE_T_RICHIE_ID" Type="int" Nullable="false" />
+    <Property Name="RICHIE_RICHIEDENTE_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="RICHIE_DESTINATARIO_UTENTE_ID" Type="int" />
+    <Property Name="RICHIE_TESTO" Type="varchar(max)" />
+    <Property Name="RICHIE_T_STARIC_ID" Type="int" Nullable="false" />
+    <Property Name="RICHIE_VALORI_ID" Type="int" />
+    <Property Name="RICHIE_T_RICPRI_ID" Type="int" Nullable="false" />
+    <Property Name="RICHIE_PRODOT_ID" Type="int" />
+    <Property Name="RICHIE_FLG_ASSEGN_AL_GRUPPO" Type="bit" />
+  </EntityType>
+  <EntityType Name="SOLLEC_SOLLECITI">
+    <Key>
+      <PropertyRef Name="SOLLEC_ID" />
+    </Key>
+    <Property Name="SOLLEC_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SOLLEC_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="SOLLEC_RICHIE_ID" Type="int" Nullable="false" />
+    <Property Name="SOLLEC_SOLLECITANTE_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="SOLLEC_SOLLECITATO_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="SOLLEC_MESSAGGIO" Type="varchar(max)" />
+    <Property Name="SOLLEC_DATA_SCADENZA" Type="datetime" />
+    <Property Name="SOLLEC_ARCHIVIATO" Type="bit" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+    <Key>
+      <PropertyRef Name="T_GRUDMI_ID" />
+    </Key>
+    <Property Name="T_GRUDMI_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_GRUDMI_CODICE" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="T_GRUDMI_DESC" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="T_RICHIE_TIPO_RICHIESTA">
+    <Key>
+      <PropertyRef Name="T_RICHIE_ID" />
+    </Key>
+    <Property Name="T_RICHIE_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_RICHIE_CODICE" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="T_RICHIE_DESC" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="T_RICHIE_COLOR" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="T_RICPRI_PRIORITA_RICHIESTA">
+    <Key>
+      <PropertyRef Name="T_RICPRI_ID" />
+    </Key>
+    <Property Name="T_RICPRI_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_RICPRI_CODICE" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="T_RICPRI_DESC" Type="varchar" MaxLength="50" />
+    <Property Name="T_RICPRI_COLOR" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="T_SETTIN_SETTINGS">
+    <Key>
+      <PropertyRef Name="T_SETTIN_ID" />
+    </Key>
+    <Property Name="T_SETTIN_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_SETTIN_CODICE" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="T_SETTIN_VALUE" Type="varchar" Nullable="false" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="T_STAPRO_STATO_PRODOTTO">
+    <Key>
+      <PropertyRef Name="T_STAPRO_ID" />
+    </Key>
+    <Property Name="T_STAPRO_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_STAPRO_CODICE" Type="varchar" MaxLength="6" />
+    <Property Name="T_STAPRO_DESCRIZIONE" Type="varchar" MaxLength="50" />
+    <Property Name="T_STAPRO_COLOR" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="T_STARIC_STATO_RICHIESTA">
+    <Key>
+      <PropertyRef Name="T_STARIC_ID" />
+    </Key>
+    <Property Name="T_STARIC_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_STARIC_CODICE" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="T_STARIC_DESC" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="T_STAVAL_STATO_VALORIZZAZIONE">
+    <Key>
+      <PropertyRef Name="T_STAVAL_ID" />
+    </Key>
+    <Property Name="T_STAVAL_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_STAVAL_CODICE" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="T_STAVAL_DESC" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="T_UNIMIS_UNITA_MISURA">
+    <Key>
+      <PropertyRef Name="T_UNIMIS_ID" />
+    </Key>
+    <Property Name="T_UNIMIS_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="T_UNIMIS_CODICE" Type="varchar" MaxLength="6" />
+    <Property Name="T_UNIMIS_DESC" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="T_UNIMIS_GRUDMI_ID" Type="int" Nullable="false" />
+    <Property Name="T_UNIMIS_CONVERSIONE" Type="decimal" Nullable="false" Scale="8" />
+    <Property Name="T_UNIDMI_DEFAULT" Type="bit" Nullable="false" />
+    <Property Name="T_UNIDMI_VISIBLE" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TKPROP_PREZZI_PRODOTTI_TRK">
+    <Key>
+      <PropertyRef Name="TKPROP_ID" />
+    </Key>
+    <Property Name="TKPROP_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TKPROP_PRODOT_ID" Type="int" Nullable="false" />
+    <Property Name="TKPROP_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TKPROP_COSTO" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="TKPROP_TARIFFA" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="TKPROP_COSTO_DELIB" Type="decimal" Scale="5" />
+    <Property Name="TKPROP_FLG_BLOCCATO_MAGAZZINO" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TKVALP_PREZZI_VALORIZZAZIONI_TRK">
+    <Key>
+      <PropertyRef Name="TKVALP_ID" />
+    </Key>
+    <Property Name="TKVALP_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TKVALP_VALORI_ID" Type="int" Nullable="false" />
+    <Property Name="TKVALP_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TKVALP_COSTO" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="TKVALP_TARIFFA" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="TKVALP_COSTO_DELIB" Type="decimal" Scale="5" />
+    <Property Name="TKVALP_FLG_BLOCCATO_MAGAZZINO" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TRKFIG_FIGPRO_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKFIG_ID" />
+    </Key>
+    <Property Name="TRKFIG_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TRKFIG_FIGPRO_ID" Type="int" Nullable="false" />
+    <Property Name="TRKFIG_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TRKFIG_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKFIG_FIGPRO_COSTO" Type="decimal" Nullable="false" Scale="5" />
+  </EntityType>
+  <EntityType Name="TRKINT_INTERMEDIO_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKINT_ID" />
+    </Key>
+    <Property Name="TRKINT_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TRKINT_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TRKINT_INTERM_ID" Type="int" Nullable="false" />
+    <Property Name="TRKINT_INTERM_INTERM_COSTO_TOT" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="TRKINT_INTER_CODICE" Type="varchar" MaxLength="100" />
+    <Property Name="TRKINT_INTER_DESCRIZIONE" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="TRKPPS_PRODOTPOS_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKPPS_ID" />
+    </Key>
+    <Property Name="TRKPPS_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TRKPPS_PROPOS_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVAL_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TRKVAL_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKPPS_PROPOS_PRODOT_ID" Type="int" Nullable="false" />
+    <Property Name="TRKPPS_PROPOS_INTERM_ID" Type="int" />
+    <Property Name="TRKPPS_PROPOS_PRODOT_ID_SEC" Type="int" />
+    <Property Name="TRKPPS_PROPOS_FASE_ID" Type="int" />
+    <Property Name="TRKPPS_PROPOS_FIGPRO_ID" Type="int" />
+    <Property Name="TRKPPS_PROPOS_DESC" Type="varchar" MaxLength="500" />
+    <Property Name="TRKPPS_PROPOS_QTA" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="TRKPPS_PROPOS_COSTO_QTA" Type="decimal" Scale="5" />
+    <Property Name="TRKPPS_PROPOS_TOT" Type="decimal" Scale="5" />
+    <Property Name="TRKPPS_PROPOS_COEFF_CONVERSIONE" Type="float" />
+    <Property Name="TRKPPS_PROPOS_T_UNIMIS_ID" Type="int" />
+    <Property Name="TRKPPS_PROPOS_COD_SETTORE" Type="varchar" MaxLength="10" />
+    <Property Name="TRKVPS_PROPOS_MACCHI_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="TRKPRO_PRODOTTO_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKPRO_ID" />
+    </Key>
+    <Property Name="TRKPRO_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TRKPRO_PRODOT_ID" Type="int" Nullable="false" />
+    <Property Name="TRKPRO_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TRKPRO_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKPRO_PRODOT_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKPRO_T_STAPRO_ID" Type="int" Nullable="false" />
+    <Property Name="TRKPRO_DIM_LOTTO" Type="int" Nullable="false" />
+    <Property Name="TRKPRO_COSTOUNITARIO" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_COSTOUNITARIO_DELIBE" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_T_UNIMIS_ID" Type="int" />
+    <Property Name="TRKPRO_NR_CAMP_QUALITA" Type="int" />
+    <Property Name="TRKPRO_REPARTO_GRUREP_ID" Type="int" />
+    <Property Name="TRKPRO_FLG_INTERNO" Type="bit" />
+    <Property Name="TRKPRO_DESC" Type="varchar" MaxLength="100" />
+    <Property Name="TRKPRO_CODICE" Type="varchar" MaxLength="10" />
+    <Property Name="TRKPRO_FLG_BLOCCATO_MAGAZZINO" Type="bit" Nullable="false" />
+    <Property Name="TRKPRO_DOCUMENTO" Type="varchar" MaxLength="100" />
+    <Property Name="TRKPRO_DESC_ESTESA" Type="varchar(max)" />
+    <Property Name="TRKPRO_FLG_BLOCCATO" Type="bit" />
+    <Property Name="TRKPRO_CODICE_DESC" Type="varchar" MaxLength="100" />
+    <Property Name="TRKPRO_COEFF_CONVERSIONE" Type="float" />
+    <Property Name="TRKPRO_STIMA_PROD_ANNO" Type="int" />
+    <Property Name="TRKPRO_PERC_SCARTO" Type="float" />
+    <Property Name="TRKPRO_TARIFFA" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_TARIFFA_PROPOSTA" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_HASHKEY" Type="varchar(max)" />
+    <Property Name="TRKPRO_T_UNIMIS_ID_SEC" Type="int" />
+    <Property Name="TRKPRO_FLG_ASSEGN_AL_GRUPPO" Type="bit" />
+    <Property Name="TRKPRO_COSSTO_DIRETTO" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_COSSTO_INDIRETTO" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_COSSTO_PERSONALE" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_COSSTO_MATERIALI" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_COSSTO_ANALISI" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_COSSTO_APP_DED" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_COSSTO_PRODUZ_INT" Type="decimal" Scale="5" />
+    <Property Name="TRKPRO_TS_AGGIORNAMENTO_POSIZIONI" Type="datetime" />
+  </EntityType>
+  <EntityType Name="TRKRIC_RICHIESTE_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKRIC_ID" />
+    </Key>
+    <Property Name="TRKRIC_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TRKRIC_RICHIE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKRIC_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TRKRIC_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKRIC_T_STARIC_ID" Type="int" />
+    <Property Name="TRKRIC_TITOLO" Type="varchar" MaxLength="100" />
+    <Property Name="TRKRIC_TESTO" Type="varchar(max)" />
+    <Property Name="TRKRIC_T_RICPRI_ID" Type="int" />
+    <Property Name="TRKRIC_CODICE" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="TRKVAL_VALORIZZAZIONI_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKVAL_ID" />
+    </Key>
+    <Property Name="TRKVAL_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TRKVAL_VALORI_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVAL_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TRKVAL_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVAL_VALORI_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVAL_DIM_LOTTO" Type="int" />
+    <Property Name="TRKVAL_NR_CAMP_QUALITA" Type="int" />
+    <Property Name="TRKVAL_COSTO_TOT" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_FLG_PONDERAZIONE" Type="bit" Nullable="false" />
+    <Property Name="TRKVAL_PESO_POSITIVO" Type="int" />
+    <Property Name="TRKVAL_T_STAVAL_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVAL_CODICE_INTERMEDIO" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_DESC_INTERMEDIO" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_GRUPPO_GRUREP_ID" Type="int" />
+    <Property Name="TRKVAL_REPARTO_GRUREP_ID" Type="int" />
+    <Property Name="TRKVAL_COSTO_TOT_DELIB" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSTO_TARIFFA" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSTO_TARIFFA_DELIBERATO" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_VN_CODICE" Type="int" />
+    <Property Name="TRKVAL_MP_REV_CODICE" Type="int" />
+    <Property Name="TRKVAL_REVISIONE" Type="varchar" MaxLength="50" />
+    <Property Name="TRKVAL_LEGGE" Type="varchar" MaxLength="4000" />
+    <Property Name="TRKVAL_DATA_VN_DA" Type="datetime" />
+    <Property Name="TRKVAL_DATA_VN_A" Type="datetime" />
+    <Property Name="TRKVAL_DATA_MP_REV_SCADENZA" Type="datetime" />
+    <Property Name="TRKVAL_COSTO_TARIFFA_D_DELIBERATO" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COD_VN_MP_REV_SETTORE" Type="int" />
+    <Property Name="TRKVAL_COD_VN_MP_REV_SETTORE_D" Type="int" />
+    <Property Name="TRKVAL_COD_VN_MP_REV_SETTORE_V" Type="int" />
+    <Property Name="TRKVAL_DOCUMENTO" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_ALLEGATO1" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_ALLEGATO2" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_FLG_INTERNO" Type="bit" />
+    <Property Name="TRKVAL_FLG_BLOCCATO" Type="bit" />
+    <Property Name="TRKVAL_VN" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_MP_REV" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_TECNICA" Type="varchar" MaxLength="50" />
+    <Property Name="TRKVAL_MATRICE" Type="varchar" MaxLength="150" />
+    <Property Name="TRKVAL_FLG_INTERM" Type="bit" />
+    <Property Name="TRKVAL_FLG_NON_PROGRAMMABILI" Type="bit" />
+    <Property Name="TRKVAL_FLAG_MODELLO" Type="bit" />
+    <Property Name="TRKVAL_CODICE_DESC" Type="varchar" MaxLength="100" />
+    <Property Name="TRKVAL_COSTO_DIRETTO" Type="decimal" Scale="2" />
+    <Property Name="TRKVAL_FLG_ASSEGN_AL_GRUPPO" Type="bit" />
+    <Property Name="TRKVAL_COSSTO_DIRETTO" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSSTO_INDIRETTO" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSSTO_PERSONALE" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSSTO_MATERIALI" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSSTO_ANALISI" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSSTO_ACCETTAZIONE" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSSTO_APP_DED" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_COSSTO_PRODUZ_INT" Type="decimal" Scale="5" />
+    <Property Name="TRKVAL_TS_AGGIORNAMENTO_POSIZIONI" Type="datetime" />
+  </EntityType>
+  <EntityType Name="TRKVPS_VALORIPOS_TRACKING">
+    <Key>
+      <PropertyRef Name="TRKVPS_ID" />
+    </Key>
+    <Property Name="TRKVPS_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TRKVPS_VALPOS_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVAL_DATA_INS" Type="datetime" Nullable="false" />
+    <Property Name="TRKVAL_UTENTE_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVPS_VALPOS_VALORI_ID" Type="int" Nullable="false" />
+    <Property Name="TRKVPS_VALPOS_INTERM_ID" Type="int" />
+    <Property Name="TRKVPS_VALPOS_PRODOT_ID" Type="int" />
+    <Property Name="TRKVPS_VALPOS_FASE_ID" Type="int" />
+    <Property Name="TRKVPS_VALPOS_FIGPRO_ID" Type="int" />
+    <Property Name="TRKVPS_VALPOS_DESC" Type="varchar" MaxLength="500" />
+    <Property Name="TRKVPS_VALPOS_QTA" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="TRKVPS_VALPOS_COSTO_QTA" Type="decimal" Scale="5" />
+    <Property Name="TRKVPS_VALPOS_TOT" Type="decimal" Scale="5" />
+    <Property Name="TRKVPS_VALPOS_COEFF_CONVERSIONE" Type="float" />
+    <Property Name="TRKVPS_VALPOS_T_UNIMIS_ID" Type="int" />
+    <Property Name="TRKVPS_VALPOS_SECONDARIE" Type="bit" Nullable="false" />
+    <Property Name="TRKVPS_VALPOS_COD_SETTORE" Type="varchar" MaxLength="10" />
+    <Property Name="TRKVPS_VALPOS_MACCHI_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="UTENTE">
+    <Key>
+      <PropertyRef Name="UTENTE_ID" />
+    </Key>
+    <Property Name="UTENTE_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UTENTE_USER" Type="varchar" Nullable="false" MaxLength="150" />
+    <Property Name="UTENTE_EMAIL" Type="varchar" MaxLength="150" />
+    <Property Name="UTENTE_NOME" Type="varchar" MaxLength="50" />
+    <Property Name="UTENTE_COGNOME" Type="varchar" MaxLength="50" />
+    <Property Name="UTENTE_LOCK" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VALORI_VALORIZZAZIONI">
+    <Key>
+      <PropertyRef Name="VALORI_ID" />
+    </Key>
+    <Property Name="VALORI_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="VALORI_UTENTE_ID" Type="int" />
+    <Property Name="VALORI_FLG_INTERNO" Type="bit" Nullable="false" />
+    <Property Name="VALORI_FLG_BLOCCATO" Type="bit" Nullable="false" />
+    <Property Name="VALORI_GRUPPO_GRUREP_ID" Type="int" />
+    <Property Name="VALORI_REPARTO_GRUREP_ID" Type="int" />
+    <Property Name="VALORI_VN" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="VALORI_MP_REV" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="VALORI_DESC" Type="varchar" MaxLength="100" />
+    <Property Name="VALORI_TECNICA" Type="varchar" MaxLength="50" />
+    <Property Name="VALORI_DIM_LOTTO" Type="int" />
+    <Property Name="VALORI_NR_CAMP_QUALITA" Type="int" />
+    <Property Name="VALORI_MATRICE" Type="varchar" MaxLength="150" />
+    <Property Name="VALORI_COSTO_TOT" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSTO_TOT_DELIB" Type="decimal" Scale="5" />
+    <Property Name="VALORI_FLG_PONDERAZIONE" Type="bit" Nullable="false" />
+    <Property Name="VALORI_PESO_POSITIVO" Type="int" />
+    <Property Name="VALORI_T_STAVAL_ID" Type="int" Nullable="false" />
+    <Property Name="VALORI_FLG_INTERM" Type="bit" Nullable="false" />
+    <Property Name="VALORI_COSTO_TARIFFA" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSTO_TARIFFA_DELIBERATO" Type="decimal" Scale="5" />
+    <Property Name="VALORI_CODICE_INTERMEDIO" Type="varchar" MaxLength="100" />
+    <Property Name="VALORI_FLG_NON_PROGRAMMABILI" Type="bit" Nullable="false" />
+    <Property Name="VALORI_DATA_VN_DA" Type="datetime" />
+    <Property Name="VALORI_DATA_VN_A" Type="datetime" />
+    <Property Name="VALORI_DATA_MP_REV_SCADENZA" Type="datetime" />
+    <Property Name="VALORI_FLAG_MODELLO" Type="bit" Nullable="false" />
+    <Property Name="VALORI_CODICE_DESC" Type="varchar" MaxLength="100" />
+    <Property Name="VALORI_VN_CODICE" Type="int" />
+    <Property Name="VALORI_MP_REV_CODICE" Type="int" />
+    <Property Name="VALORI_REVISIONE" Type="varchar" MaxLength="50" />
+    <Property Name="VALORI_LEGGE" Type="varchar" MaxLength="4000" />
+    <Property Name="VALORI_COSTO_TARIFFA_D_DELIBERATO" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSTO_DIRETTO" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COD_VN_MP_REV_SETTORE" Type="int" />
+    <Property Name="VALORI_COD_VN_MP_REV_SETTORE_D" Type="int" />
+    <Property Name="VALORI_COD_VN_MP_REV_SETTORE_V" Type="int" />
+    <Property Name="VALORI_DOCUMENTO" Type="varchar" MaxLength="100" />
+    <Property Name="VALORI_ALLEGATO1" Type="varchar" MaxLength="100" />
+    <Property Name="VALORI_ALLEGATO2" Type="varchar" MaxLength="100" />
+    <Property Name="VALORI_FLG_ASSEGN_AL_GRUPPO" Type="bit" />
+    <Property Name="VALORI_COSSTO_DIRETTO" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSSTO_INDIRETTO" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSSTO_PERSONALE" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSSTO_MATERIALI" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSSTO_ANALISI" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSSTO_ACCETTAZIONE" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSSTO_APP_DED" Type="decimal" Scale="5" />
+    <Property Name="VALORI_COSSTO_PRODUZ_INT" Type="decimal" Scale="5" />
+    <Property Name="VALORI_TS_AGGIORNAMENTO_POSIZIONI" Type="datetime" />
+  </EntityType>
+  <EntityType Name="VALPOS_POSIZIONI">
+    <Key>
+      <PropertyRef Name="VALPOS_ID" />
+    </Key>
+    <Property Name="VALPOS_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="VALPOS_VALORI_ID" Type="int" Nullable="false" />
+    <Property Name="VALPOS_INTERM_ID" Type="int" />
+    <Property Name="VALPOS_PRODOT_ID" Type="int" />
+    <Property Name="VALPOS_FASE_ID" Type="int" />
+    <Property Name="VALPOS_FIGPRO_ID" Type="int" />
+    <Property Name="VALPOS_DESC" Type="varchar" MaxLength="500" />
+    <Property Name="VALPOS_QTA" Type="decimal" Nullable="false" Scale="5" />
+    <Property Name="VALPOS_COSTO_QTA" Type="decimal" Scale="5" />
+    <Property Name="VALPOS_TOT" Type="decimal" Scale="5" />
+    <Property Name="VALPOS_COEFF_CONVERSIONE" Type="float" />
+    <Property Name="VALPOS_T_UNIMIS_ID" Type="int" />
+    <Property Name="VALPOS_SECONDARIE" Type="bit" Nullable="false" />
+    <Property Name="VALPOS_MACCHI_ID" Type="int" />
+    <Property Name="VALPOS_COD_SETTORE" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <Association Name="FK_ATTIVI_ATTIVITA_FASE">
+    <End Role="FASE" Type="IZSLER_CAP_Model.Store.FASE" Multiplicity="1" />
+    <End Role="ATTIVI_ATTIVITA" Type="IZSLER_CAP_Model.Store.ATTIVI_ATTIVITA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="ATTIVI_ATTIVITA">
+        <PropertyRef Name="ATTIVI_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CTRACC_CONTROLLO_ACCESSI_PROFIL_PROFILI">
+    <End Role="PROFIL_PROFILI" Type="IZSLER_CAP_Model.Store.PROFIL_PROFILI" Multiplicity="1" />
+    <End Role="CTRACC_CONTROLLO_ACCESSI" Type="IZSLER_CAP_Model.Store.CTRACC_CONTROLLO_ACCESSI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PROFIL_PROFILI">
+        <PropertyRef Name="PROFIL_ID" />
+      </Principal>
+      <Dependent Role="CTRACC_CONTROLLO_ACCESSI">
+        <PropertyRef Name="CTRACC_PROFIL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FASE_FASE1">
+    <End Role="FASE" Type="IZSLER_CAP_Model.Store.FASE" Multiplicity="0..1" />
+    <End Role="FASE1" Type="IZSLER_CAP_Model.Store.FASE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="FASE1">
+        <PropertyRef Name="FASE_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI">
+    <End Role="GRUREP_GRUPPI_REPARTI" Type="IZSLER_CAP_Model.Store.GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Role="INTERM_INTERMEDIO" Type="IZSLER_CAP_Model.Store.INTERM_INTERMEDIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_GRUPPO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INTERM_INTERMEDIO_GRUREP_GRUPPI_REPARTI1">
+    <End Role="GRUREP_GRUPPI_REPARTI" Type="IZSLER_CAP_Model.Store.GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Role="INTERM_INTERMEDIO" Type="IZSLER_CAP_Model.Store.INTERM_INTERMEDIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_REPARTO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_INTERM_INTERMEDIO_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="INTERM_INTERMEDIO" Type="IZSLER_CAP_Model.Store.INTERM_INTERMEDIO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FASE">
+    <End Role="FASE" Type="IZSLER_CAP_Model.Store.FASE" Multiplicity="1" />
+    <End Role="M_FIGATT_FIGURAPROF_ATTIVITA" Type="IZSLER_CAP_Model.Store.M_FIGATT_FIGURAPROF_ATTIVITA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="M_FIGATT_FIGURAPROF_ATTIVITA">
+        <PropertyRef Name="M_FIGATT_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_M_FIGATT_FIGURAPROF_ATTIVITA_FIGPRO_FIGURA_PROFESSIONALE">
+    <End Role="FIGPRO_FIGURA_PROFESSIONALE" Type="IZSLER_CAP_Model.Store.FIGPRO_FIGURA_PROFESSIONALE" Multiplicity="1" />
+    <End Role="M_FIGATT_FIGURAPROF_ATTIVITA" Type="IZSLER_CAP_Model.Store.M_FIGATT_FIGURAPROF_ATTIVITA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FIGPRO_FIGURA_PROFESSIONALE">
+        <PropertyRef Name="FIGPRO_ID" />
+      </Principal>
+      <Dependent Role="M_FIGATT_FIGURAPROF_ATTIVITA">
+        <PropertyRef Name="M_FIGATT_FIGPRO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_GRUREP_GRUPPI_REPARTI">
+    <End Role="GRUREP_GRUPPI_REPARTI" Type="IZSLER_CAP_Model.Store.GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Type="IZSLER_CAP_Model.Store.M_UTPRGR_UTENTI_PROFILI_GRUPPI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+        <PropertyRef Name="M_UTPRGR_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_PROFIL_PROFILI">
+    <End Role="PROFIL_PROFILI" Type="IZSLER_CAP_Model.Store.PROFIL_PROFILI" Multiplicity="0..1" />
+    <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Type="IZSLER_CAP_Model.Store.M_UTPRGR_UTENTI_PROFILI_GRUPPI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PROFIL_PROFILI">
+        <PropertyRef Name="PROFIL_ID" />
+      </Principal>
+      <Dependent Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+        <PropertyRef Name="M_UTPRGR_PROFIL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_M_UTPRGR_UTENTI_PROFILI_GRUPPI_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI" Type="IZSLER_CAP_Model.Store.M_UTPRGR_UTENTI_PROFILI_GRUPPI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="M_UTPRGR_UTENTI_PROFILI_GRUPPI">
+        <PropertyRef Name="M_UTPRGR_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODOT_PRODOTTI_T_STAPRO_STATO_PRODOTTO">
+    <End Role="T_STAPRO_STATO_PRODOTTO" Type="IZSLER_CAP_Model.Store.T_STAPRO_STATO_PRODOTTO" Multiplicity="0..1" />
+    <End Role="PRODOT_PRODOTTI" Type="IZSLER_CAP_Model.Store.PRODOT_PRODOTTI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STAPRO_STATO_PRODOTTO">
+        <PropertyRef Name="T_STAPRO_ID" />
+      </Principal>
+      <Dependent Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_T_STAPRO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PRODOT_PRODOTTI_T_UNIMIS_UNITA_MISURA">
+    <End Role="T_UNIMIS_UNITA_MISURA" Type="IZSLER_CAP_Model.Store.T_UNIMIS_UNITA_MISURA" Multiplicity="0..1" />
+    <End Role="PRODOT_PRODOTTI" Type="IZSLER_CAP_Model.Store.PRODOT_PRODOTTI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_UNIMIS_UNITA_MISURA">
+        <PropertyRef Name="T_UNIMIS_ID" />
+      </Principal>
+      <Dependent Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_T_UNIMIS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_FASE">
+    <End Role="FASE" Type="IZSLER_CAP_Model.Store.FASE" Multiplicity="0..1" />
+    <End Role="PROPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FASE">
+        <PropertyRef Name="FASE_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_FASE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_FIGPRO_FIGURA_PROFESSIONALE">
+    <End Role="FIGPRO_FIGURA_PROFESSIONALE" Type="IZSLER_CAP_Model.Store.FIGPRO_FIGURA_PROFESSIONALE" Multiplicity="0..1" />
+    <End Role="PROPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FIGPRO_FIGURA_PROFESSIONALE">
+        <PropertyRef Name="FIGPRO_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_FIGPRO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_MACCHI_MACCHINARIO">
+    <End Role="MACCHI_MACCHINARIO" Type="IZSLER_CAP_Model.Store.MACCHI_MACCHINARIO" Multiplicity="0..1" />
+    <End Role="PROPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MACCHI_MACCHINARIO">
+        <PropertyRef Name="MACCHI_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_MACCHI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTI">
+    <End Role="PRODOT_PRODOTTI" Type="IZSLER_CAP_Model.Store.PRODOT_PRODOTTI" Multiplicity="1" />
+    <End Role="PROPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_PRODOT_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_PRODOT_PRODOTTISEC">
+    <End Role="PRODOT_PRODOTTI" Type="IZSLER_CAP_Model.Store.PRODOT_PRODOTTI" Multiplicity="0..1" />
+    <End Role="PROPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PRODOT_PRODOTTI">
+        <PropertyRef Name="PRODOT_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_PRODOT_ID_SEC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_T_UNIMIS_UNITA_MISURA">
+    <End Role="T_UNIMIS_UNITA_MISURA" Type="IZSLER_CAP_Model.Store.T_UNIMIS_UNITA_MISURA" Multiplicity="0..1" />
+    <End Role="PROPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_UNIMIS_UNITA_MISURA">
+        <PropertyRef Name="T_UNIMIS_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_T_UNIMIS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PROPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+    <End Role="VALORI_VALORIZZAZIONI" Type="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" Multiplicity="0..1" />
+    <End Role="PROPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.PROPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_ID" />
+      </Principal>
+      <Dependent Role="PROPOS_POSIZIONI">
+        <PropertyRef Name="PROPOS_INTERM_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_T_RICHIE_TIPO_RICHIESTA">
+    <End Role="T_RICHIE_TIPO_RICHIESTA" Type="IZSLER_CAP_Model.Store.T_RICHIE_TIPO_RICHIESTA" Multiplicity="1" />
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_RICHIE_TIPO_RICHIESTA">
+        <PropertyRef Name="T_RICHIE_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_T_RICHIE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_T_RICPRI_PRIORITA_RICHIESTA">
+    <End Role="T_RICPRI_PRIORITA_RICHIESTA" Type="IZSLER_CAP_Model.Store.T_RICPRI_PRIORITA_RICHIESTA" Multiplicity="1" />
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_RICPRI_PRIORITA_RICHIESTA">
+        <PropertyRef Name="T_RICPRI_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_T_RICPRI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_T_STARIC_STATO_RICHIESTA">
+    <End Role="T_STARIC_STATO_RICHIESTA" Type="IZSLER_CAP_Model.Store.T_STARIC_STATO_RICHIESTA" Multiplicity="1" />
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STARIC_STATO_RICHIESTA">
+        <PropertyRef Name="T_STARIC_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_T_STARIC_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_RICHIEDENTE_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_UTENTE1">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="0..1" />
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_DESTINATARIO_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RICHIE_RICHIESTE_VALORI_VALORIZZAZIONI">
+    <End Role="VALORI_VALORIZZAZIONI" Type="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" Multiplicity="0..1" />
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_ID" />
+      </Principal>
+      <Dependent Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_VALORI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOLLEC_SOLLECITI_RICHIE_RICHIESTE">
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="1" />
+    <End Role="SOLLEC_SOLLECITI" Type="IZSLER_CAP_Model.Store.SOLLEC_SOLLECITI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_ID" />
+      </Principal>
+      <Dependent Role="SOLLEC_SOLLECITI">
+        <PropertyRef Name="SOLLEC_RICHIE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOLLEC_SOLLECITI_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="SOLLEC_SOLLECITI" Type="IZSLER_CAP_Model.Store.SOLLEC_SOLLECITI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="SOLLEC_SOLLECITI">
+        <PropertyRef Name="SOLLEC_SOLLECITANTE_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SOLLEC_SOLLECITI_UTENTE1">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="SOLLEC_SOLLECITI" Type="IZSLER_CAP_Model.Store.SOLLEC_SOLLECITI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="SOLLEC_SOLLECITI">
+        <PropertyRef Name="SOLLEC_SOLLECITATO_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_T_UNIMIS_UNITA_MISURA_T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+    <End Role="T_GRUDMI_GRUPPI_UNITA_DI_MISURA" Type="IZSLER_CAP_Model.Store.T_GRUDMI_GRUPPI_UNITA_DI_MISURA" Multiplicity="1" />
+    <End Role="T_UNIMIS_UNITA_MISURA" Type="IZSLER_CAP_Model.Store.T_UNIMIS_UNITA_MISURA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_GRUDMI_GRUPPI_UNITA_DI_MISURA">
+        <PropertyRef Name="T_GRUDMI_ID" />
+      </Principal>
+      <Dependent Role="T_UNIMIS_UNITA_MISURA">
+        <PropertyRef Name="T_UNIMIS_GRUDMI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKFIG_FIGPRO_TRACKING_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="TRKFIG_FIGPRO_TRACKING" Type="IZSLER_CAP_Model.Store.TRKFIG_FIGPRO_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="TRKFIG_FIGPRO_TRACKING">
+        <PropertyRef Name="TRKFIG_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKINT_INTERMEDIO_TRACKING_INTERM_INTERMEDIO">
+    <End Role="INTERM_INTERMEDIO" Type="IZSLER_CAP_Model.Store.INTERM_INTERMEDIO" Multiplicity="1" />
+    <End Role="TRKINT_INTERMEDIO_TRACKING" Type="IZSLER_CAP_Model.Store.TRKINT_INTERMEDIO_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="INTERM_INTERMEDIO">
+        <PropertyRef Name="INTERM_ID" />
+      </Principal>
+      <Dependent Role="TRKINT_INTERMEDIO_TRACKING">
+        <PropertyRef Name="TRKINT_INTERM_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKRIC_RICHIESTE_TRACKING_RICHIE_RICHIESTE">
+    <End Role="RICHIE_RICHIESTE" Type="IZSLER_CAP_Model.Store.RICHIE_RICHIESTE" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TRKRIC_RICHIESTE_TRACKING" Type="IZSLER_CAP_Model.Store.TRKRIC_RICHIESTE_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RICHIE_RICHIESTE">
+        <PropertyRef Name="RICHIE_ID" />
+      </Principal>
+      <Dependent Role="TRKRIC_RICHIESTE_TRACKING">
+        <PropertyRef Name="TRKRIC_RICHIE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKRIC_RICHIESTE_TRACKING_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="TRKRIC_RICHIESTE_TRACKING" Type="IZSLER_CAP_Model.Store.TRKRIC_RICHIESTE_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="TRKRIC_RICHIESTE_TRACKING">
+        <PropertyRef Name="TRKRIC_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_T_STAVAL_STATO_VALORIZZAZIONE">
+    <End Role="T_STAVAL_STATO_VALORIZZAZIONE" Type="IZSLER_CAP_Model.Store.T_STAVAL_STATO_VALORIZZAZIONE" Multiplicity="1" />
+    <End Role="TRKVAL_VALORIZZAZIONI_TRACKING" Type="IZSLER_CAP_Model.Store.TRKVAL_VALORIZZAZIONI_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STAVAL_STATO_VALORIZZAZIONE">
+        <PropertyRef Name="T_STAVAL_ID" />
+      </Principal>
+      <Dependent Role="TRKVAL_VALORIZZAZIONI_TRACKING">
+        <PropertyRef Name="TRKVAL_T_STAVAL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TRKVAL_VALORIZZAZIONI_TRACKING_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="1" />
+    <End Role="TRKVAL_VALORIZZAZIONI_TRACKING" Type="IZSLER_CAP_Model.Store.TRKVAL_VALORIZZAZIONI_TRACKING" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="TRKVAL_VALORIZZAZIONI_TRACKING">
+        <PropertyRef Name="TRKVAL_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI">
+    <End Role="GRUREP_GRUPPI_REPARTI" Type="IZSLER_CAP_Model.Store.GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Role="VALORI_VALORIZZAZIONI" Type="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_GRUPPO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_GRUREP_GRUPPI_REPARTI1">
+    <End Role="GRUREP_GRUPPI_REPARTI" Type="IZSLER_CAP_Model.Store.GRUREP_GRUPPI_REPARTI" Multiplicity="0..1" />
+    <End Role="VALORI_VALORIZZAZIONI" Type="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GRUREP_GRUPPI_REPARTI">
+        <PropertyRef Name="GRUREP_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_REPARTO_GRUREP_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_T_STAVAL_STATO_VALORIZZAZIONE">
+    <End Role="T_STAVAL_STATO_VALORIZZAZIONE" Type="IZSLER_CAP_Model.Store.T_STAVAL_STATO_VALORIZZAZIONE" Multiplicity="1" />
+    <End Role="VALORI_VALORIZZAZIONI" Type="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_STAVAL_STATO_VALORIZZAZIONE">
+        <PropertyRef Name="T_STAVAL_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_T_STAVAL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALORI_VALORIZZAZIONI_UTENTE">
+    <End Role="UTENTE" Type="IZSLER_CAP_Model.Store.UTENTE" Multiplicity="0..1" />
+    <End Role="VALORI_VALORIZZAZIONI" Type="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UTENTE">
+        <PropertyRef Name="UTENTE_ID" />
+      </Principal>
+      <Dependent Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_UTENTE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALPOS_POSIZIONI_MACCHI_MACCHINARIO">
+    <End Role="MACCHI_MACCHINARIO" Type="IZSLER_CAP_Model.Store.MACCHI_MACCHINARIO" Multiplicity="0..1" />
+    <End Role="VALPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.VALPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MACCHI_MACCHINARIO">
+        <PropertyRef Name="MACCHI_ID" />
+      </Principal>
+      <Dependent Role="VALPOS_POSIZIONI">
+        <PropertyRef Name="VALPOS_MACCHI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALPOS_POSIZIONI_VALORI_VALORIZZAZIONI">
+    <End Role="VALORI_VALORIZZAZIONI" Type="IZSLER_CAP_Model.Store.VALORI_VALORIZZAZIONI" Multiplicity="1" />
+    <End Role="VALPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.VALPOS_POSIZIONI" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VALORI_VALORIZZAZIONI">
+        <PropertyRef Name="VALORI_ID" />
+      </Principal>
+      <Dependent Role="VALPOS_POSIZIONI">
+        <PropertyRef Name="VALPOS_VALORI_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_VALPOS_POSIZIONI_VALPOS_POSIZIONI">
+    <End Role="VALPOS_POSIZIONI" Type="IZSLER_CAP_Model.Store.VALPOS_POSIZIONI" Multiplicity="1" />
+    <End Role="VALPOS_POSIZIONI1" Type="IZSLER_CAP_Model.Store.VALPOS_POSIZIONI" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="VALPOS_POSIZIONI">
+        <PropertyRef Name="VALPOS_ID" />
+      </Principal>
+      <Dependent Role="VALPOS_POSIZIONI1">
+        <PropertyRef Name="VALPOS_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="USPT_GET_CODICE_INTERMEDIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="GRUREP_ID" Type="int" Mode="In" />
+    <Parameter Name="CODICE" Type="varchar" Mode="InOut" />
+  </Function>
+  <Function Name="USPT_GET_TRACKING_PRODOTTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PRODOT_ID" Type="int" Mode="In" />
+    <Parameter Name="DATA_DA" Type="datetime" Mode="In" />
+    <Parameter Name="DATA_A" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="USPT_GET_TRACKING_VALORIZZAZIONI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="VALORI_ID" Type="int" Mode="In" />
+    <Parameter Name="DATA_DA" Type="datetime" Mode="In" />
+    <Parameter Name="DATA_A" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="USPT_REPORT_STAMPA_ANALISI_INTERMEDI_ESPLOSI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="VALORI_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="USPT_REPORT_STAMPA_PRODOTTO_INTERMEDI_ESPLOSI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PRODOT_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="USPT_STORICIZZA_COSTI_ANALISI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="VALORI_ID" Type="int" Mode="In" />
+  </Function>
+  <Function Name="USPT_STORICIZZA_COSTI_PRODOTTI" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="PRODOT_ID" Type="int" Mode="In" />
+  </Function>
+</Schema>

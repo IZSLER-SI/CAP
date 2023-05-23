@@ -1,0 +1,53 @@
+﻿@*@{
+    Layout = null;
+ //  ViewBag.Title = "Scegli il profilo" ;
+}
+*@
+@model IEnumerable<IZSLER_CAP.Models.LoginModel>
+@{
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml"; ;
+    ViewBag.Title = "Scegli il profilo";
+    
+}
+@using IZSLER_CAP.Helpers
+
+
+<hgroup id="login-title" class="large-margin-bottom">
+			@*<h1 class="login-title-image">Scegli il profilo</h1>*@
+            <h2 class="login-title">Scegli il profilo</h2>
+			<h5>&copy; Izsler C.A.P.</h5>
+		</hgroup>
+
+        <form method="post" action="" id="form-login">
+			
+        <ul class="inputs black-input large">
+				<!-- The autocomplete="off" attributes is the only way to prevent webkit browsers from filling the inputs with yellow -->
+				<li><span class="icon-user mid-margin-right"></span>
+                <label style="cursor:text"><b >@Html.GetUserName()</b></label>
+                @*<input type="text" name="login" id="login" value="" class="input-unstyled" placeholder="Login" autocomplete="off" value="@User.Identity.Name" />*@</li>
+				<li><span class="icon-lock mid-margin-right"></span>
+                @Html.DropDownList("ddlListaProfili" ,null,new { Class = "select replacement"})
+                &nbsp;&nbsp;
+                <a href="/Content/Help/Manuale utente CAP.htm#Attori del sistema" target="_blank" class="button glossy">Help</a>
+                </li>
+
+                @*<input type="password" name="pass" id="pass" value="" class="input-unstyled" placeholder="Password" autocomplete="off"></li>*@
+		</ul>
+        @*<button type="submit" class="button glossy full-width huge" onclick="location.href='@Url.Action("Login", "EntraLogin", new { id = 7 })'">Entra</button>*@
+        <button type="submit" class="button glossy full-width huge"  >Entra</button>
+            
+        </form>
+@*
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Scegli il profilo</title>
+</head>
+<body>
+    <div>
+     login asdas
+    </div>
+</body>
+</html>
+*@

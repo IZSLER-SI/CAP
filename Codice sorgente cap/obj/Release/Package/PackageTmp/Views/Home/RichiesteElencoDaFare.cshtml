@@ -1,0 +1,276 @@
+﻿@model IZSLER_CAP.Models.RichiestaModel
+@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+}
+@using IZSLER_CAP.Helpers
+@functions{
+    public string SetLimetergradient(string color)
+    {
+        return "meter " + color + "-gradient";
+
+    }
+
+    public List<MyRichiesta> ElencoRicDaLavorare()
+    {
+        List<MyRichiesta> lst = Model.ElencoRichieste
+                                    .Where(z => 
+                                        z.Richie_destinatario_utente_id == @Html.GetUserID() 
+                                        && !@Model.IsInsert(z.Richie_id)
+                                        && !@Model.IsElimina(z.Richie_id)
+                                        ).ToList<MyRichiesta>();
+
+        return lst;
+    }
+    public List<MyRichiesta> ElencoRicDaInviare()
+    {
+        List<MyRichiesta> lst = Model.ElencoRichieste
+                                    .Where(z =>
+                                        z.Richie_richiedente_utente_id == @Html.GetUserID()
+                                        && @Model.IsInsert(z.Richie_id)
+                                        && !@Model.IsElimina(z.Richie_id)
+                                        ).ToList<MyRichiesta>();
+
+        return lst;
+    }
+    public List<MyRichiesta> ElencoRicAttesaRisposta()
+    {
+        List<MyRichiesta> lst = Model.ElencoRichieste
+                                    .Where(z =>
+                                        z.Richie_richiedente_utente_id == @Html.GetUserID()
+                                        && !@Model.IsInsert(z.Richie_id)
+                                        && !@Model.IsElimina(z.Richie_id)
+                                        ).ToList<MyRichiesta>();
+
+        return lst;
+    }
+    
+    public string lTruncate(string info)
+    {
+        if(info!=null )
+            return Html.Truncate(info, 35);
+        return null;
+    }
+}
+
+<hgroup id="main-title" class="thin">
+			<h1>@ViewBag.Message</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+</hgroup>
+<div class="with-padding">
+	
+      
+        @if (Model.IsDaLavorare)
+        {
+			<h2 class="relative thin">
+				Attività da fare
+				<span class="info-spot">
+					<span class="icon-info-round"></span>
+					<span class="info-bubble">
+						Elenco delle richieste da lavorare e a cui dare risposta.
+					</span>
+				</span>
+
+                <span class="button-group">
+                    <a href="/Content/Help/Manuale utente CAP.htm#Elenchi" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                </span>
+
+				<span class="button-group absolute-right">
+					<a href="javascript:openLoadingInformazioni()" title="Ricarica elenco" class="button icon-redo"></a>
+				</span>
+			</h2>
+
+			 
+            <table class="table responsive-table" id="table_RicDaLavorare">
+                <thead>
+		            <tr>
+                    <th scope="col" style ="width:15%" class="align-center">Codice</th>
+                    <th scope="col" style ="width:10%" class="align-center">Data</th>
+                    <th scope="col"style ="width:15%" class="align-center hide-on-mobile-portrait">Mittente</th>
+                    <th scope="col"style ="width:40%" class="align-center hide-on-mobile-portrait">Titolo</th>
+                    <th scope="col"style ="width:10%" class="align-center">Tipo</th>
+                    <th scope="col"style ="width:10%" class="align-center ">Priorit&agrave;</th>
+                    <th scope="col" style ="width:80" class="align-center">Azioni</th>
+                    
+                   </tr> 
+                </thead> 
+         
+                <tbody>
+		
+            @foreach (var item in ElencoRicDaLavorare())
+            {
+                
+                <tr>
+                <td class="align-center" >@item.Richie_codice</td>
+                <td class="align-center"><strong>@Html.GetDateTimeFormat(item.Richie_data_richiesta )</strong><br />&nbsp;h:&nbsp;@Html.GetDateTimeHourFormat(item.Richie_data_richiesta)</td>
+                <td class="align-center">    <strong>@Html.DisplayFor(modelItem => item.Richie_utente_ric_cognome)</strong>
+                            @Html.DisplayFor(modelItem => item.Richie_utente_ric_nome) 
+                        
+                </td>
+                <td >
+                    @{string val = @SetLimetergradient(item.T_Richie_color);ViewBag.SetLimetergradient = val;}
+                    <a href="/Home/RichiesteEdit/@item.Richie_id?origine=home_index" class="list-link icon-user" ><span class="@ViewBag.SetLimetergradient"></span>
+                            @lTruncate(@item.Richie_titolo)</a>    
+
+                </td>
+                <td class="align-center hide-on-tablet"><small class="tag @item.T_Richie_color-bg"><label for="@item.T_Richie_color">@item.T_Richie_desc</label></small></td>
+                <td class="align-center hide-on-tablet"><small class="tag @item.T_Ricpri_color-bg"><label for="@item.T_Ricpri_desc">@item.T_Ricpri_desc</label></small></td>
+
+                 <td class="align-right low-padding">
+                    @Html.ActionLink("Modifica", "RichiesteEdit", new { id = item.Richie_id, origine = "home_index" }, new { Class = "button compact icon-gear" }) 
+                    @*Ric#8*@
+                    @if (@Html.IsVisible(CARichieste.BT_RICH_CANCELLA) &&
+                         ((item.Richie_destinatario_utente_id == @Html.GetUserID() && item.T_staric_desc != "Inserita")
+                        || (item.Richie_richiedente_utente_id == @Html.GetUserID() && @item.T_staric_desc == "Inserita"))
+                        )
+                    {
+                    <a href="javascript:deleteRichiestaList('@item.Richie_id.ToString()','@item.Richie_titolo','@item.Richie_richiedente_utente_id.ToString()','@item.Richie_destinatario_utente_id.ToString()','@item.Richie_testo','@item.T_staric_desc','@item.Richie_t_ricpri_id.ToString()');"  title="Cancella" class = "button compact icon-gear">Cancella</a>
+                    }
+                 </td>
+                
+				</tr> 
+            }
+			    </tbody> 
+            </table>
+               
+              
+            <h2 class="relative thin">
+				Richieste da inviare
+				<span class="info-spot">
+					<span class="icon-info-round"></span>
+
+					<span class="info-bubble">
+						Elenco delle richieste da inviare.
+					</span>
+				</span>
+
+                <span class="button-group">
+                    <a href="/Content/Help/Manuale utente CAP.htm#Elenchi" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                </span>
+
+				<span class="button-group absolute-right">
+					<a href="javascript:openLoadingInformazioni()" title="Ricarica elenco" class="button icon-redo"></a>
+				</span>
+			</h2>
+
+			 
+            <table class="table responsive-table" id="table_RicDaInviare">
+                <thead>
+		            <tr>
+                    <th scope="col" style ="width:15%" class="align-center">Codice</th>
+                    <th scope="col" style ="width:10%" class="align-center">Data inserimento</th>
+                    <th scope="col"style ="width:15%" class="align-center hide-on-mobile-portrait">Destinatario</th>
+                    <th scope="col"style ="width:40%" class="align-center hide-on-mobile-portrait">Titolo</th>
+                    <th scope="col"style ="width:10%" class="align-center">Tipo</th>
+                    <th scope="col"style ="width:10%" class="align-center ">Priorit&agrave;</th>
+                    <th scope="col" style ="width:80" class="align-center">Azioni</th>
+                   </tr> 
+                </thead> 
+                <tbody>
+		
+
+            @foreach (var item in ElencoRicDaInviare())
+            {
+                
+                <tr>
+                <td class="align-center">@item.Richie_codice</td>
+                <td class="align-center"><strong>@Html.GetDateTimeFormat(item.Richie_data_richiesta )</strong><br />&nbsp;h:&nbsp;@Html.GetDateTimeHourFormat(item.Richie_data_richiesta)</td>
+
+                <td class="align-center">    <strong>@Html.DisplayFor(modelItem => item.Richie_utente_des_cognome)</strong>
+                            @Html.DisplayFor(modelItem => item.Richie_utente_des_nome) </td>
+                <td >
+                    @{string val = @SetLimetergradient(item.T_Richie_color);ViewBag.SetLimetergradient = val;}
+                    <a href="/Home/RichiesteEdit/@item.Richie_id?origine=home_index" class="list-link icon-user" ><span class="@ViewBag.SetLimetergradient"></span>
+                            @lTruncate(@item.Richie_titolo)</a> </td>
+                 <td class="align-center hide-on-tablet"><small class="tag @item.T_Richie_color-bg"><label for="@item.T_Richie_color">@item.T_Richie_desc</label></small></td>
+                 <td class="align-center hide-on-tablet"><small class="tag @item.T_Ricpri_color-bg"><label for="@item.T_Ricpri_desc">@item.T_Ricpri_desc</label></small></td>
+                 <td class="align-right low-padding">
+                    @Html.ActionLink("Modifica", "RichiesteEdit", new { id = item.Richie_id, origine = "home_index" }, new { Class = "button compact icon-gear" }) 
+                    @*Ric#8*@
+                    @if (@Html.IsVisible(CARichieste.BT_RICH_CANCELLA) &&
+                         ((item.Richie_destinatario_utente_id == @Html.GetUserID() && item.T_staric_desc != "Inserita")
+                        || (item.Richie_richiedente_utente_id == @Html.GetUserID() && @item.T_staric_desc == "Inserita"))
+                        )
+                    {
+                    <a href="javascript:deleteRichiestaList('@item.Richie_id.ToString()','@item.Richie_titolo','@item.Richie_richiedente_utente_id.ToString()','@item.Richie_destinatario_utente_id.ToString()','@item.Richie_testo','@item.T_staric_desc','@item.Richie_t_ricpri_id.ToString()');"  title="Cancella" class = "button compact icon-gear">Cancella</a>
+                    }
+				</td>
+                
+				</tr> 
+            }
+			    </tbody> 
+            </table>
+              
+        }
+        @if (Model.IsInviate)
+        {
+            <h2 class="relative thin">
+			    Richieste inviate
+			    <span class="info-spot">
+				    <span class="icon-info-round"></span>
+				    <span class="info-bubble">
+					    Richieste inviate di cui si attende risposta.
+				    </span>
+			    </span>
+
+                <span class="button-group">
+                    <a href="/Content/Help/Manuale utente CAP.htm#Elenchi" target="_blank" class="button anthracite-gradient glossy">Help</a>
+                </span>
+
+			    <span class="button-group absolute-right">
+				    <a href="javascript:openLoadingInformazioni()" title="Ricarica elenco" class="button icon-redo"></a>
+			    </span>
+		    </h2>
+
+            
+            <table class="table responsive-table" id="table_RicInviate">
+                <thead>
+		            <tr>
+                
+
+                    <th scope="col" style ="width:15%" class="align-center">Codice</th>
+                    <th scope="col" style ="width:10%" class="align-center">Data inserimento</th>
+                    <th scope="col"style ="width:15%" class="align-center hide-on-mobile-portrait">Destinatario</th>
+                    <th scope="col"style ="width:40%" class="align-center hide-on-mobile-portrait">Titolo</th>
+                    <th scope="col"style ="width:10%" class="align-center">Tipo</th>
+                    <th scope="col"style ="width:10%" class="align-center ">Priorit&agrave;</th>
+                    <th scope="col" style ="width:80" class="align-center">Azioni</th>
+                   </tr> 
+                </thead> 
+                @* <tfoot>
+		            <tr>
+			            <td colspan="4">
+                            @Model.ElencoRichieste.Where(z => z.Richie_richiedente_utente_id == @Html.GetUserID() && z.Richie_t_staric_id != 1).Count().ToString() richieste presenti
+			            </td>
+		            </tr>
+	            </tfoot>*@
+                <tbody>
+		
+
+
+            @foreach (var item in @ElencoRicAttesaRisposta())
+            {
+                <tr>
+                <td class="align-center" >@item.Richie_codice</td>
+                <td class="align-center"><strong>@Html.GetDateTimeFormat(item.Richie_data_richiesta )</strong><br />&nbsp;h:&nbsp;@Html.GetDateTimeHourFormat(item.Richie_data_richiesta)</td>
+                
+                <td class="align-center">    <strong>@Html.DisplayFor(modelItem => item.Richie_utente_des_cognome)</strong>
+                            @Html.DisplayFor(modelItem => item.Richie_utente_des_nome) </td>
+                <td>
+                    @{string val = @SetLimetergradient(item.T_Richie_color);ViewBag.SetLimetergradient = val;}
+                    <a href="/Home/RichiesteEdit/@item.Richie_id?origine=home_index" class="list-link icon-user" ><span class="@ViewBag.SetLimetergradient"></span>
+                             @lTruncate(@item.Richie_titolo)</a> </td>
+                 <td class="align-center hide-on-tablet"><small class="tag @item.T_Richie_color-bg"><label for="@item.T_Richie_color">@item.T_Richie_desc</label></small></td>
+                 <td class="align-center hide-on-tablet"><small class="tag @item.T_Ricpri_color-bg"><label for="@item.T_Ricpri_desc">@item.T_Ricpri_desc</label></small></td>
+                 <td class="align-right low-padding">
+                    @Html.ActionLink("Visualizza", "RichiesteEdit", new { id = item.Richie_id, origine = "home_index" }, new { Class = "button compact icon-gear" }) 
+				</td>
+				</tr> 
+            }
+                </tbody> 
+            </table>
+		   
+        }
+	
+</div>
+
+<script type ="text/javascript" >loadScriptRef("startRichiesteEdit.js")</script>

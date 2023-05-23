@@ -1,0 +1,123 @@
+﻿@model IZSLER_CAP.Models.FaseModel
+@{
+    ViewBag.Title = "Fasi";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<hgroup id="main-title" class="thin">
+			<h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+            
+</hgroup>
+
+<div class="with-padding">
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    
+    <details class="details margin-bottom" open>
+               <summary>Inserimento nuova Fase</summary>
+               <div class="with-padding">
+
+  
+<input type ="hidden" id="Current_Fase_ID" value="@Model.IdPadre"/>
+<table  width ="100%">
+<tr style="height:40px;">
+<td colspan ="2">&nbsp;</td></tr> 
+<tr style="height:40px;">
+<td colspan ="2">
+ <p class="button-height inline-label">
+<label for="input-1" class="label">Codice</label>
+  <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtCodice" maxlength="10" name="txtCodice" title="Campo obbligatorio" type="text" value="" />
+  </p>
+</td>
+</tr>
+<tr style="height:40px;">
+
+<td colspan ="2">
+<p class="button-height inline-label ">
+<label for="input-1" class="label">Descrizione</label>
+  <input class="input with-tooltip" data-tooltip-options='{"classes":["anthracite-gradient"],"position":"right"}' id="txtDescrizione" maxlength="50" name="txtDescrizione" title="Campo obbligatorio" type="text" value="" />
+</p></td>
+</tr>
+
+<tr style="height:40px;">
+
+<td colspan ="2">
+<p class="button-height inline-label ">
+<label for="input-2" class="label">Gruppo</label>
+<input  disabled type="text" name="input-2" id="Grurep_desc" class="input" value=""  style="float:left;"  />&nbsp; 
+<a href="javascript:openRicercaGruppoReparto('/Settings/PopUpGruppoReparto')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>&nbsp;<a href="javascript:void(0);" id="closepopup" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearDataGruppoReparto();" ></a>
+<input type ="hidden" id="Grurep_ID"  value="" />
+</p>
+</td>
+</tr>
+
+<input type ="hidden" id="ric_utente_id" value="" />
+
+
+
+<tr style="height:40px;"><td colspan ="2">&nbsp;</td></tr> 
+<tr style="height:40px;">
+<td colspan ="2" style="width:100px" >
+ <p class="button-height">
+ <a href="javascript:saveFase();" class="button green-gradient glossy">Salva</a>
+ &nbsp; 
+ @Html.ActionLink("Torna alla lista", "Fasi", null, new { Class = "button green-gradient glossy" })
+ &nbsp; 
+ <a href="/Content/Help/Manuale utente CAP.htm#Inserimento nuova fase" target="_blank" class="button anthracite-gradient glossy">Help</a>
+ </p>
+</td>
+
+</tr>
+</table>
+</div>
+</details>
+}
+
+</div>
+<script type="text/javascript">
+    function saveFase() {
+
+        var txtCodice = $('#txtCodice').val();
+        var txtDescrizione = $('#txtDescrizione').val();
+        var Current_Fase_ID = $('#Current_Fase_ID').val();
+        var grurep_id = $('#Grurep_ID').val();  
+        var emp={Fase_Codice:txtCodice,
+            Fase_Desc: txtDescrizione,
+            Fase_Fase_ID: Current_Fase_ID,
+            Fase_Grurep_ID: grurep_id
+        }
+        if (txtCodice == null || txtCodice == "" || txtDescrizione == null || txtDescrizione == "") {
+            showAlertErrorGeneric('Valorizzare tutti i campi prima di procedere al salvataggio.', 'Attenzione');
+            return;
+        }
+
+        var urlSave = '/Settings/SaveNewFase';
+        $.ajax({
+            type: "POST",
+            url: urlSave,
+            data: JSON.stringify(emp),
+            datatype: "JSON",
+            contentType: "application/json; charset=utf-8",
+            success: function (retdata) {
+                if (retdata.ok) {
+
+                    location.href = "/Settings/Fasi";
+                }
+                else {
+
+                    showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                }
+
+            }
+        });
+    }
+</script>
+<script  type ="text/javascript">    loadScriptRef("startPopUpGruppoReparto.js");</script>

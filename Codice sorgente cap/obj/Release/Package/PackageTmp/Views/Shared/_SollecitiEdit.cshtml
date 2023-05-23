@@ -1,0 +1,98 @@
+﻿@model IZSLER_CAP.Models.B16ModelMgr
+@using IZSLER_CAP.Helpers 
+
+@{
+    ViewBag.Title = "Solleciti";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+
+
+ @functions{
+     
+ public string denominazione(string nome, string cognome)
+     {
+         return nome + " " + cognome;
+     }
+}
+
+
+@foreach (var item in Model.ElencoSolleciti)
+{
+   
+@*<hgroup id="main-title" class="thin">
+<h1>@ViewBag.Message</h1>
+<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+</hgroup>
+*@
+
+    
+    
+   <div class="with-padding">
+
+			<form method="post" action="" class="columns" >
+
+				<div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+
+					@*<h3 class="thin underline">Dati del sollecito</h3>*@
+                    
+                   
+
+					<fieldset class="fieldset">
+						<legend class="legend">Dettaglio</legend>
+                       
+                       <p class="align-right" >
+                            <a href="javascript:chiudiSollecito(@item.Sollec_id);" class="button red-gradient glossy">Archivia</a>@Html.Raw("&nbsp;")
+                       </p>
+
+                       <input style ="visibility:hidden" id="rc_id" value="@Html.DisplayFor(modelItem => item.Sollec_id)"></input>
+                      
+                       <p class="button-height inline-label">
+							<label for="input-2" class="label">Sollecitante</label>
+							<input  disabled type="text" name="input-2" id="ric_solecitante" class="input" value="@denominazione(@item.Sollec_sollecitante_nome, @item.Sollec_sollecitante_cognome)  " />
+						</p>
+
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Richiesta</label>
+							@Html.ActionLink(item.Sollec_rich_codice, "../home/RichiesteEdit", new { id = item.Sollec_richie_id, origine = "Shared_SollecitiEdit" })
+                        </p>
+
+                        <p class="button-height inline-label">
+							<label for="input-2" class="label">Messaggio</label>
+                            <textarea  name="cleditor" id="cleditorSolleciti"  >@Html.DisplayFor(modelItem => @item.Sollec_messaggio)</textarea>
+						</p>
+                       
+                       <p class="button-height inline-label">
+							<label for="input-2" class="label">Data scadenza</label>
+                            @{
+                                if (@item.Sollec_data_scadenza == null)
+                                {
+                                                            <input  disabled type="text" name="input-2" id="ric_solecitante" class="input" value=""/> 
+                                }
+                                else
+                                {  
+                                                            <input  disabled type="text" name="input-2" id="ric_solecitante" class="input" value=@item.Sollec_data_scadenza.Value.ToShortDateString() />
+                                }
+                            }
+						</p>
+                       
+                      
+
+					</fieldset>
+
+
+				</div>
+
+
+			</form>
+
+		</div> 
+    
+    
+        
+}
+
+
+
+
+ <script type ="text/javascript">     loadScriptRef("startPopupSolleciti.js");</script>
+

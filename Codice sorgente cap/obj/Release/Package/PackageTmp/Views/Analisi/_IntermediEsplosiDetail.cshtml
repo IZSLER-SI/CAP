@@ -1,0 +1,185 @@
+﻿@model IZSLER_CAP.Helpers.MyAnalisiPos
+@{
+    bool secondaria = Convert.ToBoolean(ViewData["sec"]);
+    string idParent = Convert.ToString(ViewData["par"]);
+}
+
+@using IZSLER_CAP.Helpers
+@using IZSLER_CAP.Models
+
+@functions
+{
+    public string getFatherId(string idParent, bool sec)
+    {
+        string sChild = getChildId(idParent, sec);
+        string lret = "expandable_open_button" + sChild;
+        return lret;
+    }
+
+    public string getChildId(string idParent, bool sec)
+    {
+        string lret = string.Empty;
+        string sSec = sec ? "s" : "";
+        if(string.IsNullOrEmpty(idParent))
+        {
+            lret =  "_"  + sSec + Model.AnalisiPos_id.ToString();
+        }
+        else
+        {
+            lret = idParent + "_" + sSec + Model.AnalisiPos_id.ToString();
+        }
+        return lret;
+
+    }
+
+    public AnalisiModel getIntermedio()
+    {
+        AnalisiModel an = new AnalisiModel(@Model.AnalisiPos_Analisi_id.Value);
+        return an;
+    }
+}
+<tr style ="width :100%" >
+    <td width="10px">
+        <a href='#' class="expandable-open-button" id="@getFatherId(idParent, secondaria)" rel="1" data-id="@Model.AnalisiPos_id" 
+        onclick="javascript:toggleEsplosi(this,'@getChildId(idParent, secondaria)');">+</a>         
+    </td>
+    <td>@Model.AnalisiPos_Fase_desc</td>
+    <td>@Model.AnalisiPos_Analisi_Desc</td>
+    <td>@Model.AnalisiPos_Quantita</td>
+    <td>@Model.AnalisiPos_UdM_desc</td>
+    
+</tr>
+<tr style ="width :100%;display:none;" id="@getChildId(idParent, secondaria)">
+    <td width="10px"></td>
+    <td colspan="4">
+        <table class="table responsive-table" id="idTable">
+            <thead>
+                <tr>
+                    <th scope="col" width="10px" class="align-center">&nbsp;</th>
+                    <th scope="col" class="align-center">Fase</th>
+                    <th scope="col" class="align-center">Descrizione</th>
+                    <th scope="col" class="align-center">Quantità</th>
+                    <th scope="col" class="align-center">UDM</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MyAnalisiPos map in getIntermedio().ElencoAnalisiPos)
+                {
+                    if (@map.AnalisiPos_Flg_Intermedio.HasValue && @map.AnalisiPos_Flg_Intermedio.Value)
+                    { 
+                        @Html.Partial("_IntermediEsplosiDetail", @map, new ViewDataDictionary { { "sec", false }, { "par", getChildId(idParent, secondaria) } })
+                    }
+                    else if (@map.AnalisiPos_Prodotto_id.HasValue)
+                    {
+                         <tr style ="width :100%" >
+                            <td width="10px"></td>
+                            <td>@map.AnalisiPos_Fase_desc</td>
+                            <td>@map.AnalisiPos_Prodotto_Desc</td>
+                            <td>@map.AnalisiPos_Quantita</td>
+                            <td>@map.AnalisiPos_UdM_desc</td>
+                         </tr>
+                    }
+                    else if (@map.AnalisiPos_Analisi_id.HasValue)
+                    {
+                        <tr style ="width :100%" >
+                            <td width="10px"></td>
+                            <td>@map.AnalisiPos_Fase_desc</td>
+                            <td>@map.AnalisiPos_Analisi_Desc</td>
+                            <td>@map.AnalisiPos_Quantita</td>
+                            <td>@map.AnalisiPos_UdM_desc</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr style ="width :100%" >
+                            <td width="10px"></td>
+                            <td>@map.AnalisiPos_Fase_desc</td>
+                            <td>@map.AnalisiPos_FigProf_desc</td>
+                            <td>@map.AnalisiPos_Quantita</td>
+                            <td>@map.AnalisiPos_UdM_desc</td>
+                        </tr>
+                    }
+                }
+             </tbody>
+        </table>
+
+        @if (getIntermedio().Analisi.Analisi_flgPonderazione == true)
+        {
+        <h2>&nbsp;</h2>
+        <table class="table responsive-table" id="idTable">
+        <thead>
+            <tr>
+                <th scope="col" width="10px" class="align-center">&nbsp;</th>
+                <th scope="col" class="align-center">Fase</th>
+                <th scope="col" class="align-center">Descrizione</th>
+                <th scope="col" class="align-center ">Quantità</th>
+                <th scope="col" class="align-center">UDM</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (MyAnalisiPos map in getIntermedio().ElencoAnalisiPosSec)
+        {
+            if (@map.AnalisiPos_Flg_Intermedio.HasValue && @map.AnalisiPos_Flg_Intermedio.Value)
+            { 
+                @Html.Partial("_IntermediEsplosiDetail", @map, new ViewDataDictionary { { "sec", true }, { "par", getChildId(idParent, secondaria) } })
+            }
+            else if (@map.AnalisiPos_Prodotto_id.HasValue)
+            {
+                 <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Fase_desc</td>
+                    <td>@map.AnalisiPos_Prodotto_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_Prodotto_UDM_Desc</td>
+                 </tr>
+            }
+            else
+            {
+                <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Fase_desc</td>
+                    <td>@map.AnalisiPos_Analisi_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_UdM_desc</td>
+                </tr>
+                 
+            }
+        }
+     </tbody>
+     </table>
+     }  
+    </td>
+</tr>
+
+
+@*    <table class="table responsive-table" id="idTable" style="display :none">
+    
+     <tbody>
+        @foreach (MyAnalisiPos map in Model.ElencoAnalisiPos)
+        {
+            if (@map.AnalisiPos_Flg_Intermedio.HasValue && @map.AnalisiPos_Flg_Intermedio.Value)
+            { 
+                @Html.Partial("_IntermediEsplosiDetail")
+            }
+            else if (@map.AnalisiPos_Prodotto_id.HasValue)
+            {
+                 <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Prodotto_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_Prodotto_UDM_Desc</td>
+                 </tr>
+            }
+            else
+            {
+                <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Analisi_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_UdM_desc</td>
+                </tr>
+                 
+            }
+        }
+     </tbody>
+     </table>*@

@@ -1,0 +1,39 @@
+﻿@model IZSLER_CAP.Models.B16ModelMgr
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+<hgroup id="main-title" class="thin">
+<h1>Report</h1>
+<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+</hgroup>
+
+<div class="with-padding">
+   <details class="details margin-bottom" open>
+        <summary>Report disponibili</summary>
+<div class="with-padding">                                      
+    <table class="table responsive-table" id="sorting-Fasi">
+        <thead>
+            <tr>
+            <th scope="col" width="25%" class="align-center" >Titolo</th>
+            <th scope="col" width="75%" class="align-center" >Descrizione</th>
+            </tr> 
+            </thead> 
+    <tbody>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+        <a href="@Html.GetReportPath("/Pages/ReportViewer.aspx?%2fCAP_report%2fStimaImpattiRU&rs:Command=Render")" target="_blank" class="button green-gradient glossy" style="width:110px">Stima impatti FP</a>
+    </td><td>Stima degli impatti sulle valorizzazioni in funzione di una variazione del costo delle figure professionali</td></tr>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+        <a href="@Html.GetReportPath("/Pages/ReportViewer.aspx?%2fCAP_report%2fStimaImpattiProd&rs:Command=Render")" target="_blank" class="button green-gradient glossy" style="width:110px">Stima impatti P</a>
+    </td><td>Stima del impatti sulle valorizzazioni in funzione di una variazione del costo di un prodotto</td></tr>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+        <a href="@Html.GetReportPath("/Pages/ReportViewer.aspx?%2fCAP_report%2fDipendenze&rs:Command=Render")" target="_blank" class="button green-gradient glossy" style="width:110px">Dipendenze</a>
+    </td><td>Elenco delle valorizzazioni dipendenti da un determinato prodotto</td></tr>
+     </tbody>
+
+     </table>
+     </div> 
+    </details> 
+</div> 

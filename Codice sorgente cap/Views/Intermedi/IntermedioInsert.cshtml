@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IZSLER_CAP.Models.B16ModelMgr
+
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+}
+    <hgroup id="main-title" class="thin">
+    <h1>@ViewBag.Message</h1>
+    <h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+    </hgroup>
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dati dell'intermedio</h3>
+               <p class="button-height">
+                    @if (@Html.IsVisible(CAIntermedi.BT_INTE_SALVA))
+                    {<a href="javascript:saveInsertIntermedio();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+
+                    <a href="/Content/Help/Manuale utente CAP.htm#Inserimento intermedio" target="_blank" class="button anthracite-gradient glossy">Help</a>
+               </p>
+            
+            <details class="details margin-bottom" open>
+               <summary>Intestazione</summary>
+                                        
+                    	<div class="with-padding">
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="1">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice</label>
+							        <input type="text" name="input-1" id="Analisi_CodiceIntermedio" class="input" value="" disabled />
+                                </p>
+                                </td>
+                            </tr> 
+                       
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Descrizione</label>
+                                 <input type="text" name="input-4" id="Analisi_Descrizione" maxlength="100" class="input" style="width:300px" value="" />
+						        </p>
+                                </td>
+                            </tr>
+                        
+                            <tr style="height:40px;">
+                            <td >
+                                <p class="button-height inline-label"><label for="input-1" class="label">Gruppo</label>
+                                <input type="text" name="input-4" id="Gruppo_Desc" class="input" value="" style="width:300px" disabled  /><span style="float:right;width:140px;white-space: nowrap;">
+                                
+                                <a href="javascript:openRicercaPPGruppiReparti('/Intermedi/PPGruppiReparti/0')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/16/magnify.png);width: 16px;height: 16px; display:block;padding-right:0px;padding-left:0px" ></a>
+                                <a href="javascript:void(0);" id="clearGruppi" class="button"  style="background-image:url(../../Content/img/fineFiles/16/clear.png);width: 16px;height: 16px;display:block;padding-right:0px;padding-left:0px" title="Pulisci" onclick ="cancellaDataPPGruppiIntermedi(1);" ></a>
+                                </span>
+                                <input type="hidden" id="Gruppo_ID"  value />
+                                <input type="hidden" id="Gruppo_flgReparto"  value />
+                                </p> 
+                            </td>
+                            </tr> 
+                        </table>
+                       </div>
+                </details>
+                </div> 
+        </form> 
+    </div>
+
+<script  type ="text/javascript">           loadScriptRef("startIntermediEdit.js");</script>

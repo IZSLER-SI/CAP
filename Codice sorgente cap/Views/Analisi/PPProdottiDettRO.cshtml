@@ -1,0 +1,213 @@
+﻿@{
+    ViewBag.Title = "PPIntermAnalisi";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@model IZSLER_CAP.Models.ListaProdottoModel
+@using IZSLER_CAP.Helpers
+@functions
+{
+
+    public string SetLabelCosto(decimal? costo)
+    {
+        if (costo != null)
+            return string.Format("{0:f2}", costo) + " €";
+        return "";
+    }
+
+  
+    public string SetCssChecked(bool isIntermedio)
+    {
+        if (isIntermedio )
+            return "checked";
+        return "";
+    }
+    public string denominazione(string nome, string cognome)
+    {
+        return nome + " " + cognome;
+    }
+    //public string calcoloCodiceAnalisi(string Analisi_VN, string Analisi_MP_Rev)
+    //{
+    //    return Analisi_VN + "-" + Analisi_MP_Rev;
+    //}
+    public string setPonderazione(bool ponderazione)
+    {
+        if (ponderazione) return "checked";
+        return "";
+    }
+    public string setPonderazioneDrop(bool ponderazione)
+    {
+        if (ponderazione) return "open";
+        return "";
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    
+    public string setVal(int? val)
+    {
+        if (val.HasValue)
+            return val.Value.ToString();
+        return "0"; 
+        
+    }
+    public string GetProdottoPerVendita()
+    {
+        if (!Model.Prodotto.Prodot_Flg_Interno) return "checked";
+        return "";
+    }
+}
+
+
+
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+        @if (Model.Prodotto != null)
+        { 
+
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dettaglio </h3>
+               <details class="details margin-bottom" open>
+               <summary>Testata</summary>
+                    
+                    <input style ="visibility:hidden" id="analisi_id" value="@Html.DisplayFor(modelItem => Model.Prodotto.Prodot_ID)" />
+                    	<div class="with-padding">
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="3">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Prodotto</label>
+							        @Model.Prodotto.Prodot_Codice
+                                </p>
+                                </td>
+                            </tr> 
+                       
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="3">
+                                <p class="button-height inline-label"><label for="input-1" class="label">Descrizione</label>
+                                @Model.Prodotto.Prodot_Desc
+                                </td>
+                                
+                            </tr>
+                       
+
+                            <tr style="height:40px;">
+                                <td colspan ="1">
+                                 <p class="button-height inline-label">
+							        <label for="input-2" class="label">Gruppo</label>
+							        @Model.Prodotto.Prodot_Reparto_Desc
+                                 
+						        </p>
+                            </td>
+                            <td colspan ="2">
+                                <p class="button-height inline-label">
+                                    <label for="special-input-2" class="label">Prodotto per la vendita</label>
+                                    <input type="checkbox"  id="prod_FlagInterno" class ="checkbox" @GetProdottoPerVendita() disabled/>
+                                </p>
+                            </td> 
+                            </tr>
+                       
+                            <tr style="height:40px;">
+                                <td colspan="1">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Dimensione Lotto</label>
+						                
+							                
+							                @Model.Prodotto.Prodot_Dim_Lotto
+							                
+						                
+					                </p>
+                                </td>
+                                <td colspan="2">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Nr. Campioni Qualit&agrave;</label>
+						                
+							            @Model.Prodotto.Prodot_Nr_Camp_Qualita
+                                        
+					                </p>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                       </div>
+		                
+                </details>
+					
+                <dl class="accordion same-height" open>
+	            <dt>Posizioni</dt>
+	                <dd>
+				        <div class="with-padding"  >
+                        <table class="table responsive-table">
+                        <thead>
+                        <tr>
+                            <th scope="col" width="13%" class="align-center">Fase</th>
+                            <th scope="col" width="13%" class="align-center">Analisi /<br>Intermedio</th>
+                            <th scope="col" width="13%" class="align-center ">Prodotto</th>
+		                    <th scope="col" width="13%" class="align-center ">Livello</th>
+                            <th scope="col" width="20%" class="align-center ">Descrizione</th>
+                            <th scope="col" width="10%" class="align-center ">Unit&agrave; di Misura</th>
+                            <th scope="col" width="6%" class="align-center ">Quantità</th>
+                            <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Unitario</th>
+                            <th scope="col" width="6%" class="align-center hide-on-mobile">Costo Posizione</th>
+                            </tr>
+                        </thead>
+                            @foreach (var item in Model.ProdottoPos)
+                            { 
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProdottoPos_Fase_id)
+                                    </td>        
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProdottoPos_Analisi_Desc)
+                                    </td>        
+                                    <td>
+                                       @Html.DisplayFor(modelItem => item.ProdottoPos_Prodotto_Desc)
+                                    </td>        
+                                    <td>
+                                      @Html.DisplayFor(modelItem => item.ProdottoPos_FigProf_id)
+                                    </td>        
+                                    <td>
+                                       @Html.DisplayFor(modelItem => item.ProdottoPos_desc)
+                                    </td>        
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProdottoPos_UdM_id)
+                                    </td>        
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProdottoPos_Quantita)
+                                    </td>        
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProdottoPos_QuantitaCosto)
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ProdottoPos_TotCosto)
+                                    </td>         
+                                 </tr>
+                            }
+                            </table>
+                        </div>  
+                    </dd>
+                 </dl>
+                                 
+             
+            </div> 
+        }
+        else
+        { 
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3> Non esistono prodotti collegati alla posizione scelta.</h3>
+            </div> 
+        }
+                 
+        </form> 
+    </div>
+
+
+
+

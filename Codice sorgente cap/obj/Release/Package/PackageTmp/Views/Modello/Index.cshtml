@@ -1,0 +1,51 @@
+﻿@model IZSLER_CAP.Models.ListaModelliModel
+@{
+    ViewBag.Title = "Modelli";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutOpen.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+
+
+@using IZSLER_CAP.Helpers
+ <script type="text/javascript">
+     function callAjax(urlSave, emp) {
+         $.ajax
+        (
+            {
+                type: "POST",
+                url: urlSave,
+                data: JSON.stringify(emp),
+                datatype: "JSON",
+                contentType: "application/json; charset=utf-8",
+                success: function (retdata) {
+                    $("#myGrid").html(retdata.partial);
+                }
+            }
+        );
+     }
+    </script>
+
+
+    <div class="with-padding">
+     @*Gestione bottonoi*@
+     <hgroup id="main-title" class="thin">
+			<h1>@ViewBag.Message</h1>
+			<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+            
+     </hgroup>
+    
+    <p class="button-height">
+        @Html.ActionLink("Inserimento nuovo modello", "../Modello/ModelloInsert", null, new { Class = "button icon-plus-round green-gradient glossy" })
+        &nbsp;
+        <a href="/Content/Help/Manuale utente CAP.htm#Elenchi" target="_blank" class="button anthracite-gradient glossy">Help</a>
+
+    </p>
+    
+  @Html.Partial("_Index")
+    
+    </div>
+
+
+

@@ -1,0 +1,199 @@
+﻿@model IZSLER_CAP.Models.FaseModel
+@{
+    ViewBag.Title = "Fasi";
+}
+@using IZSLER_CAP.Helpers
+@functions
+{
+    public string GetChecked(int currID)
+    {
+        if (currID == Model.SelectFase_ID)
+            return "checked";
+        return "";
+    }
+}
+<script type="text/javascript">
+
+    $(document).ready
+    (
+        function () {
+
+            $('body').delegate("[class^=radio]", 'click', function () {
+
+                var id = $(this).find('input[name^="Fase"]').val();
+                var emp =
+                    {
+                        Fase_ID: id
+                    }
+                var urlSave = '/Settings/Fasi';
+                callAjax(urlSave, emp);
+            }
+            );
+            $('input[name^="Fase"]').click
+            (
+                function () {
+
+                    var id = $(this).val();
+                    //                    alert(id);
+                    var emp =
+                    {
+                        Fase_ID: id
+                    }
+                    var urlSave = '/Settings/Fasi';
+                    callAjax(urlSave, emp);
+                }
+                );
+        }
+
+)
+</script>
+<div id="myGrid">
+
+  <dl class="accordion same-height" >
+                    <dt>Elenco Fasi</dt>
+                    <dd >
+               <div class="with-padding">
+
+    <p class="button-height">
+        @*<a href="richiesta.html" title="Nuova richiesta di censimento" class="button icon-plus-round green-gradient glossy">Nuova richiesta</a>*@
+        @Html.ActionLink("Nuova Fase", "../Settings/FaseInsert", new { @*origine = "prodotto_index", chiave = 5 *@}, new { Class = "button icon-plus-round green-gradient glossy" })
+        &nbsp;
+        <a href="/Content/Help/Manuale utente CAP.htm#Fasi" target="_blank" class="button anthracite-gradient glossy">Help</a>
+    </p>
+    <table  class="table responsive-table" id="sorting-Fasi">
+        <thead>
+            <tr>
+            <th scope="col" width="1%" class="align-center" ></th>
+        @*        <th scope="col" width="1%" class="align-center" >ID</th>*@
+		        @*<th scope="col" width="15%" class="align-center hide-on-mobile">Codice</th>*@
+		        <th scope="col" width="45%" class="align-center hide-on-mobile-portrait">Descrizione</th>
+                <th scope="col" width="30%" class="align-center hide-on-mobile-portrait">Gruppo</th>
+                <th scope="col" width="15%" class="align-center">Azioni</th>
+		       </tr></thead>
+                <tfoot>
+		    <tr>
+			    <td colspan="10">
+				    @Model.ElencoFasi.Count().ToString() Fasi presenti
+			    </td>
+		    </tr>
+	    </tfoot>
+        <tbody>
+        
+        @foreach (var item in Model.ElencoFasi)
+        {
+            <tr>
+               <td class="align-center"><input type="radio" class="radio" name="Fase" id="@item.Fase_ID" value="@item.Fase_ID"
+                   @* onclick ="saveDataPPIntermAnalisi(@Model.ValPos_ID, @item.Analisi_id,'@item.Analisi_VN - @item.Analisi_MP_Rev','@GetCostoTot(@item.Analisi_CostoTot)',@GetSecondario(@Model.FlagSecondario) );"*@
+                   @GetChecked(@item.Fase_ID)/>
+                  </td> 
+        @*        <td >
+
+                    @Html.DisplayFor(modelItem => item.Fase_ID)
+                </td>*@
+               @* <td >
+                    @Html.DisplayFor(modelItem => item.Fase_Codice)
+                </td>*@
+                 <td >
+                    @Html.DisplayFor(modelItem => item.Fase_Desc_Clear)
+                </td>
+                <td >
+                    @Html.DisplayFor(modelItem => item.Fase_Grurep_desc)
+                </td>
+                <td  class="low-padding align-center">
+    
+                    @Html.ActionLink("Modifica", "FaseEdit", new { id = item.Fase_ID }, new { Class = "button compact icon-gear" }) 
+                </td>
+                </tr>
+        }
+        </tbody>
+    </table>
+    </div> 
+    <div class="with-padding">
+ 
+    <dl class="accordion same-height" >
+            <dt>Elenco Attivit&agrave;</dt>
+            <dd >
+        <div class="with-padding">
+
+        <p class="button-height">
+        @*<a href="richiesta.html" title="Nuova richiesta di censimento" class="button icon-plus-round green-gradient glossy">Nuova richiesta</a>*@
+        @Html.ActionLink("Nuova Attività", "../Settings/FaseInsert", new { currentfase = @Model.SelectFase_ID}, new { Class = "button icon-plus-round green-gradient glossy" })
+        </p>
+
+        <table class="table responsive-table" id="sorting-Attivita">
+        <thead>
+            <tr>
+     @*           <th scope="col" width="1%" class="align-center" >ID</th>*@
+		           @*<th scope="col" width="15%" class="align-center hide-on-mobile">Codice</th>*@
+		        <th scope="col" width="45%" class="align-center hide-on-mobile-portrait">Descrizione</th>
+                <th scope="col" width="30%" class="align-center hide-on-mobile-portrait">Gruppo</th>
+                <th scope="col" width="15%" class="align-center">Azioni</th>
+		       </tr></thead>
+                <tfoot>
+		    <tr>
+			    <td colspan="4">
+				    @Model.ElencoAttivita.Count().ToString() Attività presenti
+			    </td>
+		    </tr>
+	    </tfoot>
+        <tbody>
+        @foreach (var item in Model.ElencoAttivita)
+        {
+            <tr>
+
+          @*      <td >
+
+                    @Html.DisplayFor(modelItem => item.Fase_ID)
+                </td>*@
+                @*<td >
+                    @Html.DisplayFor(modelItem => item.Fase_Codice)
+                </td>*@
+                 <td >
+                    @Html.DisplayFor(modelItem => item.Fase_Desc_Clear)
+                </td>
+                <td >
+                    @Html.DisplayFor(modelItem => item.Fase_Grurep_desc)
+                </td>
+                <td  class="low-padding align-center">
+    
+                    @Html.ActionLink("Modifica", "FaseEdit", new { id = item.Fase_ID }, new { Class = "button compact icon-gear" }) 
+                </td>
+                </tr>
+        }
+        </tbody>
+
+        </table>
+        </div>
+        </dd> 
+        </dl> 
+        </div>
+    </dd> 
+    </dl> 
+    </div>
+
+    @*    <script type ="text/jscript">            loadScriptRef("startFasi.js");</script>
+  <script  type ="text/jscript"> 
+      $.template.init();
+
+      // Table sort - DataTables
+      $('#sorting-Fasi').dataTable({
+          "oLanguage": { "sUrl": "../../Scripts/js/libs/DataTables/dataTables.it-IT.txt" },
+          'aoColumnDefs': [
+				{ 'bSortable': false, 'aTargets': [0] }
+			],
+          'sPaginationType': 'full_numbers',
+          'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+          'bFilter': false,
+          'bInfo': false
+      });
+
+      $('#sorting-Attivita').dataTable({
+          "oLanguage": { "sUrl": "../../Scripts/js/libs/DataTables/dataTables.it-IT.txt" },
+          'aoColumnDefs': [
+				{ 'bSortable': false, 'aTargets': [0] }
+			],
+          'sPaginationType': 'full_numbers',
+          'sDom': '<"dataTables_header"lfr>t<"dataTables_footer"ip>',
+          'bFilter': false,
+          'bInfo': false
+      });</script>*@

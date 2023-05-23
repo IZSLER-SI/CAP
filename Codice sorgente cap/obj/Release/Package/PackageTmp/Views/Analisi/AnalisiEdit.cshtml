@@ -1,0 +1,1211 @@
+﻿@model IZSLER_CAP.Models.AnalisiModel
+@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+    Layout = "~/Views/Shared/_LayoutOpen.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+@*
+
+Codice	|	Data richiesta |	Autore	|	Descrizione		
+-----------------------------------------------------------------------------------------------------------------
+Ric#3	|	11/06/2014	   |	Simone	|	Richiesta #3 Possenti: Permettere di scegliere se far modificare una 
+        |                  |            |   Valorizzazione solo alla persona a cui è stata assegnata o a tutto 
+        |                  |            |   il “gruppo”.
+-----------------------------------------------------------------------------------------------------------------
+Ric#8   |   15/01/2015     |    Simone  |   Se la valorizzazione è obsoleta sul dettaglio visualizzoun messaggio
+
+*@
+
+@functions
+{
+   
+    public string VisibleOnlyForCDG()
+    {
+        string lret = "visibility: hidden";
+        int profilo_id = @Html.GetUserProfileID();
+        if (profilo_id == 5) return "";
+        return lret;
+
+    }
+    public string IsNotValorizzatore()
+    {
+        string lret = "visibility: hidden";
+        int profilo_id = @Html.GetUserProfileID();
+        if (profilo_id == 1) return lret;
+        return "";
+        
+    }
+    public string SetImporto(decimal val)
+    {
+        decimal? v = val;
+        return SetImporto(v);
+    }
+    public string SetImporto3(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.000}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.000}", 0).Replace(".", ",");
+    }  
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.00}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.00}", 0).Replace(".", ",");
+    }  
+    private decimal getCostoTariffa()
+    {
+        try
+        {
+            decimal tar = decimal.Parse(@Model.CoeffTariffa, System.Globalization.CultureInfo.InvariantCulture);
+            return tar;
+        }
+        catch { }
+        return 0;
+    }
+    private decimal getImportoCostoIndiretto()
+    {
+        try
+        {
+            decimal cind = decimal.Parse(@Model.CostoIndiretto, System.Globalization.CultureInfo.InvariantCulture);
+            if (@Model.Analisi.Analisi_CostoTot.HasValue)
+                return @Model.Analisi.Analisi_CostoTot.Value * cind;
+        }
+        catch { }
+        return 0;
+    }
+    private decimal getImportoCostoIndustriale()
+    {
+        try
+        {
+            decimal cind = decimal.Parse(@Model.CostoIndiretto, System.Globalization.CultureInfo.InvariantCulture);
+            if (@Model.Analisi.Analisi_CostoTot.HasValue)
+                return @Model.Analisi.Analisi_CostoTot.Value * (1 + cind);
+        }
+        catch { }
+        return 0;
+    }
+    private decimal getImportoCostoGenerale()
+    {
+        try
+        {
+            // CostoIndustriale corrente  + Costo generale
+            // getImportoCostoIndustriale * (1+coeffGenerale)
+            decimal costoIndustriale = getImportoCostoIndustriale(); 
+            decimal coeffGen = decimal.Parse(@Model.Coeff_Generale, System.Globalization.CultureInfo.InvariantCulture);
+            return costoIndustriale * (1 + coeffGen);
+        }
+        catch { }
+        return 0;
+    }
+    private decimal getTariffaTeorica_D()
+    {
+        try
+        {
+            decimal coeffTariffa_D = decimal.Parse(@Model.CoeffTariffa_D, System.Globalization.CultureInfo.InvariantCulture);
+            //coeffTariffa_D =1+ coeffTariffa_D;
+            decimal analisi_CostoTot = 0;
+            if(@Model.Analisi.Analisi_CostoTot.HasValue )
+            {
+                analisi_CostoTot = @Model.Analisi.Analisi_CostoTot.Value   ;
+            }
+            //sim: Come richiesto il 11/09/2018, il calcolo della tariffa d deve essere COSTO PRIMO + (COSTO INDIRETTO * PARAMETRO TARIFFA_D)
+            //return getImportoCostoIndustriale() * coeffTariffa_D +analisi_CostoTot;
+            return getImportoCostoIndiretto() * coeffTariffa_D + analisi_CostoTot;
+        }
+        catch { }
+        return 0;
+    }
+    private decimal getTariffaTeorica()
+    {
+        try
+        {
+            decimal coeffTariffa = decimal.Parse(@Model.CoeffTariffa, System.Globalization.CultureInfo.InvariantCulture);
+          //  coeffTariffa = 1 + coeffTariffa;
+            decimal analisi_CostoTot = 0;
+            if (@Model.Analisi.Analisi_CostoTot.HasValue)
+            {
+                analisi_CostoTot = @Model.Analisi.Analisi_CostoTot.Value;
+            }
+            //sim: Come richiesto il 11/09/2018, il calcolo della tariffa deve essere COSTO PRIMO + (COSTO INDIRETTO * PARAMETRO TARIFFA)
+            //return getImportoCostoIndustriale() * coeffTariffa+analisi_CostoTot;
+            return getImportoCostoIndiretto() * coeffTariffa + analisi_CostoTot;
+        }
+        catch { }
+        return 0;
+    }
+    public string SetImportoTariffaTeorica()
+    {
+        decimal val = getTariffaTeorica();
+        return SetImporto(val);
+    }
+    public string SetImportoTariffaTeorica_D()
+    {
+        decimal val = getTariffaTeorica_D();
+        return SetImporto(val);
+    }
+    public string SetPercMedia()
+    {
+        decimal valPS = Model.CostoMedioProdSimili;
+        decimal valC = 0;
+        if (Model.Analisi.Analisi_CostoTot.HasValue)
+        { valC = Model.Analisi.Analisi_CostoTot.Value; }
+        decimal res = 0;
+        if (valC > 0)
+            res = decimal.Round((((valC - valPS) / valC) * 100), 2, MidpointRounding.AwayFromZero);
+        return SetImporto(res);
+
+    }
+    public string SetImportoCostoIndriretto()
+    {
+        decimal cind = getImportoCostoIndiretto();
+        return String.Format("{0:0.00}", cind).Replace(".", ".");
+    }
+    public string SetImportoTariffa()
+    {
+        decimal cind = getImportoCostoIndiretto();
+        decimal tariffa = getCostoTariffa();
+        decimal res = 0;
+        if (@Model.Analisi.Analisi_CostoTot.HasValue)
+            res = @Model.Analisi.Analisi_CostoTot.Value;
+        res = res + tariffa * cind;
+        return String.Format("{0:0.00}", res).Replace(".", ".");
+    }
+    public string SetImportoCostoIndustriale()
+    {
+        decimal val = getImportoCostoIndustriale();
+        return SetImporto(val);
+    }
+    public string SetImportoCostoGenerale()
+    {
+        decimal val = getImportoCostoGenerale();
+        return SetImporto(val);
+    }
+    
+    public string denominazione(string nome, string cognome)
+    {
+        return nome + " " + cognome;
+    }
+    public string calcoloCodiceAnalisi(string Analisi_VN, string Analisi_MP_Rev)
+    {
+        return Analisi_VN + "-" + Analisi_MP_Rev;
+    }
+    public string setPonderazione(bool ponderazione)
+    {
+        if (ponderazione) return "checked";
+        return "";
+    }
+    public string setPonderazioneDrop(bool ponderazione)
+    {
+        if (ponderazione) return "open";
+        return "";
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    public bool IsEditable()
+    {
+        if (!Model.Analisi.Analisi_flgBloccato)
+        {
+            if (Html.IsEditableStato(Model.Analisi))
+                return true;
+            ///if (Model.Analisi.Analisi_T_Staval_id == 2 || Model.Analisi.Analisi_T_Staval_id == 7)
+            // return true;
+
+        }
+        return false;
+    }
+ 
+    public string IsEditableString()
+    {
+        if (IsEditable()) return "";
+        return "disabled";
+    }
+    public string GetAnchor(string fileName, string documento)
+    {
+        string ret = "";
+        //string href = GetAttach(fileName);
+        string href = GetAttachDocumento(documento);
+        if (href.Length > 0 && !string.IsNullOrEmpty(documento))
+        {
+            ret = "<a target=\"_blank\" href=" + href + "><img style=\"padding-top:8px\" src=\"../../Content/img/fineFiles/16/pdf.png\"/>&nbsp;" + fileName + "</a>";
+        }
+        else
+        {
+            ret = fileName;
+        }
+        return ret;
+
+    }
+    
+    public string GetAttachDocumento(string documento)
+    {
+        string ret = "";
+        ret = this.Request.Url.AbsoluteUri.Replace(this.Request.Url.AbsolutePath, "") + "/";
+        ret += Model.PathAttach + "/" + Server.UrlEncode(documento);
+        return ret;
+    }
+    
+    public string GetAttach(string fileName)
+    {
+        string ret = "";
+        try
+        {
+            //
+            System.Text.RegularExpressions.Match matchIniz =
+                System.Text.RegularExpressions.Regex.Match(fileName.Trim(), "(\\w{2}\\s\\d{2}/\\d{3})", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+            if (matchIniz.Success)
+            {
+                string strIniz = matchIniz.Groups[0].Value;
+                System.Text.RegularExpressions.Match matchFine =
+                System.Text.RegularExpressions.Regex.Match(fileName.Trim(), "(-\\s{1,3}\\d{1,3})", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+                if (matchFine.Success)
+                {
+                    string strFine = matchFine.Groups[0].Value;
+
+                    strIniz = strIniz.Replace(" ", "").Replace("/", "");
+                    strFine = strFine.Replace("- ", "");
+                    strFine = strFine.PadLeft(3, '0');
+                    ret = this.Request.Url.AbsoluteUri.Replace(this.Request.Url.AbsolutePath, "") + "/";
+                    ret += Model.PathAttach + "/" + Server.UrlEncode(strIniz + "." + strFine) + ".pdf";
+                }
+            }
+            //ret += Model.PathAttach + "/" + Server.UrlEncode(fileName.Trim()) +".pdf";
+        }
+        catch
+        {
+        }
+        return ret;
+
+    }
+    //Ric#3
+    public string GetChecked(bool? Analisi_flg_assegn_al_gruppo)
+    {
+        if (Analisi_flg_assegn_al_gruppo == true)
+            return "checked";
+        else
+            return null;
+    }
+    //Ric#3
+    public bool IsAssociato(int Utente_id, bool? Analisi_flg_assegn_al_gruppo)
+    {
+        if (Analisi_flg_assegn_al_gruppo == true)
+        {
+            return true;
+        }
+        if (Utente_id == @Html.GetUserID())
+        {
+            return true;
+        }
+        int profilo_id = @Html.GetUserProfileID();
+        if (profilo_id == 3 || profilo_id == 4 || profilo_id == 7)
+        {
+            return true;
+        }
+        
+        return false;
+    }
+
+    //Ric#3
+    List<MyUtenti_Profili_Gruppi> lst_gruppi = new List<MyUtenti_Profili_Gruppi>();
+    //Ric#3
+    public string GruppiAssociati()
+    {
+        int utente = @Html.GetUserID();
+        LoadEntities m_le = new LoadEntities();
+        int profilo_id = @Html.GetUserProfileID();
+        
+        lst_gruppi = m_le.GetUtenti_Profili_Gruppi().Where(z=> z.M_Utprgr_Utente_Id==utente && z.M_Utprgr_Profil_Id==profilo_id).ToList<MyUtenti_Profili_Gruppi>();
+           
+        return "";
+    }
+    
+    //Ric#3
+    public string isRiassociaDisabled()
+    {
+        int profilo_id = @Html.GetUserProfileID();
+        
+        if (@Model.Analisi.Analisi_T_Staval_codice == "INVAL")
+        {
+            if (profilo_id == 7)
+            {
+                return "";
+            }
+            if ((profilo_id == 3 || profilo_id == 4) &  lst_gruppi.Where(z=>z.M_Utprgr_Grurep_Id==@Model.Analisi.Analisi_Gruppo_id).Count() > 0)
+            { 
+                return "";
+            }
+        }
+        
+        return "disabled";
+    }
+    
+    public string IsObsoleta()
+    {
+        string msg = "";
+        if (Model.Analisi.Analisi_VN_Data_A < DateTime.Today)
+        {
+            string data_val = Model.Analisi.Analisi_VN_Data_A.Value.ToShortDateString();
+
+            msg = "OBSOLETA: la valorizzazione ha data fine validità " + data_val;
+        }
+        return msg;
+    }
+    
+    
+}
+<script type ="text/javascript" src="http://www.google.com/jsapi"></script>  
+<script type="text/javascript">
+    var optionsChart = null;
+    var jsonDataChar = null;
+    function loadOptionsChart()
+    {
+        var div = $('#demo-chart'),
+	    divWidth = div.width(), divheight = div.height();
+        optionsChart =
+	    {
+		    title: 'Peso percentuale delle fasi rispetto alla media per tecnica e gruppo',
+		    titleTextStyle: { color: 'white', fontName: 'Arial', fontSize: '12px' },
+		    backgroundColor: $.template.ie7 ? '#494C50' : 'transparent',
+		    vAxis: { title: 'Fasi',
+			    textStyle: { color: '#FFFFFF' },
+			    baselineColor: '#666666'
+		    },
+		    hAxis: {
+			    textStyle: { color: 'white' },
+			    baselineColor: '#666666'
+		    },
+		    legend: {
+			    textStyle: { color: 'white' },
+			    baselineColor: '#666666',
+			    position: 'bottom'
+		    },
+		    height: '400',
+		    width: divWidth + 100
+		};
+		return optionsChart;
+    }
+    $(document).ready
+    (
+        function () {   /*cambia la ponderazione*/
+            $('#switchPonderazioni').bind('change', function () {
+                //e.stopPropagation();   
+                var info = $('#switchPonderazioni').is(':checked');
+                var analisi_id = $('#analisi_id').val();
+
+                var emp =
+                    { Analisi_id: analisi_id,
+                        Analisi_flgPonderazione: info
+                    };
+                var urlSave = ' /Analisi/SaveValAnalisi';
+
+
+                $.ajax({
+                    type: "POST",
+                    url: urlSave,
+                    data: JSON.stringify(emp),
+                    datatype: "JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (retdata) {
+                        if (!retdata.ok) {
+                            showAlertErrorGeneric(retdata.infopersonali, 'Attenzione');
+                        }
+                    }
+                });
+                calcolaTotaleCorrente();
+                // alert("pos:" + pos + "<br>Descrizione:" + newVal);
+            }
+            );
+            $('#analisi_Peso_Positivo').bind('change', function () {
+                calcolaTotaleCorrente();
+            });
+
+
+
+            /*gestione chart*/
+            optionsChart = loadOptionsChart();
+            //google.setOnLoadCallback(drawChart);
+            /*Fine gestione chart*/
+            //var d = $(window); d[0].scrollTo(0, 550);
+        }
+
+
+    )
+    function calcolaTotaleCorrente() 
+    {
+       // var info = "";
+   //     alert(11);
+      //  info = new Date().getTime();
+        var posPR = new Array();
+        var posSEC = new Array();
+ 
+
+
+        $('input[id^="AnalisiPos_Quantita_"]').each(function () {
+            var pos = $(this)[0].id.replace("AnalisiPos_Quantita_", "");
+            var val_CU = $("#Costo_Unitario_" + pos).val();
+            var val_QTA = $(this).val();
+            val_CU = parseFloat(val_CU.replace(',', '.'));
+            val_QTA = parseFloat(val_QTA.replace(',', '.'));
+
+            var UdMCoeff = '#UdMCoeff_' + pos;
+            var UdMCoeffVal = $(UdMCoeff).val();
+            if (UdMCoeffVal == "") {
+                UdMCoeffVal = "0"
+            }
+            UdMCoeffVal = parseFloat(UdMCoeffVal.replace(',', '.'));
+
+
+            var val_Tot = 0;
+            val_Tot = roundNumber(val_CU, 2) * roundNumber(val_QTA, 2) * UdMCoeffVal;
+            val_Tot = roundNumber(val_Tot, 2);
+            posPR.push(val_Tot);
+        });
+
+        var isOpen = $('#switchPonderazioni').is(':checked');
+        if (isOpen) {
+            $('input[id^="SAnalisiPos_Quantita_"]').each(function () {
+                var posS = $(this)[0].id.replace("SAnalisiPos_Quantita_", "");
+                var val_CUS = $("#SCosto_Unitario_" + posS).val();
+                var val_QTAS = $(this).val();
+                val_CUS = parseFloat(val_CUS.replace(',', '.'));
+                val_QTAS = parseFloat(val_QTAS.replace(',', '.'));
+
+                var UdMCoeffS = '#SUdMCoeff_' + posS;
+                var UdMCoeffValS = $(UdMCoeffS).val();
+                if (UdMCoeffValS == "") {
+                    UdMCoeffValS = "0"
+                }
+                UdMCoeffValS = parseFloat(UdMCoeffValS.replace(',', '.'));
+
+
+                var val_TotS = 0;
+                val_TotS = roundNumber(val_CUS, 2) * roundNumber(val_QTAS, 2) * UdMCoeffValS;
+                val_TotS = roundNumber(val_TotS, 2);
+                posSEC.push(val_TotS);
+            });
+        }
+        var valTot_posP = 0;
+        for (i = 0; i < posPR.length; i++) {
+            valTot_posP = roundNumber(valTot_posP, 2) + roundNumber(posPR[i], 2);
+        }
+        var valTot_posSec = 0;
+        for (k= 0; k < posSEC.length; k++) {
+            valTot_posSec = roundNumber(valTot_posSec, 2) + roundNumber(posSEC[k], 2);
+        }
+
+        var pesoPos = parseFloat("0");
+        var pesoNeg = parseFloat("0");
+        // N.B.
+        // la vecchia formula  =>(SumPrimaria*(pesoPositivo)% + SumSecondaria*(100-pesoPositivo)%)
+        // la formula attuale  =>(SumPrimaria*(100)% + SumSecondaria*(pesoPositivo)%) --> se non c'e' ponderazione => SumPrimaria*(100)%
+
+        if (isOpen) // ci sono anche i secondari
+        {
+
+            var pPos = $('#analisi_Peso_Positivo').val();
+            if (pPos == "") pPos = "0";
+            var pPosF = parseFloat(pPos);
+            pesoPos = pPosF / 100;
+            //pesoNeg = 1-pesoPos;
+            pesoNeg = pesoPos;
+        }
+        else 
+        {
+            pesoPos = 1;
+            pesoNeg = 0; // nuovo
+        }
+
+
+        var val_Dim_Lotto = $("#Analisi_Dim_Lotto").val();
+        var val_Nr_Campioni = $("#Analisi_nr_Campioni").val();
+        var val_Dim_Lotto_int = 0;
+        var val_Nr_Campioni_int = 0;
+        if (val_Dim_Lotto != null && val_Dim_Lotto != "") {
+            val_Dim_Lotto_int = parseInt(val_Dim_Lotto);
+        }
+        if (val_Nr_Campioni != null && val_Nr_Campioni != "") {
+            val_Nr_Campioni_int = parseInt(val_Nr_Campioni);
+        }
+
+        var coeffUnitario = parseFloat("0");
+        coeffUnitario = (val_Nr_Campioni_int / val_Dim_Lotto_int) + 1;
+        coeffUnitario = coeffUnitario / val_Dim_Lotto_int;
+
+        var valTot_Fine = 0;
+        //valTot_Fine = (roundNumber(valTot_posP, 2) * pesoPos) + (roundNumber(valTot_posSec, 2) * pesoNeg);
+        valTot_Fine = roundNumber(valTot_posP, 3) + (roundNumber(valTot_posSec, 3) * pesoNeg);
+
+        valTot_Fine = roundNumber((valTot_Fine * coeffUnitario), 3);
+
+
+
+        var strTot = "";
+        strTot = valTot_Fine.toFixed(3).toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",000";
+        //alert(strTot);
+        $('#Analisi_CostoTotaleCalc').text(strTot);
+
+        calcolaCostoIndiretto(valTot_Fine);
+        calcolaTariffa(valTot_Fine);
+        calcolaTariffa_D(valTot_Fine);
+        calcolaCostoGenerale(valTot_Fine);
+
+        calcolaPercMedia(valTot_Fine);
+    }
+    function calcolaPercMedia(costoDiretto) {
+        var cMedioS = $('#CostoMedioProdSimili').val();
+        var cMedioSVal = parseFloat(cMedioS);
+        var res = parseFloat("0");
+        if (costoDiretto > 0)
+            res = ((costoDiretto - cMedioSVal) / costoDiretto) * 100;
+        res = roundNumber(res, 2);
+        var strTot = "";
+        strTot = res.toFixed(2).toString();
+        strTot = strTot.replace('.', ',');
+        $('#Analisi_PercMedia').text(strTot + "%");
+    }
+
+    function getCostoIndiretto(costoDiretto)
+    {
+        var costCD = $('#CoeffCostoIndiretto').val();
+        if (costCD != null && costCD != "") {
+            //costCD = costCD.replace(',', '.');
+            var t = parseFloat(costCD) * costoDiretto;
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+    function calcolaCostoIndiretto(costoDiretto) 
+    {
+        var ci = getCostoIndiretto(costoDiretto);
+        var strTot = "";
+        strTot = ci.toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Analisi_CostoIndirettoCalc').text(strTot);
+
+
+        var cindCorrente = parseFloat("0");
+        cindCorrente = costoDiretto + ci;
+        var strTotCiC = "";
+        strTotCiC = cindCorrente.toFixed(2).toString();
+        strTotCiC = strTotCiC.replace('.', ',');
+        if (strTotCiC.indexOf(',') == -1)
+            strTotCiC = strTotCiC + ",00";
+        $('#Analisi_CostoIndustrialeCalc').text(strTotCiC);
+    }
+    function getTariffa() 
+    {
+        var tariffa = $('#CoeffTariffa').val();
+        if (tariffa != null && tariffa != "") {
+            var t = parseFloat(tariffa) ;
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+    function getTariffa_D() {
+        var tariffa = $('#CoeffTariffa_D').val();
+        if (tariffa != null && tariffa != "") {
+            var t = parseFloat(tariffa);
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    } 
+    function getCoeff_Generale() 
+    {
+        var coeff_Generale = $('#Coeff_Generale').val();
+        if (coeff_Generale != null && coeff_Generale != "") {
+            var t = parseFloat(coeff_Generale);
+            t = roundNumber(t, 2);
+            return t;
+        }
+        return 0;
+    }
+    function calcolaTariffa(costoDiretto) {
+        var ci = getCostoIndiretto(costoDiretto);
+        var tariffa = getTariffa();
+        var tot = costoDiretto + (tariffa * ci);
+        tot = roundNumber(tot, 2);
+        var strTot = "";
+        strTot = tot.toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Analisi_CostoTariffaCalc').text(strTot);
+    }
+    function calcolaTariffa_D(costoDiretto) {
+        var ci = getCostoIndiretto(costoDiretto);
+        var tariffa_D = getTariffa_D();
+        var tot = costoDiretto + (tariffa_D * ci);
+        tot = roundNumber(tot, 2);
+        var strTot = "";
+        strTot = tot.toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Analisi_CostoTariffa_D_Calc').text(strTot);
+    }
+    function calcolaCostoGenerale(costoDiretto) {
+        var ci = getCostoIndiretto(costoDiretto);
+        var coeffGenerale = getCoeff_Generale();
+        var tot = (coeffGenerale) * (costoDiretto + ci) + (costoDiretto + ci);
+        tot = roundNumber(tot, 2);
+        var strTot = "";
+        strTot = tot.toString();
+        strTot = strTot.replace('.', ',');
+        if (strTot.indexOf(',') == -1)
+            strTot = strTot + ",00";
+        $('#Analisi_CostoGeneraleCalc').text(strTot);
+    }                                               
+</script>
+@GruppiAssociati()
+    <hgroup id="main-title" class="thin">
+    <h1>@ViewBag.Message</h1>
+    <h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+    </hgroup>
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dati dell'analisi</h3>
+               <p class="button-height">
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_SALVA) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_SALVA, @Model.Analisi) && @IsAssociato(@Model.Analisi.Analisi_utente_id,@Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                    {<a href="javascript:saveAnalisi();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+                    
+                    @*Ric#3 aggiungo pulsante salva per gestore nomenclatore che modifichi solo l'utente assegnato e il flag assegna gruppo *@
+                                   
+                    @if (string.IsNullOrEmpty(@isRiassociaDisabled()) && @Html.GetUserProfileID() == 3)
+                    {<a href="javascript:changeAnalisiUtenteAss();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}                                                                                                                                         
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_RIC_SBLOCCO) 
+                            && @Model.Analisi.Analisi_flgBloccato
+                            && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_RIC_SBLOCCO, @Model.Analisi))
+                    {
+                     //@Html.ActionLink("Richiesta di sblocco", "../Home/RichiesteInsert", new { origine = "analisi_edit", chiave = @Model.Analisi.Analisi_id }, new { Class = "button green-gradient glossy" })@Html.Raw("&nbsp;")
+                     <a href="javascript:RichiediSblocco(@Model.Analisi.Analisi_id);" class="button green-gradient glossy">Richiesta di sblocco</a>@Html.Raw("&nbsp;")
+                    }
+                    
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_INV_VAL) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_INV_VAL, @Model.Analisi) && !Model.Analisi.Analisi_VN.StartsWith("T_") && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                    {<a href="javascript:InvValAnalisi();" class="button green-gradient glossy">Invia a Validatore</a>@Html.Raw("&nbsp;")}
+                            
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_VALIDA) && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_VALIDA, @Model.Analisi))
+                    {<a href="javascript:ApprovaEdInviaCdGAnalisi();" class="button green-gradient glossy">Approva ed invia al CDG</a>@Html.Raw("&nbsp;")}
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_RESPINGI) && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_RESPINGI, @Model.Analisi))
+                    {<a href="javascript:RespingiAnalisi(@Model.Analisi.Analisi_id);" class="button red-gradient glossy">Respingi</a>@Html.Raw("&nbsp;")}
+                      @*non si vede mai*@                                                                                                              
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_INV_CDG) && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_INV_CDG, @Model.Analisi))
+                    {<a href="javascript:InvCDGAnalisi();" class="button green-gradient glossy">Invia al CDG</a>@Html.Raw("&nbsp;")}
+                                                                                                                                   
+                    @*@if (@Html.IsVisible(CAAnalisi.BT_ANAL_REGDEL)&& @IsInDelibera())*@
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_REGDEL) && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_REGDEL, @Model.Analisi))
+                    {<a href="javascript:DeliberaAnalisi();" class="button green-gradient glossy">Registra delibera</a>@Html.Raw("&nbsp;")}
+                                                                                                                                      
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_SBLOCCA) && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_SBLOCCA, @Model.Analisi) && @Model.Analisi.Analisi_flgBloccato)
+                    {<a href="javascript:SbloccaAnalisi();" class="button green-gradient glossy">Sblocca</a>@Html.Raw("&nbsp;")}
+                     
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_INV_VAL) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_INV_VAL, @Model.Analisi) && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                    {<a href="javascript:CheckPosizioniAnalisi();" class="button blue-gradient glossy">Verifica valorizzazione</a>@Html.Raw("&nbsp;")}
+
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_INV_VAL) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_INV_VAL, @Model.Analisi) && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                    {<a href="javascript:AttualizzaPosizioni();" class="button blue-gradient glossy">Aggiorna Posizioni</a>@Html.Raw("&nbsp;")}                                                                                                                                                     
+                                                                                                                                                     
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_SALVA) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_SALVA, @Model.Analisi) && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                    {<a href="javascript:openRicercaPPValorizzazioni('/Analisi/PPCopiaDaValorizzazioni/@Model.Analisi.Analisi_id',this);" class="button orange-gradient glossy">Copia da valorizzazioni</a>@Html.Raw("&nbsp;")}
+
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_WORKFLOW))
+                    {<a href="javascript:openAnalisiWorkFlow('/Analisi/AnalisiWorkflow/@Model.Analisi.Analisi_id.ToString()','@calcoloCodiceAnalisi(@Model.Analisi.Analisi_VN, @Model.Analisi.Analisi_MP_Rev)');" class="button orange-gradient glossy">Visualizza workflow</a>}
+
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_SALVA) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_SALVA, @Model.Analisi) && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                    {                                   
+                        <a href="javascript:revisioneFormale();" class="button green-gradient glossy">Revisione formale</a>@Html.Raw("&nbsp;")
+                    }
+                    @if (@Html.GetUserProfileID() != 5)
+                    {
+                        
+                        @Html.ActionLink("Stampa", "Report", "Analisi", new { info = Html.GetReportPath() + "/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaAnalisi&rs:Command=Render&rs:Format=pdf&VALORI_ID=" + @Model.Analisi.Analisi_id }, new { target = "_blank", Class = "button anthracite-gradient glossy" })@Html.Raw("&nbsp;")
+                        @*<a href="javascript:report1('/ReportServer_SQL2008R2/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaAnalisi&rs:Command=Render&rs:Format=pdf&VALORI_ID=@Model.Analisi.Analisi_id');" class="button anthracite-gradient glossy" target = "_blank" >Stampa JS</a>@Html.Raw("&nbsp;")*@
+                        @*<a href="/ReportServer_SQLSERVER/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaAnalisi&rs:Command=Render&VALORI_ID=@Model.Analisi.Analisi_id" target="_blank" class="button anthracite-gradient glossy">Stampa</a>@Html.Raw("&nbsp;")*@
+                        @*<a href="http://b16-q001/ReportServer_SQL2008R2/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaAnalisi&rs:Command=Render&rs:Format=pdf&VALORI_ID=@Model.Analisi.Analisi_id" target="_blank" class="button anthracite-gradient glossy">Stampa Collaudo</a>@Html.Raw("&nbsp;")*@
+                    
+                    }
+                    else
+                    { 
+                        @Html.ActionLink("Stampa", "Report", "Analisi", new { info = Html.GetReportPath() + "/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaAnalisiCDG&rs:Command=Render&rs:Format=pdf&VALORI_ID=" + @Model.Analisi.Analisi_id }, new { target = "_blank", Class = "button anthracite-gradient glossy" })@Html.Raw("&nbsp;")
+                        @*<a href="/ReportServer_SQLSERVER/Pages/ReportViewer.aspx?%2fCAP_report%2fStampaAnalisiCDG&rs:Command=Render&VALORI_ID=@Model.Analisi.Analisi_id" target="_blank" class="button anthracite-gradient glossy">Stampa</a>@Html.Raw("&nbsp;")*@
+                    }
+                    <a href="/Content/Help/Manuale utente CAP.htm#Inserimento e modifica della valorizzazione - Analisi" target="_blank" class="button anthracite-gradient glossy">Help</a>
+
+                    @Html.ActionLink("Stampa Intermedi", "PopUpIntermediEsplosi_new", new { id = @Model.Analisi.Analisi_id.ToString()},new { target = "_blank", Class = "button anthracite-gradient glossy" } )@Html.Raw("&nbsp;")
+                    @*<a href="javascript:openPopUpIntermediEsplosi('/Analisi/PopUpIntermediEsplosi/@Model.Analisi.Analisi_id.ToString()','@Model.Analisi.Analisi_id');" class="button orange-gradient glossy">Stampa Intemedi</a>*@
+               </p>
+               <details class="details margin-bottom" open>
+               <summary>Testata</summary>
+                    
+                    <input style ="visibility:hidden" id="analisi_id" value="@Html.DisplayFor(modelItem => Model.Analisi.Analisi_id)" />
+                    <input type="hidden"  id="CoeffCostoIndiretto" value="@Model.CostoIndiretto" />
+                    <input type="hidden"  id="CoeffTariffa" value="@Model.CoeffTariffa" />
+                    <input type="hidden"  id="CoeffTariffa_D" value="@Model.CoeffTariffa_D" />
+                    <input type="hidden"  id="Coeff_Generale" value="@Model.Coeff_Generale" />
+                    <input type="hidden" id="CostoMedioProdSimili" value="@Model.CostoMedioProdSimili" />
+                    	<div class="with-padding">
+                        <label style="color:red">@IsObsoleta()</label>
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="1">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice VN</label>
+							        <input type="text" name="input-1" id="input-2" class="input" value="@Model.Analisi.Analisi_VN" disabled />&nbsp;
+                                    @*<a href="javascript:void(0)" class="button compact">Cerca</a>*@
+                                </p>
+                                </td>
+                                <td  colspan ="2">
+                               
+                                <p class="button-height inline-label"><label for="input-1" class="label">Descrizione VN</label><input type="text" name="input-4" id="Text5" class="input" value="@Model.Analisi.Analisi_Codice_Descrizione" disabled style="width:400px"/></p>
+                               
+                                
+                                </td>
+                            </tr> 
+                       
+                            <tr class="button-height" style="height:40px;">
+                               
+                                <td>
+                                <p class="button-height inline-label"><label for="input-1" class="label">&nbsp;Tecnica</label><input type="text" name="input-4" id="Text4" class="input" value="@Model.Analisi.Analisi_Tecnica" disabled/></p>
+                                </td>
+                                <td colspan ="2">
+                                <p class="button-height inline-label"><label for="input-1" class="label">&nbsp;Gruppo</label><input type="text" name="input-4" id="Text6" class="input" value="@Model.Analisi.Analisi_Gruppo_desc" disabled/></p>
+                                </td>
+                            </tr>
+                       
+
+                            <tr style="height:40px;">
+                                <td colspan ="1">
+                                 <p class="button-height inline-label">
+							        <label for="input-2" class="label">MP+rev</label>
+							          @Html.Raw(@GetAnchor(@Model.Analisi.Analisi_MP_Rev, @Model.Analisi.Analisi_Documento))
+                                  @*  <input type="text" name="input-2" id="Text2" class="input" value="@Model.Analisi.Analisi_MP_Rev" disabled/>*@
+						        </p>
+                                </td>
+                                <td colspan="2"  @VisibleOnlyForCDG()>
+                                <p class="button-height inline-label">
+                                    <label for="input-2" class="label">Costo Diretto</label>
+
+                                              <input type="text" name="input-4" id="Analisi_CostoDiretto" class="input" value="@SetImporto(Model.Analisi.Analisi_CostoDiretto)" disabled/>
+                                </p>
+                                </td>
+                            </tr>
+
+
+                            
+
+
+                            <tr style="height:40px;">
+                                <td colspan ="1">
+                                 <p class="button-height inline-label">
+							        <label for="input-2" class="label">Allegato 1</label>
+							          @Html.Raw(@GetAnchor(@Model.Analisi.Analisi_Allegato1, @Model.Analisi.Analisi_Allegato1))
+                                </p>
+                                </td>
+                                <td colspan="2">
+                                <p class="button-height inline-label">
+							        <label for="input-2" class="label">Allegato 2</label>
+							          @Html.Raw(@GetAnchor(@Model.Analisi.Analisi_Allegato2, @Model.Analisi.Analisi_Allegato2))
+                                </p>
+                                </td>
+                            </tr>
+
+                            @*gestione dei campi utente associato e associa a gruppo Ric#3*@
+                            <tr style="height:40px;">
+                                <td colspan ="1" style="width:41%">
+                                <p class="button-height inline-label">
+							        @*<label for="input-2" class="label">Utente associato</label>*@
+                                    <label for="label margin-right" class="label">Utente associato</label>
+							        <input  disabled type="text" name="input-2" id="ric_utente_desc" class="input" value="@denominazione(@Model.Analisi.Analisi_utente_des_nome, @Model.Analisi.Analisi_utente_des_cognome)"  style="float:left;"/>
+                                   
+                                    @if (string.IsNullOrEmpty(@isRiassociaDisabled()))
+                                    {
+                                    <a href="javascript:openRicercaUtenti('/Home/PopUpIndirizziUtenti')" title="ricerca" class="button" style="background-image:url(../../Content/img/fineFiles/24/magnify.png);display:block;float:left;" ></a>
+                                         @Html.Raw("&nbsp;")<a href="javascript:void(0);" id="closepopup" class="button"  style="background-image:url(../../Content/img/fineFiles/24/clear.png);display:block;float:left;" title="Pulisci" onclick ="clearData();" ></a>
+                                    }
+                                    <input type ="hidden" id="ric_utente_id" value="@Model.Analisi.Analisi_utente_id" />
+                                </p>
+                                </td>
+                                <td colspan="1">
+                                <p class="button-height inline-label">
+							        <label for="input-2" class="label" style="width:120px">Assegna a gruppo</label>
+							        <input @isRiassociaDisabled() type="checkbox" name="Analisi_flag_assegna_gruppo" id="Analisi_flag_assegna_gruppo" value="" @GetChecked(@Model.Analisi.Analisi_flg_assegn_al_gruppo) />
+                                </p>
+                                </td>
+                            </tr>
+
+                            <tr style="height:40px;">
+                                <td >
+                                <p class="button-height inline-label"><label for="input-1" class="label">&nbsp;Cod. Darwin Sett. A</label><input type="text" name="input-4" id="Text4" class="input" value="@Model.Analisi.Analisi_COD_VN_MP_REV_SETTORE" disabled/></p>
+                                </td>
+                                <td colspan ="2">
+                                <p class="button-height inline-label"><label for="input-1" class="label">&nbsp;Cod. Darwin Sett. D</label><input type="text" name="input-4" id="Text6" class="input" value="@Model.Analisi.Analisi_COD_VN_MP_REV_SETTORE_D" disabled/></p>
+                                </td>
+                            </tr>
+
+                            <tr style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label"><label for="input-1" class="label">&nbsp;Cod. Darwin Sett. V</label><input type="text" name="input-4" id="Text4" class="input" value="@Model.Analisi.Analisi_COD_VN_MP_REV_SETTORE_V" disabled/></p>
+                                </td>
+                                <td colspan ="2">
+                                &nbsp;
+                                </td>
+                            </tr>
+                           <tr style="height:40px;">
+                
+                                <td colspan ="1">
+                                <p class="button-height inline-label">
+                                <label for="input-2" class="label">Norma</label>
+                                
+                                 <input type="text" name="input-4" id="Analisi_Legge" class="input" value="@Model.Analisi.Analisi_legge" disabled/>
+						      
+                                </p>
+                                </td>
+                                <td colspan ="2">
+                                <p class="button-height inline-label">
+                                <label for="input-2" class="label">&nbsp;</label>
+                                 <label ><small class="@SetColorBloccato(@Model.Analisi.Analisi_flgBloccato)">
+                                     @Html.Label(@SetLabelBloccato(@Model.Analisi.Analisi_flgBloccato))</small></label>
+                                    
+                                </p>
+                                </td>
+                            </tr>
+
+                            <tr style="height:40px;">
+                                <td colspan="1">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Dimensione Lotto</label>
+						                <span class="number input margin-right" >
+							                @*<button type="button" class="button number-down" @IsEditableString()>-</button>*@
+							                <input type="text" name="special-input-2" id="Analisi_Dim_Lotto" value="@Model.Analisi.Analisi_Dim_Lotto" class="input-unstyled"  data-number-options='{"min":1,"increment":1,"precision":1}' @IsEditableString() onblur="calcolaTotaleCorrente();"/>
+							                @*<button type="button" class="button number-up" @IsEditableString()>+</button>*@
+						                </span>
+					                </p>
+                                </td>
+                            
+                                <td colspan="1">
+                            	    <p class="button-height inline-label">
+                                        <label for="special-input-2" class="label">Nr. Campioni Qualit&agrave;</label>
+						                <span class="number input margin-right" >
+							                @*<button type="button" class="button number-down" @IsEditableString()>-</button>*@
+							                <input type="text" name="special-input-2" id="Analisi_nr_Campioni" value="@Model.Analisi.Analisi_Nr_Camp_Qualita" class="input-unstyled"  data-number-options='{"min":0,"increment":1,"precision":1}' @IsEditableString() onblur="calcolaTotaleCorrente();"/>
+							                @*<button type="button" class="button number-up" @IsEditableString()>+</button>*@
+						                </span>
+					                </p>
+                                </td>
+                                <td >
+                                <p class="button-height inline-label">
+                                   @if (@Html.IsVisible(CAAnalisi.BT_ANAL_SALVA) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_SALVA, @Model.Analisi) && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                                   {<a href="javascript:saveAnalisi();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}
+                                   @*Ric#3 aggiungo pulsante salva per gestore nomenclatore che modifichi solo l'utente assegnato e il flag assegna gruppo *@
+                                   
+                                   @if (string.IsNullOrEmpty(@isRiassociaDisabled()) && @Html.GetUserProfileID() == 3)
+                                   {<a href="javascript:changeAnalisiUtenteAss();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")}                                                                                                                                         
+
+                                </p>
+                                </td>
+                            </tr>
+                            @*<tr style="height:40px;">
+                                <td >
+                                <p class="button-height inline-label">
+							    <label for="input-2" class="label">Reparto</label>
+							    <input type="text" name="input-2" id="Text7" class="input" value="" disabled />
+                                </p>
+                                </td>
+                                
+                                </tr> *@
+                        <tr style="height:40px;">
+                        <td colspan="3">
+                                <p class="button-height inline-label">
+                                <label for="input-2" class="label">Note</label>
+                                <textarea id="Analisi_Matrice" 
+                                    class="input full-width  autoexpanding" 
+                                    maxlength ="150" 
+                                    @IsEditableString() >@Model.Analisi.Analisi_Matrice</textarea >
+						        </p>
+                                </td>
+                                
+                           
+                            </tr>
+                            
+                        </table>
+                        
+                       </div>
+		                
+                </details> 
+				
+                <a name="pos"></a>
+               <dl class="accordion same-height" open>
+	            <dt>Posizioni</dt>
+	            <dd>
+				     <div class="with-padding" id="myGridPosAnalisi" >
+                         @Html.Partial("_PosizioniAnalisi")
+                       </div>  
+                       </dd>
+
+                  </dl>
+                   <details class="details margin-bottom" @setPonderazioneDrop(@Model.Analisi.Analisi_flgPonderazione)>
+				    <summary>Ponderazione</summary>
+						<div class="with-padding "><a name="posS"></a>
+                        <table>
+                            <tr>
+                            <td>
+                            <p class="button-height inline-label">
+                            <label for="special-input-2" class="label">Abilita</label>
+                                <span class="number margin-right">
+                                <input type="checkbox" name="switchPonderazioni" id="switchPonderazioni" class="switch mid-margin-right" 
+                                   @IsEditableString() @setPonderazione(@Model.Analisi.Analisi_flgPonderazione) onchange="togglePosSecondarie();"  /></span> 
+                                    &nbsp;&nbsp;
+                             </p>
+
+                        
+                            </td>
+                            <td>
+                               <p class="button-height inline-label">
+                                <label for="lbl-input-2" class="label">Peso Positivo (%)</label>
+						        <span class="number input margin-right">
+							        @*<button type="button" id="btnDown" @IsEditableString() class="button number-down" >-</button>*@
+							        <input type="text" name="analisi_Peso_Positivo" 
+                                        id="analisi_Peso_Positivo" 
+                                        value="@Model.Analisi.Analisi_Peso_Positivo" 
+                                        class="input-unstyled" 
+                                        data-number-options='{"min":0,"max":100,"increment":1}'  @IsEditableString()/>
+							        @*<button type="button" id="btnUp" @IsEditableString() class="button number-up" >+</button>*@
+						        </span>
+					        </p>
+                        
+                            </td>
+                            </tr>
+                        </table>
+						</div>
+				</details>	
+               <dl class="accordion same-height" id="posizioniSecondarie">
+                    <dt>Posizioni aggiuntive per caso positivo</dt>
+                    
+                        <div class="with-padding">
+                            @Html.Partial("_PosizioniAnalisiSec")
+                        </div> 
+                    </dt>
+                </dl>
+                
+            </div> 
+              
+        </form> 
+          <div class="dashboard">
+            <div class="columns">
+				<div class="eight-columns twelve-columns-mobile" id="demo-chart">
+					<!-- This div will hold the chart generated in the footer -->
+				</div>
+
+                <div class="four-columns twelve-columns-mobile new-row-mobile">
+                <table>
+                <tr >
+                <td >
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_CostoTotaleCalc">
+                            @SetImporto3(@Model.Analisi.Analisi_CostoTot)</label></strong> Valorizzazione<br/>corrente&nbsp;-&nbsp;<br />costo primo
+                    </li></ul>
+                    
+                </td>
+                <td  width="167px">
+                    <ul class="stats split-on-mobile"><li>
+                    <strong>@SetImporto(@Model.Analisi.Analisi_CostoTotDelib)</strong> Valorizzazione
+                    </li></ul>
+                    
+                </td>
+                </tr>
+                <tr>
+                <td  @IsNotValorizzatore()>
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_CostoTariffaCalc">@SetImportoTariffaTeorica()</label></strong>
+                    <br/>Tariffa (A-V)&nbsp;teorica&nbsp;corrente<br/>
+                    </li></ul>
+                </td>
+                <td  @IsNotValorizzatore()>
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label>@SetImporto(@Model.Analisi.Analisi_CostoTariffaDelib)</label></strong><br/>Tariffa (A-V)&nbsp;deliberata<br/>
+                    </li></ul>
+                </td>
+                </tr>
+
+                <tr>
+                <td  @IsNotValorizzatore()>
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_CostoTariffa_D_Calc">@SetImportoTariffaTeorica_D()</label></strong><br/>Tariffa (D)&nbsp;teorica&nbsp;corrente<br/>
+                    </li></ul>
+                </td>
+                <td  @IsNotValorizzatore()>
+                    <ul class="stats split-on-mobile"><li>
+                    <strong>@SetImporto(@Model.Analisi.Analisi_CostoTariffa_D_Delib)</strong><br/>Tariffa (D)&nbsp;deliberata<br/>
+                    </li></ul>
+                </td>
+                </tr>
+                
+                <tr>
+                <td >
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_PercMedia">@SetPercMedia()%</label></strong>Rispetto alla media<br/>per fase e gruppo
+                    </li></ul>
+                </td>
+                <td >
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_ScostamentoFase">@SetImporto(0)%</label></strong>Scostamento max fase
+                    </li></ul>
+                </td>
+                </tr>
+
+                <tr>
+                <td @IsNotValorizzatore()>
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_CostoIndirettoCalc">@SetImportoCostoIndriretto()</label></strong>Costo&nbsp;indiretto corrente
+                    </li></ul>
+                </td>
+                <td @IsNotValorizzatore()>
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_CostoGeneraleCalc">@SetImportoCostoGenerale()</label></strong>Costo&nbsp;complessivo corrente
+                    </li></ul>
+                </td>
+                </tr>
+                <tr>
+                <td>
+                    <ul class="stats split-on-mobile"><li>
+                    <strong><label id="Analisi_CostoIndustrialeCalc">@SetImportoCostoIndustriale()</label></strong>Costo&nbsp;industriale corrente
+                    </li></ul>
+                </td>
+                <td >
+                </td>
+                </tr>
+
+                </table>
+                </div> 
+          
+                <div class="ten-columns twelve-columns-mobile" >
+	                <button onclick="Ricarica(jsonDataChar,optionsChart);" type ="button" value ="Ricarica" class="button green-gradient glossy">Ricarica</button >
+                    &nbsp;
+                    @if (@Html.IsVisible(CAAnalisi.BT_ANAL_INV_VAL) && !@Model.Analisi.Analisi_flgBloccato && @Html.IsVisibleStato(CAAnalisi.BT_ANAL_INV_VAL, @Model.Analisi) && @IsAssociato(@Model.Analisi.Analisi_utente_id, @Model.Analisi.Analisi_flg_assegn_al_gruppo))
+                    {<a href="javascript:CheckPosizioniAnalisi();" class="button blue-gradient glossy">Verifica valorizzazione</a>@Html.Raw("&nbsp;")}
+                </div>
+            </div> 
+          </div>    
+       </div>
+   
+   <script  type ="text/javascript">       loadScriptRef("startPopUpRichiediSbloccoAnalisi.js");</script> 
+   <script  type ="text/javascript">        loadScriptRef("startPopUpRespingiAnalisi.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPopUpAnalisiDettRO.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPPIntermAnalisi.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPPCopiaModelloAnalisi.js");</script>
+   @*<script  type ="text/javascript">       loadScriptRef("startPopUpProdottiDettRO.js");</script>*@
+   <script  type ="text/javascript">       loadScriptRef("startPPProdotti.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPPMacchinari.js");</script>
+   <script  type ="text/javascript">       loadScriptRef("startPopUpValorizzazioni.js");</script>
+    <script  type ="text/javascript">loadScriptRef("startPopupAnalisiWF.js");</script>
+    <script  type ="text/javascript">loadScriptRef("startAnalisiEdit.js");</script>
+    @*Ric#3*@
+    <script  type ="text/javascript">        loadScriptRef("startPopup.js");</script>
+
+        <script type="text/javascript">
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable(jsonDataChar);
+                optionsChart = loadOptionsChart();
+                var chart = new google.visualization.ColumnChart(document.getElementById('demo-chart'));
+                chart.draw(data, optionsChart);
+            };
+            google.load("visualization", "1", { packages: ["corechart"] });
+
+        </script>
+        @*
+     @this.ScriptBlock(
+        @<script  type='text/javascript'>
+         
+             google.load("visualization", "1", { packages: ["corechart"] });
+            // google.setOnLoadCallback(drawChart);
+            // var optionsChart =null;
+             //var jsonDataChar = null;
+             var analisi_idVal = $('#analisi_id').val();
+              $.getJSON
+                    (
+                        "/Analisi/GetElencoChart",
+                          { analisi_id: analisi_idVal},
+                           function(data) 
+                           {
+                            var len = data.length;
+                            var multiArray= new Array(len);
+                            var pos=0;
+                            var faseTitolo= 0;
+                            var faseRossa = 0;
+                            var faseBlu = 0;
+                            var maxDelta = 0;
+                            $.each(data,function (index, itemData) 
+                            {
+                                
+                                multiArray[pos]  = new Array(3);
+                                if(pos==0){
+                                  multiArray[pos][0]=  itemData.Titolo;
+                                  multiArray[pos][1]=  itemData.Val1;
+                                  multiArray[pos][2]=  itemData.Val2;
+                                }
+                                else 
+                                {
+                                  multiArray[pos][0]=itemData.Titolo;
+                                  multiArray[pos][1]=parseFloat(itemData.Val1);
+                                  multiArray[pos][2]=parseFloat(itemData.Val2);
+                                  if (Math.abs(maxDelta) < Math.abs(parseFloat(itemData.Val2) - parseFloat(itemData.Val1))) 
+                                  {
+                                    maxDelta = parseFloat(itemData.Val2) - parseFloat(itemData.Val1);
+                                    faseTitolo = itemData.Titolo;
+                                    faseRossa = parseFloat(itemData.Val2);
+                                    faseBlu = parseFloat(itemData.Val1);
+                                  }
+                                }
+                                pos=pos+1;
+                            });
+
+                            jsonDataChar = multiArray;
+                            var res = 0;
+                            if (faseRossa > 0) 
+                            {
+                                res = (faseRossa - faseBlu) * 100 / faseRossa; 
+                            }
+                            res = roundNumber(res, 2);
+                            var strTot = "";
+                            strTot = res.toFixed(2).toString();
+                            strTot = strTot.replace('.', ',');
+                            $('#Analisi_ScostamentoFase').text(strTot + "%");
+                        
+                          }
+                    );
+                          
+                    function drawChart() 
+                    {
+                        var data = google.visualization.arrayToDataTable(jsonDataChar);
+                        optionsChart = loadOptionsChart();
+                        var chart = new google.visualization.ColumnChart(document.getElementById('demo-chart'));
+                        chart.draw(data, optionsChart);
+                    };
+         </script>
+                  )
+
+      @this.WriteScriptBlocks()
+  *@

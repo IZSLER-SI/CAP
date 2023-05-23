@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "C.A.P - " + @ViewBag.Message;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IZSLER_CAP.Models.SettingsVarModel
+
+@using IZSLER_CAP.Helpers
+
+@functions
+{
+    public string SetImporto(decimal val)
+    {
+        decimal? v = val;
+        return SetImporto(v);
+    }
+    public string SetImporto(decimal? val)
+    {
+        if (val.HasValue)
+        {
+            return String.Format("{0:0.00}", val.Value).Replace(".", ",");
+        }
+        return String.Format("{0:0.00}", 0).Replace(".", ",");
+    }
+    public string SetLabelBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "Bloccato";
+        return "Attivo";
+    }
+    public string SetColorBloccato(bool flgBloccato)
+    {
+        if (flgBloccato)
+            return "tag red-bg";
+        return "tag green-bg";
+    }
+    public string contact(string name_id, int id)
+    {
+        return name_id + "_" + id.ToString();
+    }
+}
+    <hgroup id="main-title" class="thin">
+    <h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+    <h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+    </hgroup>
+    <div class="with-padding">
+        <form method="post" action="" class="columns" >
+            <div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+            <h3 class="thin underline">Dati Setting <b>@Model.CurrentSetting.Settings_Codice</b></h3>
+               <p class="button-height">
+                 <a href="javascript:saveSetting();" class="button green-gradient glossy">Salva</a>@Html.Raw("&nbsp;")
+                 @Html.ActionLink("Elenco Settings", "../Settings/SettingsVarTable", null, new { Class = "button orange-gradient glossy" })@Html.Raw("&nbsp;")
+                 <a href="/Content/Help/Help Settings.htm#Modifica del valore di un parametro" target="_blank" class="button anthracite-gradient glossy">Help</a>
+
+               </p>
+            
+            <details class="details margin-bottom" open>
+               <summary>Intestazione</summary>
+                                        
+                    	<div class="with-padding">
+                        <table>
+                            <tr class="button-height" style="height:40px;">
+                                <td colspan ="1">
+                                <p class="button-height inline-label">
+							        <label for="input-1" class="label">Codice</label>
+							        <input type="text" name="input-1" maxlength ="10" id="set_Codice" class="input" value="@Model.CurrentSetting.Settings_Codice" disabled/>
+                                    <input type="hidden" id="set_id" class="input" value="@Model.CurrentSetting.Settings_Id"/>
+                                </p>
+                                </td>
+                            </tr> 
+                       
+                            <tr class="button-height" style="height:40px;">
+                                <td>
+                                <p class="button-height inline-label">
+                                <label for="input-1" class="label">Valore</label>
+                                 <textarea id="set_Valore" 
+                                    class="input full-width  autoexpanding" 
+                                    maxlength ="500" style="width:700px">@Model.CurrentSetting.Settings_Value</textarea >
+
+                                 @*<input type="text" name="input-4" id="set_Valore" maxlength="500" class="input" style="width:300px" value="@Model.CurrentSetting.Settings_Value" />*@
+						        </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                       </div>
+                </details>
+                </div> 
+        </form> 
+    </div>
+    
+<script  type ="text/javascript">    loadScriptRef("startSettingsEdit.js");</script>

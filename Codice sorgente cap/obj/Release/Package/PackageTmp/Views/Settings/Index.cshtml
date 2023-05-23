@@ -1,0 +1,52 @@
+﻿@model IZSLER_CAP.Models.B16ModelMgr
+@{
+    ViewBag.Title = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using IZSLER_CAP.Helpers
+
+<hgroup id="main-title" class="thin">
+<h1>@Html.Raw(Html.RedirectToSettings((string)ViewBag.Message))</h1>
+<h2><strong>@Html.GetDateDayFormat(DateTime.Now)</strong>&nbsp;@Html.GetHeaderDate(DateTime.Now)</h2>
+</hgroup>
+
+<div class="with-padding">
+   <details class="details margin-bottom" open>
+        <summary>Gestione CAP</summary>
+<div class="with-padding">                                      
+    <table class="table responsive-table" id="sorting-Fasi">
+        <thead>
+            <tr>
+            <th scope="col" width="25%" class="align-center" >Gestione</th>
+            <th scope="col" width="75%" class="align-center" >Descrizione</th>
+            </tr> 
+            </thead> 
+    <tbody>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+                @Html.ActionLink("Fasi", "../Settings/Fasi", null, new { Class = "button green-gradient glossy",Style="width:110px" })@Html.Raw("&nbsp;")
+    </td><td>Fasi e sotto-fasi</td></tr>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+     @Html.ActionLink("Fig. Professionali", "../Settings/FigProf", null, new { Class = "button green-gradient glossy", Style = "width:110px" })@Html.Raw("&nbsp;")
+    </td><td>Figure professionali / costo unitario minuto</td></tr> 
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+     @Html.ActionLink("Gruppi", "../Settings/GruppiTable", null, new { Class = "button green-gradient glossy", Style = "width:110px" })@Html.Raw("&nbsp;")
+    </td><td>Gruppi / Costo Coeff. ind. / Costo unitario Accettazione</td></tr>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+     @Html.ActionLink("Gruppi Prodotto", "../Settings/RepartiTable", null, new { Class = "button green-gradient glossy", Style = "width:110px" })@Html.Raw("&nbsp;")
+    </td><td>Gruppi Prodotto / Costo unitario Accettazione</td></tr>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+     @Html.ActionLink("Utenti", "../Settings/Utenti", null, new { Class = "button blue-gradient glossy", Style = "width:110px" })@Html.Raw("&nbsp;")
+    </td><td>Utenti di dominio / associazioni profili</td></tr>
+    <tr class="button-height" style="height:40px;"><td  class="align-center">
+     @Html.ActionLink("Apparecchiature", "../Settings/Macchinari", null, new { Class = "button orange-gradient glossy", Style = "width:110px" })@Html.Raw("&nbsp;")
+     </td><td >Apparecchiature dedicate / Costo unitario</td></tr>
+     <tr class="button-height" style="height:40px;"><td  class="align-center">
+     @Html.ActionLink("Settings", "../Settings/SettingsVarTable", null, new { Class = "button red-gradient glossy", Style = "width:110px" })@Html.Raw("&nbsp;")
+     </td><td >Gestione variabili Settings C.A.P.</td></tr>
+    
+     </tbody>
+
+     </table>
+     </div> 
+    </details> 
+</div> 

@@ -1,0 +1,122 @@
+﻿@model IZSLER_CAP.Models.AnalisiModel
+@{
+    //ViewBag.Title = "PopUpIntermediEsplosi.cshtml";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@using IZSLER_CAP.Helpers
+<h2>@Model.Analisi.Analisi_VN - @Model.Analisi.Analisi_Codice_Descrizione</h2>
+ <table class="table responsive-table" id="idTable">
+    <thead>
+        <tr>
+            <th scope="col" width="10px" class="align-center">&nbsp;</th>
+            <th scope="col" class="align-center">Fase</th>
+            <th scope="col" class="align-center">Descrizione</th>
+            <th scope="col" class="align-center">Quantità</th>
+            <th scope="col" class="align-center">UDM</th>
+        </tr>
+    </thead>
+     <tbody>
+        @foreach (MyAnalisiPos map in Model.ElencoAnalisiPos)
+        {
+            if (@map.AnalisiPos_Flg_Intermedio.HasValue && @map.AnalisiPos_Flg_Intermedio.Value)
+            { 
+                @Html.Partial("_IntermediEsplosiDetail",@map, new ViewDataDictionary { {"sec", false}, {"par", ""} })
+            }
+            else if (@map.AnalisiPos_Prodotto_id.HasValue)
+            {
+                 <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Fase_desc</td>
+                    <td>@map.AnalisiPos_Prodotto_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_Prodotto_UDM_Desc</td>
+                 </tr>
+            }
+            else if (@map.AnalisiPos_Analisi_id.HasValue)
+            {
+                <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Fase_desc</td>
+                    <td>@map.AnalisiPos_Analisi_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_UdM_desc</td>
+                </tr>
+            }
+            else
+            {
+                <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Fase_desc</td>
+                    <td>@map.AnalisiPos_FigProf_desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_UdM_desc</td>
+                </tr>
+            }
+        }
+     </tbody>
+     </table>
+
+     @if(Model.Analisi.Analisi_flgPonderazione == true)
+     {
+        <h2>&nbsp;</h2>
+        <table class="table responsive-table" id="idTable">
+    <thead>
+        <tr>
+            <th scope="col" width="10px" class="align-center">&nbsp;</th>
+            <th scope="col" class="align-center">Fase</th>
+            <th scope="col" class="align-center">Descrizione</th>
+            <th scope="col" class="align-center ">Quantità</th>
+            <th scope="col" class="align-center">UDM</th>
+        </tr>
+    </thead>
+     <tbody>
+        @foreach (MyAnalisiPos map in Model.ElencoAnalisiPosSec)
+        {
+            if (@map.AnalisiPos_Flg_Intermedio.HasValue && @map.AnalisiPos_Flg_Intermedio.Value)
+            { 
+                @Html.Partial("_IntermediEsplosiDetail", @map, new ViewDataDictionary { {"sec", true} , {"par", ""} })
+            }
+            else if (@map.AnalisiPos_Prodotto_id.HasValue)
+            {
+                 <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Fase_desc</td>
+                    <td>@map.AnalisiPos_Prodotto_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_Prodotto_UDM_Desc</td>
+                 </tr>
+            }
+            else
+            {
+                <tr style ="width :100%" >
+                    <td width="10px"></td>
+                    <td>@map.AnalisiPos_Fase_desc</td>
+                    <td>@map.AnalisiPos_Analisi_Desc</td>
+                    <td>@map.AnalisiPos_Quantita</td>
+                    <td>@map.AnalisiPos_UdM_desc</td>
+                </tr>
+                 
+            }
+        }
+     </tbody>
+     </table>
+     }
+<script type="text/javascript">
+function toggleEsplosi(field,id)
+{
+    //var idFiglio = 'child_' + id.toString();
+    //$('#' + idFiglio).toggle();
+
+    var idFiglio = id;
+    $('#' + idFiglio).toggle();
+
+    var idFather = 'expandable_open_button' + id.toString();
+    var val = $('#' + idFather).html();
+   // alert(val);
+    if(val=="+")
+        $('#' + idFather).html("-");
+    else
+        $('#' + idFather).html("+");
+    
+}
+</script>

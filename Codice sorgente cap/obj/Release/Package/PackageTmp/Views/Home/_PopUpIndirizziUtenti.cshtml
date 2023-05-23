@@ -1,0 +1,70 @@
+﻿@*@model IZSLER_CAP.Models.RichiestaModel*@
+@model IZSLER_CAP.Models.IndirizziModel
+@using IZSLER_CAP.Helpers 
+@functions
+{
+    public string getNomeID(int id)
+    {
+        return "nome_" + id.ToString();
+    }
+    public string getEmailID(int id)
+    {
+        return "email_" + id.ToString();
+    }
+    
+    public  List<Indirizzi> GetElencoIndirizzi()
+    {
+        List<string> lstEmail= new List<string> ();
+        List<Indirizzi> lst = new List<Indirizzi>();
+        foreach(Indirizzi ind in Model.ElencoIndirizzi.ToList<Indirizzi >() )
+        {
+            if(!lstEmail.Contains(ind.Email) )
+            {
+                lstEmail.Add(ind.Email);
+                lst.Add(ind);
+            }
+        }
+        
+        //Ordino la lista su richiesta di Possenti del 24/04/2013
+        lst = lst.OrderBy(o => o.Nome).ThenBy(o => o.Cognome).ToList();
+        
+        return lst;
+    }
+    
+    
+}
+
+
+
+
+<table  class="table responsive-table" id="sorting-UtentiRichieste">
+        <thead>
+            <tr>
+                <th scope="col" width="2%" >&nbsp;</th>
+		        <th scope="col" width="43%" class="align-center hide-on-mobile">Utente</th>
+		        <th scope="col" width="55%" class="align-center hide-on-mobile-portrait">Indirizzo</th>
+		        
+            </tr>
+        </thead>
+        <tfoot>
+		    <tr>
+			    <td colspan="3">
+				    @GetElencoIndirizzi().Count().ToString() Utenti presenti
+			    </td>
+		    </tr>
+	    </tfoot>
+        <tbody>
+        @foreach (var item in @GetElencoIndirizzi())
+        { 
+            <tr>
+            <td><input type="radio" name="indirizzi" id="@item.Id" value="@Html.DisplayFor(modelItem => item.Email)"  onclick ="saveData(@item.Id,'@Html.DisplayFor(modelItem => item.Valore)');"/></td>
+            <td id="@getNomeID(@item.Id)">@Html.DisplayFor(modelItem => item.Valore) </td>
+            <td id="@getEmailID(@item.Id)">@Html.DisplayFor(modelItem => item.Email)</td>
+            </tr>
+        }
+        </tbody>
+
+</table>
+
+
+ <script  type ="text/javascript">     loadScriptRef("startPopup.js");</script>

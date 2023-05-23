@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "PopUpRespingiProdotto";
+    Layout = "~/Views/Shared/_LayoutClear.cshtml";
+}
+@model IZSLER_CAP.Models.ProdottoModel
+@using IZSLER_CAP.Helpers         
+
+<div class="with-padding">
+
+	<form method="post" action="" class="columns" >@*onsubmit="return false">*@
+
+	<div class="twelve-columns six-columns-tablet twelve-columns-mobile">
+        <fieldset class="fieldset">
+        <p>Inserire il motivo della mancata validazione @Model.Prodotto.Prodot_Codice</p>
+	    <legend class="legend">Motivazione</legend>
+        <p class="button-height">
+	        @*<label for="input-2" class="label">Motivazione</label>*@
+	        <textarea  name="cleditorRespP" id="cleditorRespP"  ></textarea>
+        </p>
+        <p class="button-height">
+            <a href="#" onclick="saveDataPopUpProdottoResp( @Model.Prodotto.Prodot_ID);"  class="button red-gradient glossy">Invia</a>
+        </p>
+        </fieldset>
+    </div> 
+    </form> 
+</div>
+
+  <script  type ="text/javascript"> loadScriptRef("startPopUpRespingiProdotto.js");</script>

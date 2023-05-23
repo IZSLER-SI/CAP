@@ -1,0 +1,342 @@
+﻿@model IZSLER_CAP.Models.ListaCopiaDaProdottoModel 
+@functions
+    { 
+    public int GetResultNumbers()
+    {
+        return Model.DataTot;
+    }
+    public string GetStringResultNumbers()
+    {
+        int i = GetResultNumbers();
+        if (i == 0)
+            return "Nessun elemento presente";
+        else
+        {
+            if (i == 1)
+                return i.ToString() + " elemento presente";
+            return i.ToString() + " elementi presenti";
+        }
+    }
+    public int InitPage(int passo)
+    {
+        int currPage = 1;
+        int NumberOfPages=1;
+        try
+        { 
+            currPage = @Model.CurrentPage ;
+        }
+        catch{currPage = 1;}
+        try
+        { 
+            NumberOfPages = @Model.NumberOfPages ;
+        }
+        catch {NumberOfPages = 1;}
+        if (NumberOfPages < passo)
+        {//return currPage;
+             int height = currPage / passo;
+            if((currPage % passo)==0)
+            {
+                height = height - 1;
+            }
+            return (height * passo)+1;
+        }
+        if (NumberOfPages >= passo)
+        {
+            int height = currPage / passo;
+            if((currPage % passo)==0)
+            {
+                height = height - 1;
+            }
+            return (height * passo)+1;
+           
+        }
+        return 1;
+    }
+    public int EndPage(int passo)
+    {
+        int currPage = 1;
+        int NumberOfPages = 1;
+        try
+        {
+            currPage = @Model.CurrentPage;
+        }
+        catch { currPage = 1; }
+        try
+        {
+            NumberOfPages = @Model.NumberOfPages;
+        }
+        catch { NumberOfPages = 1; }
+        if(currPage>NumberOfPages)
+        {@Model.CurrentPage =NumberOfPages ;}
+        
+        if (NumberOfPages < passo )
+        {
+            return NumberOfPages+1;
+        
+        }
+        else
+        {
+            return InitPage(passo) + passo;
+        }
+    }
+    public string GetCostoTot(decimal? costo)
+    {
+        if (costo.HasValue) return costo.Value.ToString("0.00000").Replace(".", ",");
+        return "0,00000";
+    }
+
+    public string GetSecondario(bool flag)
+    {
+        if (flag) return "true";
+        return "false";
+    }
+    public int  GetValueBool(bool flag)
+    {
+        if(!flag)
+            return 0;
+        else 
+            return 1;
+    }
+    public string GetCostoTotDeliberato(IZSLER_CAP.Helpers.MyProdotto item)
+    {
+        decimal? val = Model.GetCostoTotDeliberato(item);
+        return GetCostoTot(val);
+    }
+    public string FormatForJavascript(string info)
+    {
+        string lret = "";
+        if (info != null)
+        {
+            lret = info.Replace("'", "\\'");
+
+        }
+        return lret;
+    }
+}
+ <script type="text/javascript">
+
+     var urlSave = '/Prodotto/PPCopiaDaProdotti';
+     $(document).ready
+        (
+            
+             function () {
+                 $('#sorting-Analisi_last').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_last').unbind('click');
+                     var pageNum = $('#NumOfPages_id').val();
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var id = $('#ProdotIdMaster').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         id: id
+                     };
+                     callAjax(urlSave, emp);
+                 });
+
+                 
+                 $('#sorting-Analisi_first').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_first').unbind('click');
+                     var pageNum = 1
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var id = $('#ProdotIdMaster').val();
+                     
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         id: id
+                     };
+                     callAjax(urlSave, emp);
+                 });
+                 
+                 $('#sorting-Analisi_previous').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_previous').unbind('click');
+                     var pageNum = parseInt($(".paginate_active").html());
+                     if (pageNum >= 2)
+                     { pageNum = pageNum - 1; }
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var id = $('#ProdotIdMaster').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         id: id
+                     };
+                     callAjax(urlSave, emp);
+                 });
+                 $('#sorting-Analisi_next').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('#sorting-Analisi_next').unbind('click');
+                     var pageNum = parseInt($(".paginate_active").html());
+                     pageNum = pageNum + 1;
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var id = $('#ProdotIdMaster').val();
+
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         id: id
+                         
+                     };
+                     callAjax(urlSave, emp);
+                 });
+                 $('.page-number').click(function (e) {
+                     e.stopImmediatePropagation();
+                     e.stopPropagation();
+                     $('.page-number').unbind('click');
+                     var pageNum = parseInt($(this).html());
+                     var NumEntities = $('#NumEntities').val();
+                     var table_search = $('#table_search').val();
+                     var id = $('#ProdotIdMaster').val();
+                     
+                     var emp = { NumEntities: NumEntities,
+                         SearchDescription: table_search,
+                         CurrentPage: pageNum,
+                         id: id
+                         
+                     };
+                     callAjax(urlSave, emp);
+                 });
+
+
+                 $('select[id^="NumEntities"]').change
+                (
+                  function () {
+                      // alert('change NumEntities');
+                      var idSelVal = $(this).val();
+                      var table_search = $('#table_search').val();
+                      var id = $('#ProdotIdMaster').val();
+
+                      var emp = { NumEntities: idSelVal,
+                          SearchDescription: table_search,
+                          id: id
+                      };
+                      callAjax(urlSave, emp);
+                  }
+                )
+
+                 $('input[id^="table_search"]').change
+                (function () {
+                    //alert('change table_search');
+                    var idSelVal = $(this).val();
+                    var NumEntities = $('#NumEntities').val();
+                    var id = $('#ProdotIdMaster').val();
+                    var emp = { NumEntities: NumEntities,
+                        SearchDescription: idSelVal,
+                        id: id
+                        
+                    };
+                    callAjax(urlSave, emp);
+                })
+
+
+             }
+        );
+     
+</script>
+
+  
+       <div id="myGridCopiaDaProdotti">
+       @{
+    
+            <div class="table-header blue-gradient button-height">
+	        <div class="float-right">
+		        Ricerca &nbsp;<input type="text" name="table_search" id="table_search" value="@Model.SearchDescription" class="input mid-margin-left"/>
+	        </div>Mostra&nbsp;
+            @Html.DropDownListFor(x => x.NumEntities, Model.EntitiesN, null, new { Class = "select blue-gradient glossy replacement" })&nbsp;
+            &nbsp;[@GetStringResultNumbers()]
+            <input type="hidden" value="@Model.NumberOfPages" id = "NumOfPages_id" />
+                    <input type="hidden" value="@Model.ProdotIdMaster" id = "ProdotIdMaster" />
+         </div>
+         if( Model.Data.Count ()>0)
+           {
+          <table class="table responsive-table">
+                <thead>
+                <tr>
+                   
+                    <th scope="col" width="1%" >&nbsp;</th>
+                    <th scope="col" width="10%" class="align-center ">Prodotto</th>
+                    <th scope="col" width="10%" class="align-center ">Codice</th>
+                    <th scope="col" width="10%" class="align-center ">Costo Primo / Prezzo</th>
+                    <th scope="col" width="10%" class="align-center ">U.d.M.</th>
+                    <th scope="col" width="10%" class="align-center ">Gruppo prodotto</th>
+        
+                </tr>
+            </thead>
+        <tfoot class="dataTables_footer">
+		    <tr>
+            <td colspan="6" class = "button-height align-right" style ="background:transparent;border:0px;color:#FFFFFF;">
+            <div class="dataTables_paginate paging_full_numbers" id="sorting-Analisi_paginate" style="padding:0px">
+                <a tabindex="0" class="first paginate_button" id="sorting-Analisi_first">Inizio</a>
+                <a tabindex="0" class="previous paginate_button" id="sorting-Analisi_previous">Precedente</a>
+                <span>
+                
+
+                @{
+                    int passo =5;
+                    int start = @InitPage(passo );
+                    int end = @EndPage(passo );
+
+                    for (int i = start; i < end; i++)
+                    {
+                        if (i == Model.CurrentPage)
+                        {
+                           <a class="paginate_active" style ="">@i</a>
+                        }
+                        else
+                        {
+                            <a class="page-number paginate_button" href="#" style ="">@i</a>
+                        }
+                    }
+                }
+                </span>
+                <a tabindex="0" class="next paginate_button paginate_button" id="sorting-Analisi_next">Successivo</a>
+                <a tabindex="0" class="last paginate_button paginate_button" id="sorting-Analisi_last">Fine</a>
+            </div>
+            </td>
+           </tr>
+	    </tfoot>
+        <tbody>
+            @foreach (var item in Model.Data)
+            {
+                <tr>
+
+                 <td><input type="radio" name="indirizzi" id="@item.Prodot_ID" value="@Html.DisplayFor(modelItem => item.Prodot_Desc)"  
+                    onclick ="saveDataPPCopiaDaProdotti(@item.Prodot_ID,@Model.ProdotIdMaster);"/></td>
+               
+                <td class="align-center" >
+                    @Html.DisplayFor(modelItem => item.Prodot_Desc)
+                </td>
+                <td class="align-center" >
+                    @Html.DisplayFor(modelItem => item.Prodot_Codice)
+                </td>
+                <td class="align-center">
+                    @GetCostoTotDeliberato(item)
+                </td>
+                 <td class="align-center">
+                    @Html.DisplayFor(modelItem => item.Prodot_UnitaMisura_descrizione)
+                </td>
+
+                <td class="align-center">
+                    @Html.DisplayFor(modelItem => item.Prodot_Reparto_Desc)
+                </td>
+               </tr> 
+            }
+        </tbody> 
+          </table>
+   
+           }
+           }
+    </div>
+      <script type="text/javascript">          $("#table_search").focus(); 	</script>
