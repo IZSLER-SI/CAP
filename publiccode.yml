@@ -1,0 +1,114 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - predictive-analysis
+  - data-analytics
+  - workflow-management
+  - business-process-management
+dependsOn:
+  proprietary:
+    - name: SQL Server
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: '2016'
+    - name: Windows Server
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: '2019'
+description:
+  it:
+    features:
+      - PNRR
+      - PNRR/Beneficiari/PA Centrali
+      - PNRR/Misura/1.7.2
+    genericName: Costi Analisi Prodotti
+    localisedName: C.A.P.
+    longDescription: |
+      C.A.P. (Costi Analisi Prodotti): software atto a determinare i costi
+
+
+      diretti e, indirettamente, la tariffa delle prestazioni di laboratorio e
+
+
+      dei prodotti dell'Istituto Zooprofilattico Sperimentale.
+
+
+      Principali funzioni:
+
+
+      - Valorizzazione di una analisi e descrizione degli elementi che
+      compongono la sua distinta base (Fasi, analisi, prodotti, apparecchiature
+      dedicate, figure professionali);
+
+      - Calcolo degli importi (costi, tariffe, etc…) dell'analisi;
+
+      - Validazione di una analisi;
+
+      - Valorizzazione di un prodotto e descrizione degli elementi che
+      compongono la sua distinta base (Fasi, analisi, prodotti, apparecchiature
+      dedicate, figure professionali);
+
+      - Calcolo degli importi (costi, tariffe, etc…) del prodotto;
+
+      - Validazione di un Prodotto;
+
+      - Inserimento di un modello di valorizzazione;
+
+      - Inserimento di un intermedio di valorizzazione.
+    shortDescription: |-
+      Determina i costi diretti e, indirettamente, la tariffa delle
+
+
+      prestazionidi laboratorio e dei prodotti dell'Istituto Zooprofilattico
+
+
+      Sperimentale.
+developmentStatus: stable
+intendedAudience:
+  countries:
+    - it
+it:
+  conforme:
+    gdpr: true
+    lineeGuidaDesign: true
+    misureMinimeSicurezza: true
+    modelloInteroperabilita: true
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+  riuso:
+    codiceIPA: izs_loer
+legal:
+  authorsFile: 'AUTHORS.txt'
+  license: GPL-3.0-or-later
+  mainCopyrightOwner: Istituto Zooprofilattico Sperimentale della Lombardia e Dell'Emilia Romagna
+  repoOwner: Istituto Zooprofilattico Sperimentale della Lombardia e Dell'Emilia Romagna
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: false
+maintenance:
+  contacts:
+    - affiliation: OASI software S.r.l.
+      email: assistenza@oasisoftware.it
+      name: Riccardo Vesentini
+  contractors:
+    - name: OASI software S.r.l.
+      until: '2023-12-31'
+      website: 'https://www.oasisoftware.com/'
+  type: contract
+name: C.A.P.
+platforms:
+  - web
+releaseDate: '2022-03-31'
+softwareType: standalone/web
+softwareVersion: '2.0'
+url: 'https://github.com/IZSLER-SI/CAP'
