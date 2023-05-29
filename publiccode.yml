@@ -29,29 +29,17 @@ description:
     genericName: Costi Analisi Prodotti
     localisedName: C.A.P.
     longDescription: |
-      C.A.P. (Costi Analisi Prodotti): software atto a determinare i costi
-
-
-      diretti e, indirettamente, la tariffa delle prestazioni di laboratorio e
-
-
-      dei prodotti dell'Istituto Zooprofilattico Sperimentale.
-
+      C.A.P. (Costi Analisi Prodotti): software atto a determinare i costi diretti e, indirettamente, la tariffa delle prestazioni di laboratorio e dei prodotti dell'Istituto Zooprofilattico Sperimentale.
 
       Principali funzioni:
 
-
-      - Valorizzazione di una analisi e descrizione degli elementi che
-      compongono la sua distinta base (Fasi, analisi, prodotti, apparecchiature
-      dedicate, figure professionali);
+      - Valorizzazione di una analisi e descrizione degli elementi che compongono la sua distinta base (Fasi, analisi, prodotti, apparecchiature dedicate, figure professionali);
 
       - Calcolo degli importi (costi, tariffe, etc…) dell'analisi;
 
       - Validazione di una analisi;
 
-      - Valorizzazione di un prodotto e descrizione degli elementi che
-      compongono la sua distinta base (Fasi, analisi, prodotti, apparecchiature
-      dedicate, figure professionali);
+      - Valorizzazione di un prodotto e descrizione degli elementi che compongono la sua distinta base (Fasi, analisi, prodotti, apparecchiature dedicate, figure professionali);
 
       - Calcolo degli importi (costi, tariffe, etc…) del prodotto;
 
@@ -61,13 +49,7 @@ description:
 
       - Inserimento di un intermedio di valorizzazione.
     shortDescription: |-
-      Determina i costi diretti e, indirettamente, la tariffa delle
-
-
-      prestazionidi laboratorio e dei prodotti dell'Istituto Zooprofilattico
-
-
-      Sperimentale.
+      Determina i costi diretti e, indirettamente, la tariffa delle prestazionidi laboratorio e dei prodotti dell'Istituto Zooprofilattico Sperimentale.
 developmentStatus: stable
 intendedAudience:
   countries:
